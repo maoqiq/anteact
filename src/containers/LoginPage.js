@@ -4,31 +4,50 @@ import {Link, IndexLink} from 'react-router';
 
 import {bindActionCreators} from 'redux';
 import * as actions from '../actions/fuelSavingsActions';
-import ListActions from '../components/ListActions';
 
 
 import {Form, Icon, Input, Button, Checkbox} from 'antd';
 const FormItem = Form.Item;
 
-class LoginPage extends React.Component {
+class LoginPage extends Component {
+  constructor(props) {
+    super(props)
+    this.account = {
+      username: 'nnecec',
+      password: ''
+    }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log(e.target.attributes)
+  }
+
+  handleInputChange(e) {
+    console.log(e.target.value)
+  }
 
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
-      <Form className="login-form">
+      <Form onSubmit={this.handleSubmit} className="login-form" style={{width: 200}}>
         <FormItem>
-          <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} placeholder="Username"/>
+          {getFieldDecorator('nickname', {
+            rules: [{required: true, message: 'Please input your nickname!'}],
+          })(
+            <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} placeholder="请输入用户名"/>
+          )}
         </FormItem>
         <FormItem>
-          <Input prefix={<Icon type="lock" style={{fontSize: 13}}/>} type="password" placeholder="Password"/>
+          <Input prefix={<Icon type="lock" style={{fontSize: 13}}/>} type="password" placeholder="请输入密码"/>
         </FormItem>
         <FormItem>
-          <Checkbox>Remember me</Checkbox>
-          <a className="login-form-forgot">Forgot password</a>
+          <Checkbox>记住账号</Checkbox>
+          <a className="login-form-forgot">忘记密码</a>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            <Link to="/page">登陆</Link>
-
+            登陆
           </Button>
-          Or <a>register now!</a>
+          Or <a>立即注册</a>
         </FormItem>
       </Form>
     );
@@ -52,7 +71,8 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginPage);
+)(Form.create()(LoginPage));

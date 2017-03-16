@@ -5,9 +5,6 @@ import * as actions from '../actions/fuelSavingsActions';
 
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
 
-
-import {Switch} from 'antd';
-
 class AccountViewPage extends Component {
   constructor(props) {
     super(props)
