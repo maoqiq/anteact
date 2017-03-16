@@ -22,7 +22,7 @@ class MediaViewPage extends Component {
     }, {
       type: 'button',
       label: '新建媒体',
-      link: '/media/new',
+      link: '/page/media/new',
       style: {
         float: 'right'
       }

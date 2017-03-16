@@ -22,7 +22,7 @@ class ShieldViewPage extends Component {
     }, {
       type: 'button',
       label: '新建屏蔽策略',
-      link: '/shield/new',
+      link: '/page/shield/new',
       style: {
         float: 'right'
       }

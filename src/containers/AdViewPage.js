@@ -39,7 +39,7 @@ class AdViewPage extends Component {
     }, {
       type: 'button',
       label: '新建广告位',
-      link: '/ad/new',
+      link: '/page/ad/new',
       style: {
         float: 'right'
       }

@@ -19,35 +19,35 @@ class AppHeader extends Component {
       category: '媒体管理',
       items: [{
         name: '媒体列表',
-        link: '/media/overview'
+        link: '/page/media/overview'
       }]
     }, {
       category: '广告位管理',
       items: [{
         name: '广告位列表',
-        link: '/ad/overview'
+        link: '/page/ad/overview'
 
       }, {
         name: '屏蔽策略管理',
-        link: '/shield/overview'
+        link: '/page/shield/overview'
       }]
     }, {
       category: '技术对接',
       items: [{
         name: 'SDK文档',
-        link: '/doc/overview'
+        link: '/page/doc/overview'
       }]
     }, {
       category: '账号管理',
       items: [{
         name: '账号信息',
-        link: '/account/overview'
+        link: '/page/user/overview'
       }]
     }, {
       category: '结算数据',
       items: [{
         name: '媒体数据',
-        link: '/data/overview'
+        link: '/page/chart/overview'
       }]
     },]
 
@@ -70,7 +70,7 @@ class AppHeader extends Component {
         <Menu
           mode="inline"
           defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
+          defaultOpenKeys={['nav-title-0','nav-title-1','nav-title-2','nav-title-3']}
           style={{height: '100%'}}
         >
           {items}

@@ -2,10 +2,13 @@ import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
 import App from './components/App';
+import Page from './containers/Page';
 import HomePage from './components/HomePage';
 import FuelSavingsPage from './containers/FuelSavingsPage'; // eslint-disable-line import/no-named-as-default
 import AboutPage from './components/AboutPage';
 import NotFoundPage from './components/NotFoundPage';
+
+import LoginPage from './containers/LoginPage';
 
 import MediaViewPage from './containers/MediaViewPage';
 import MediaFormPage from './containers/MediaFormPage';
@@ -17,39 +20,47 @@ import ShieldViewPage from './containers/ShieldViewPage';
 import ShieldFormPage from './containers/ShieldFormPage';
 
 import DocViewPage from './containers/DocViewPage';
+import DocReleasePage from './containers/DocReleasePage';
 
-import AccountViewPage from './containers/AccountViewPage';
+import UserViewPage from './containers/UserViewPage';
+import UserFormPage from './containers/UserFormPage';
 
-import DataViewPage from './containers/DataViewPage';
+import ChartViewPage from './containers/ChartViewPage';
 
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={HomePage}/>
-    <Route path="fuel-savings" component={FuelSavingsPage}/>
-    <Route path="about" component={AboutPage}/>
-    <Route path="media">
-      <Route path="overview" component={MediaViewPage}/>
-      <Route path="new" component={MediaFormPage}/>
-    </Route>
-    <Route path="ad">
-      <Route path="overview" component={AdViewPage}/>
-      <Route path="new" component={AdFormPage}/>
-    </Route>
-    <Route path="shield">
-      <Route path="overview" component={ShieldViewPage}/>
-      <Route path="new" component={ShieldFormPage}/>
-    </Route>
-    <Route path="doc">
-      <Route path="overview" component={DocViewPage}/>
-    </Route>
-    <Route path="account">
-      <Route path="overview" component={AccountViewPage}/>
-    </Route>
-    <Route path="data">
-      <Route path="overview" component={DataViewPage}/>
-    </Route>
+    <IndexRoute component={LoginPage}/>
+      {/*<Route path="new" component={MediaFormPage}/>*/}
+    <Route path="page" component={Page}>
+      <IndexRoute component={HomePage}/>
+      <Route path="fuel-savings" component={FuelSavingsPage}/>
+      <Route path="about" component={AboutPage}/>
 
+      <Route path="media">
+        <Route path="overview" component={MediaViewPage}/>
+        <Route path="new" component={MediaFormPage}/>
+      </Route>
+      <Route path="ad">
+        <Route path="overview" component={AdViewPage}/>
+        <Route path="new" component={AdFormPage}/>
+      </Route>
+      <Route path="shield">
+        <Route path="overview" component={ShieldViewPage}/>
+        <Route path="new" component={ShieldFormPage}/>
+      </Route>
+      <Route path="doc">
+        <Route path="overview" component={DocViewPage}/>
+        <Route path="release" component={DocReleasePage}/>
+      </Route>
+      <Route path="user">
+        <Route path="overview" component={UserViewPage}/>
+        <Route path="modify" component={UserFormPage}/>
+      </Route>
+      <Route path="chart">
+        <Route path="overview" component={ChartViewPage}/>
+      </Route>
+    </Route>
     <Route path="*" component={NotFoundPage}/>
   </Route>
 );

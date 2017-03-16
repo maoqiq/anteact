@@ -16,19 +16,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Layout>
-          <AppHeader />
-          <Layout>
-            <Sider width={200} style={{background: '#fff'}}>
-              <Nav />
-            </Sider>
-            <Layout style={{padding: '0 24px 24px'}}>
-              {/*<Detail />*/}
-              {this.props.children}
-
-            </Layout>
-          </Layout>
-        </Layout>
+        {this.props.children}
       </div>
     );
   }

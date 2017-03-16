@@ -8,7 +8,7 @@ import MediaGrid from '../components/MediaGrid';
 
 import {Switch} from 'antd';
 
-class AccountViewPage extends Component {
+class UserFormPage extends Component {
   constructor(props) {
     super(props)
 
@@ -89,14 +89,28 @@ class AccountViewPage extends Component {
 
   render() {
     return (
-      <div className="overview account-overview-page">
-        <h1>账号信息</h1>
+      <div className="overview user-overview-page">
+        <div className="user-basic-info">
+          <h1>基本信息 <small>修改</small></h1>
+          <p>公司名称：杭州美哒网络科技有限公司</p>
+          <p>联系人：石建</p>
+          <p>联系电话：13073699786</p>
+          <p>电子邮箱：shijianwu1986@163.com</p>
+        </div>
+        <div className="user-financial-info">
+          <h1>财务信息</h1>
+          <p>公司名称：杭州美哒网络科技有限公司</p>
+          <p>联系人：石建</p>
+          <p>联系电话：13073699786</p>
+          <p>电子邮箱：shijianwu1986@163.com</p>
+        </div>
+
       </div>
     );
   }
 }
 
-AccountViewPage.propTypes = {
+UserFormPage.propTypes = {
   actions: PropTypes.object.isRequired,
   fuelSavings: PropTypes.object.isRequired
 };
@@ -116,4 +130,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountViewPage);
+)(UserFormPage);
