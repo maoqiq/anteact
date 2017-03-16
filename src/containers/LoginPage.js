@@ -16,11 +16,14 @@ class LoginPage extends Component {
       username: 'nnecec',
       password: ''
     }
+
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(e.target.attributes)
+
+    const account = this.props.form.getFieldValue(username)
+    console.log(account)
   }
 
   handleInputChange(e) {
@@ -28,11 +31,11 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
+    const {getFieldDecorator} = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form" style={{width: 200}}>
         <FormItem>
-          {getFieldDecorator('nickname', {
+          {getFieldDecorator('username', {
             rules: [{required: true, message: 'Please input your nickname!'}],
           })(
             <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} placeholder="请输入用户名"/>

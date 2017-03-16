@@ -6,6 +6,8 @@
   "env": {
     "development": {
       "presets": [
+        "react",
+        "es2015",
         "latest",
         "react-hmre"
       ]
@@ -34,7 +36,8 @@
   },
   "plugins": [
     [
-      "import", {
+      "import",
+      {
         "libraryName": "antd",
         "style": true
       }
