@@ -12,51 +12,102 @@ const RadioGroup = Radio.Group;
 class MediaFormPage extends Component {
   constructor(props) {
     super(props)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const formValue = this.props.form.getFieldsValue()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(formValue)
+      }
+    });
   }
 
   render() {
+    const {getFieldDecorator} = this.props.form;
     return (
       <div className="media-form-page" style={{padding: '10px'}}>
-        <Form className="form media-form">
+        <Form onSubmit={this.handleSubmit} className="form media-form">
           <FormItem
             label="媒体名称"
             hasFeedback
           >
-            <Input type="text" placeholder="请输入媒体名称，不超过10个字"/>
+            {getFieldDecorator('appName', {
+              rules: [{
+                required: true, message: '请输入媒体名称',
+              }],
+            })(
+              <Input type="text" placeholder="请输入媒体名称，不超过10个字"/>
+            )}
           </FormItem>
           <FormItem
             label="系统平台"
             hasFeedback
           >
-            <RadioGroup >
-              <Radio value={1}>Android</Radio>
-              <Radio value={2}>IOS</Radio>
-              <Radio value={3}>HTML</Radio>
-            </RadioGroup>
+            {getFieldDecorator('platform', {
+              rules: [
+                {required: true, message: '请选择系统平台'},
+              ],
+            })(
+              <RadioGroup>
+                <Radio value={1}>Android</Radio>
+                <Radio value={2}>IOS</Radio>
+                <Radio value={3}>HTML</Radio>
+              </RadioGroup>
+            )}
           </FormItem>
           <FormItem
             label="程序主包名"
             hasFeedback
           >
-            <Input type="text" placeholder="请输入媒体程序的主包名，如果不清楚请询问开发同学"/>
+            {getFieldDecorator('appPackage', {
+              rules: [{
+                required: true, message: '请输入媒体程序主包名',
+              }],
+            })(
+              <Input type="text" placeholder="请输入媒体程序的主包名，如果不清楚请询问开发同学"/>
+            )}
           </FormItem>
 
           <FormItem
             label="媒体关键词"
+            hasFeedback
           >
-            <Input type="text" placeholder="0-20个字符，每个分割词之间用“,”分隔"/>
+            {getFieldDecorator('appKeywords', {
+              rules: [{
+                required: true, message: '请输入媒体关键词',
+              }],
+            })(
+              <Input type="text" placeholder="请输入媒体关键词，0-20个字符，每个分割词之间用“,”分隔"/>
+            )}
           </FormItem>
 
           <FormItem
             label="媒体简介"
+            hasFeedback
           >
-            <Input type="textarea" rows={4}/>
+            {getFieldDecorator('description', {
+              rules: [{
+                required: true, message: '请输入媒体简介',
+              }],
+            })(
+              <Input type="textarea" rows={4} placeholder="正确地填写媒体简介能够提高广告的匹配度及收益，至少40个字"/>
+            )}
           </FormItem>
 
           <FormItem
             label="下载地址"
+            hasFeedback
           >
-            <Input type="text" placeholder="请输入下载地址"/>
+            {getFieldDecorator('downloadUrl', {
+              rules: [{
+                required: true, message: '请输入下载地址', type: 'url'
+              }],
+            })(
+              <Input type="text" placeholder="请输入下载地址"/>
+            )}
           </FormItem>
 
           <FormItem>
@@ -91,4 +142,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MediaFormPage);
+)(Form.create()(MediaFormPage));

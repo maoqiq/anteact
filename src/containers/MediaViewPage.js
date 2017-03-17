@@ -1,9 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
+import {Table, Icon} from 'antd';
+
+
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
 import MediaGrid from '../components/MediaGrid';
+
+import {mediaList} from '../api/mock'
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -34,8 +40,8 @@ class MediaViewPage extends Component {
       key: 'name',
     }, {
       title: '创建时间',
-      dataIndex: 'time',
-      key: 'time',
+      dataIndex: 'createTime',
+      key: 'createTime',
     }, {
       title: '平台',
       dataIndex: 'platform',
@@ -50,31 +56,34 @@ class MediaViewPage extends Component {
       key: 'appSecret',
     }, {
       title: '状态',
-      dataIndex: 'status',
       key: 'status',
+      render: (text, record, index) => (
+        <span key={index}>
+          {record.status ? (
+              <span>审核中</span>
+            ) : (
+              <span>开启</span>
+            )}
+        </span>
+      )
     }, {
       title: '操作',
       dataIndex: 'actions',
       key: 'actions',
     },];
 
-    this.dataSource = [{
-      key: '1',
-      name: '测试1',
-      time: '2017-03-06',
-      platform: 'H5',
-      appKey: '2y1F6B3y7Yqvbx8WyyJNZsAMFcsm',
-      appSecret: '3WoojyPa68TJs1W2foDHYnoZxQcg96nmRjBw6ZC',
-      status: '审核中',
-      actions: '删除'
-    }];
+    this.dataSource = mediaList.data.list
+    console.log(mediaList.data.list)
+
   }
 
   render() {
     return (
       <div className="media-overview-page">
         <ListActions FormItems={this.mediaListActions}/>
-        <MediaGrid dataSource={this.dataSource} columns={this.columns}/>
+        <div className="grid media-grid" style={{padding: '10px 20px'}}>
+          <Table dataSource={this.dataSource} columns={this.columns}/>
+        </div>
       </div>
     )
   }

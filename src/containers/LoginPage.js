@@ -12,22 +12,13 @@ const FormItem = Form.Item;
 class LoginPage extends Component {
   constructor(props) {
     super(props)
-    this.account = {
-      username: 'nnecec',
-      password: ''
-    }
-
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-
-    const account = this.props.form.getFieldValue(username)
-    console.log(account)
-  }
-
-  handleInputChange(e) {
-    console.log(e.target.value)
+    const username = this.props.form.getFieldsValue()
+    console.log(username)
   }
 
   render() {
@@ -36,13 +27,17 @@ class LoginPage extends Component {
       <Form onSubmit={this.handleSubmit} className="login-form" style={{width: 200}}>
         <FormItem>
           {getFieldDecorator('username', {
-            rules: [{required: true, message: 'Please input your nickname!'}],
+            rules: [{required: true, message: '请输入用户名'}],
           })(
             <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} placeholder="请输入用户名"/>
           )}
         </FormItem>
         <FormItem>
-          <Input prefix={<Icon type="lock" style={{fontSize: 13}}/>} type="password" placeholder="请输入密码"/>
+          {getFieldDecorator('password', {
+            rules: [{required: true, message: '请输入密码'}],
+          })(
+            <Input prefix={<Icon type="lock" style={{fontSize: 13}}/>} type="password" placeholder="请输入密码"/>
+          )}
         </FormItem>
         <FormItem>
           <Checkbox>记住账号</Checkbox>
@@ -57,25 +52,6 @@ class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  fuelSavings: PropTypes.object.isRequired
-};
+LoginPage = Form.create()(LoginPage)
 
-function mapStateToProps(state) {
-  return {
-    fuelSavings: state.fuelSavings
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  };
-}
-
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Form.create()(LoginPage));
+export default LoginPage;
