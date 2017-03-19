@@ -19,6 +19,8 @@ class LoginPage extends Component {
     e.preventDefault();
     const username = this.props.form.getFieldsValue()
     console.log(username)
+
+
   }
 
   render() {

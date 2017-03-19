@@ -23,6 +23,7 @@ export function createActions(types) {
 
 export function createConstants(...constants) {
   return constants.reduce((acc, constant) => {
+    console.log()
     return {
       ...acc,
       [constant]: constant,

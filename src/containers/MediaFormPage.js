@@ -1,11 +1,12 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as actions from '../actions/mediaForm';
+import {mediaFormSubmit}from '../actions/mediaForm';
+import * as types from '../constants/actionTypes';
 
-import {Form, Input, Icon, Select, Checkbox, Button, Radio} from 'antd';
+
+import {Form, Input, Button, Radio} from 'antd';
 const FormItem = Form.Item;
-const Option = Select.Option;
 const RadioGroup = Radio.Group;
 
 
@@ -13,12 +14,15 @@ class MediaFormPage extends Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    console.log(props, props.actions)
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
     this.props.form.validateFields((err, values) => {
+      console.log(formValue)
+      this.props.request(formValue)
       if (!err) {
         console.log(formValue)
       }
@@ -123,7 +127,7 @@ class MediaFormPage extends Component {
 
 
 MediaFormPage.propTypes = {
-  actions: PropTypes.object.isRequired,
+  // actions: PropTypes.object.isRequired,
   mediaForm: PropTypes.object.isRequired
 };
 
@@ -135,8 +139,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
-  };
+    request(formValues) {
+      dispatch(mediaFormSubmit.request(formValues));
+    },
+  }
 }
 
 export default connect(

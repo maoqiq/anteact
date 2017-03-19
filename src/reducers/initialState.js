@@ -14,9 +14,5 @@ export default {
       annual: 0,
       threeYear: 0
     }
-  },
-  account:{
-    username: '',
-    password: ''
   }
 };
