@@ -1,11 +1,14 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
+import {Table, Button} from 'antd';
+
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
-import MediaGrid from '../components/MediaGrid';
 
-import {Form, Input, Tooltip, Icon, Checkbox, Button} from 'antd';
+import {shieldList} from '../api/mock'
+
 
 
 class ShieldViewPage extends Component {
@@ -30,16 +33,16 @@ class ShieldViewPage extends Component {
 
     this.columns = [{
       title: '名称',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'title',
+      key: 'title',
     }, {
       title: '屏蔽内容',
-      dataIndex: 'content',
-      key: 'content',
+      dataIndex: 'shieldIndustryIds',
+      key: 'shieldIndustryIds',
     }, {
       title: '创建日期',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'createTime',
+      key: 'createTime',
     }, {
       title: '操作',
       key: 'actions',
@@ -51,13 +54,9 @@ class ShieldViewPage extends Component {
       )
     }];
 
-    this.dataSource = [{
-      key: '1',
-      name: '测试广告位',
-      content: '所属媒体',
-      date: '2017-03-06',
-      actions: '修改'
-    }];
+
+    this.dataSource = shieldList.data.list
+    console.log(shieldList.data.list)
   }
 
 
@@ -65,7 +64,9 @@ class ShieldViewPage extends Component {
     return (
       <div className="overview shield-overview-page">
         <ListActions FormItems={this.adListActions}/>
-        <MediaGrid dataSource={this.dataSource} columns={this.columns}/>
+        <div className="grid shield-grid" style={{padding: '10px 20px'}}>
+          <Table dataSource={this.dataSource} columns={this.columns}/>
+        </div>
       </div>
     );
   }

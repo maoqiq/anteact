@@ -7,7 +7,6 @@ import {Table, Icon} from 'antd';
 
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
-import MediaGrid from '../components/MediaGrid';
 
 import {mediaList} from '../api/mock'
 

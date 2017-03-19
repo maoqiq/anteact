@@ -12,7 +12,7 @@ const initialState = {
 export default function mediaForm(state = initialState, action) {
   switch (action.type) {
     case types.MEDIA_FORM_SUBMIT_REQUEST:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, action.payload, {
         isFetching: true,
       });
     case types.MEDIA_FORM_SUBMIT_SUCCESS:

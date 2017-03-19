@@ -1,9 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+
+import {Table, Icon} from 'antd';
+
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
 import MediaGrid from '../components/MediaGrid';
+
+
+import {adList} from '../api/mock'
 
 
 import {Switch} from 'antd';
@@ -51,22 +57,22 @@ class AdViewPage extends Component {
       key: 'name',
     }, {
       title: '所属媒体',
-      dataIndex: 'mediaId',
-      key: 'mediaId',
+      dataIndex: 'appName',
+      key: 'appName',
     }, {
       title: '广告位规格',
-      dataIndex: 'adSize',
-      key: 'adSize',
+      dataIndex: 'adSpecName',
+      key: 'adSpecName',
     }, {
       title: '修改日期',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'updateTime',
+      key: 'updateTime',
     }, {
       title: '广告位状态',
       key: 'status',
-      render: () => (
+      render: (text, record, index) => (
         <span>
-          <Switch defaultChecked={false}/>
+          <Switch defaultChecked={record.status === 1}/>
         </span>
       )
     }, {
@@ -75,15 +81,9 @@ class AdViewPage extends Component {
       key: 'actions',
     }];
 
-    this.dataSource = [{
-      key: '1',
-      name: '测试广告位',
-      mediaId: '所属媒体',
-      adSize: '浮标（尺寸150*150）',
-      date: '2017-03-06',
-      status: true,
-      actions: '修改'
-    }];
+
+    this.dataSource = adList.data.list
+    console.log(adList.data.list)
   }
 
 
@@ -91,7 +91,9 @@ class AdViewPage extends Component {
     return (
       <div className="overview media-overview-page">
         <ListActions FormItems={this.adListActions}/>
-        <MediaGrid dataSource={this.dataSource} columns={this.columns}/>
+        <div className="grid ad-grid" style={{padding: '10px 20px'}}>
+          <Table dataSource={this.dataSource} columns={this.columns}/>
+        </div>
       </div>
     );
   }
