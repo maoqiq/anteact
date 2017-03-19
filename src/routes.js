@@ -33,7 +33,7 @@ export default (
     <IndexRoute component={LoginPage}/>
     <Route path="page" component={Page}>
       <IndexRoute component={HomePage}/>
-      <Route path="fuel-savings" breadcrumbName="" component={FuelSavingsPage}/>
+      <Route path="fuel" breadcrumbName="" component={FuelSavingsPage}/>
       <Route path="about" component={AboutPage}/>
 
       <Route path="media" breadcrumbName="媒体">

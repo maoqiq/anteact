@@ -9,6 +9,11 @@ export default createConstants(
   'LOGIN_SUCCESS',
   'LOGIN_FAILURE',
 
+  // 媒体表单
+  'MEDIA_FORM_SUBMIT_REQUEST',
+  'MEDIA_FORM_SUBMIT_SUCCESS',
+  'MEDIA_FORM_SUBMIT_FAILURE',
+
   // demo
   'BOARDS_FETCH_REQUEST',
   'BOARDS_FETCH_SUCCESS',

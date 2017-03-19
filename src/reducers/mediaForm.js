@@ -1,22 +1,26 @@
 import types from '../constants/actionTypes';
 
 const initialState = {
-  account: '',
-  password: '',
+  appName: '',
+  platform: '',
+  appKeyWords: '',
+  appPackage: '',
+  description: '',
+  downloadUrl: ''
 };
 
-export default function login(state = initialState, action) {
+export default function mediaForm(state = initialState, action) {
   switch (action.type) {
-    case types.LOGIN_REQUEST:
+    case types.MEDIA_FORM_SUBMIT_REQUEST:
       return Object.assign({}, state, {
         isFetching: true,
       });
-    case types.LOGIN_SUCCESS:
+    case types.MEDIA_FORM_SUBMIT_SUCCESS:
       return Object.assign({}, state, {
         isFetching: false,
         error: false,
       });
-    case types.LOGIN_FAILURE:
+    case types.MEDIA_FORM_SUBMIT_FAILURE:
       return Object.assign({}, state, {
         isFetching: false,
         error: true,

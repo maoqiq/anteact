@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as actions from '../actions/fuelSavingsActions';
+import * as actions from '../actions/mediaForm';
 
-import {Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, Radio} from 'antd';
+import {Form, Input, Icon, Select, Checkbox, Button, Radio} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -124,12 +124,12 @@ class MediaFormPage extends Component {
 
 MediaFormPage.propTypes = {
   actions: PropTypes.object.isRequired,
-  fuelSavings: PropTypes.object.isRequired
+  mediaForm: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    fuelSavings: state.fuelSavings
+    mediaForm: state.mediaForm
   };
 }
 
