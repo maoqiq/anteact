@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
-import MediaGrid from '../components/MediaGrid';
 
 
 import {Switch} from 'antd';

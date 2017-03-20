@@ -56,4 +56,6 @@ class LoginPage extends Component {
 
 LoginPage = Form.create()(LoginPage)
 
+
+
 export default LoginPage;

@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import {FuelSavingsPage} from './FuelSavingsPage';
+import FuelSavingsPage from './FuelSavingsPage';
 import FuelSavingsForm from '../components/FuelSavingsForm';
 
 describe('<FuelSavingsPage />', () => {

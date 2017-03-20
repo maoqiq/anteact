@@ -145,7 +145,9 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
+MediaFormPage = Form.create()(MediaFormPage)
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Form.create()(MediaFormPage));
+)(MediaFormPage);
