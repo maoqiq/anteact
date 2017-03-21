@@ -8,7 +8,7 @@ import {Table, Icon} from 'antd';
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
 
-import {mediaList} from '../api/mock'
+import {media} from '../api/mock'
 import {fetchList}from '../actions/media';
 
 class MediaViewPage extends Component {
@@ -71,10 +71,10 @@ class MediaViewPage extends Component {
       dataIndex: 'actions',
       key: 'actions',
     },];
-
-    this.dataSource = mediaList.data.list
-
     this.fetchMediaList = this.fetchMediaList.bind(this);
+  }
+
+  componentDidMount() {
     this.fetchMediaList();
   }
 
@@ -83,11 +83,14 @@ class MediaViewPage extends Component {
   }
 
   render() {
+    const {mediaList} = this.props;
     return (
       <div className="media-overview-page">
         <ListActions FormItems={this.mediaListActions}/>
         <div className="grid media-grid" style={{padding: '10px 20px'}}>
-          <Table dataSource={this.dataSource} columns={this.columns}/>
+          {mediaList.data && mediaList.data.list &&
+          <Table rowKey="mediaList" dataSource={mediaList.data.list} columns={this.columns}/>
+          }
         </div>
       </div>
     )

@@ -10,12 +10,6 @@ export const mediaFormSubmit = createActions([
 ]);
 
 
-// fetch('//rap.taobao.org/mockjsdata/15637/ssp/app/list')
-//   .then(response => console.log(response))
-//
-axios.get('//rap.taobao.org/mockjsdata/15637/ssp/app/list')
-  .then(response => console.log(response))
-
 function fetchList() {
   return axios.get('//rap.taobao.org/mockjsdata/15637/ssp/app/list')
     .then(response => response)

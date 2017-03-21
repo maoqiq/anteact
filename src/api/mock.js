@@ -5,7 +5,7 @@ Mock.setup({
 })
 
 
-export const mediaList = Mock.mock({
+export const media = Mock.mock({
   // 属性 list 的值是一个数组，其中含有 1 到 10 个元素
   success: true,
   'data': {

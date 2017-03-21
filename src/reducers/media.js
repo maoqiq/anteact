@@ -33,7 +33,6 @@ export function mediaForm(state = initialFormState, action) {
 const initialListState = {}
 
 export function mediaList(state = initialListState, action) {
-  console.log('action = ',action)
   switch (action.type) {
     case types.MEDIA_LIST_FETCH:
       return Object.assign({}, state, action.payload, {
