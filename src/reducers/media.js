@@ -1,6 +1,6 @@
 import types from '../constants/actionTypes';
 
-const initialState = {
+const initialFormState = {
   appName: '',
   platform: '',
   appKeyWords: '',
@@ -9,14 +9,14 @@ const initialState = {
   downloadUrl: ''
 };
 
-export default function mediaForm(state = initialState, action) {
+export function mediaForm(state = initialFormState, action) {
   switch (action.type) {
     case types.MEDIA_FORM_SUBMIT_REQUEST:
-      return Object.assign({}, state, action.payload, {
+      return Object.assign({}, state, {
         isFetching: true,
       });
     case types.MEDIA_FORM_SUBMIT_SUCCESS:
-      return Object.assign({}, state, {
+      return Object.assign({}, state, action.payload, {
         isFetching: false,
         error: false,
       });
@@ -24,6 +24,20 @@ export default function mediaForm(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: false,
         error: true,
+      });
+    default:
+      return state;
+  }
+}
+
+const initialListState = {}
+
+export function mediaList(state = initialListState, action) {
+  console.log('action = ',action)
+  switch (action.type) {
+    case types.MEDIA_LIST_FETCH:
+      return Object.assign({}, state, action.payload, {
+        isFetching: false,
       });
     default:
       return state;

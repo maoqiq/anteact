@@ -9,6 +9,7 @@ import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
 
 import {mediaList} from '../api/mock'
+import {fetchList}from '../actions/media';
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -72,8 +73,13 @@ class MediaViewPage extends Component {
     },];
 
     this.dataSource = mediaList.data.list
-    console.log(mediaList.data.list)
 
+    this.fetchMediaList = this.fetchMediaList.bind(this);
+    this.fetchMediaList();
+  }
+
+  fetchMediaList() {
+    this.props.fetchMediaList()
   }
 
   render() {
@@ -89,20 +95,23 @@ class MediaViewPage extends Component {
 }
 
 MediaViewPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  fuelSavings: PropTypes.object.isRequired
+  mediaList: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
+  const {mediaList} = state;
+
   return {
-    fuelSavings: state.fuelSavings
+    mediaList
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
-  };
+    fetchMediaList() {
+      dispatch(fetchList());
+    },
+  }
 }
 
 export default connect(

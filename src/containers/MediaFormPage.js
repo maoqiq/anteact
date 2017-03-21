@@ -132,8 +132,10 @@ MediaFormPage.propTypes = {
 };
 
 function mapStateToProps(state) {
+  const {mediaForm} = state;
+
   return {
-    mediaForm: state.mediaForm
+    mediaForm
   };
 }
 

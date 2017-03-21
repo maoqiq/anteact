@@ -9,10 +9,16 @@ import historyApiFallback from 'connect-history-api-fallback';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
+import proxy from 'http-proxy-middleware'
 import config from '../webpack.config.dev';
 
 const bundler = webpack(config);
 
+const proxyMiddleware = proxy('/ssp', {
+  target: 'http://rap.taobao.org/mockjsdata/15637',
+  changeOrigin: true,             // for vhosted sites, changes host header to match to target's host
+  logLevel: 'debug'
+});
 // Run Browsersync and use middleware for Hot Module Replacement
 browserSync({
   port: 3000,
@@ -47,7 +53,8 @@ browserSync({
       }),
 
       // bundler should be the same as above
-      webpackHotMiddleware(bundler)
+      webpackHotMiddleware(bundler),
+      proxyMiddleware
     ]
   },
 
