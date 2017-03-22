@@ -9,9 +9,9 @@ const initialFormState = {
   downloadUrl: ''
 };
 
-export function mediaForm(state = initialFormState, action) {
+export function adForm(state = initialFormState, action) {
   switch (action.type) {
-    case types.MEDIA_FORM_SUBMIT:
+    case types.AD_FORM_SUBMIT:
       return Object.assign({}, state, action.payload, {
         isFetching: true,
       });
@@ -22,9 +22,9 @@ export function mediaForm(state = initialFormState, action) {
 
 const initialListState = {}
 
-export function mediaList(state = initialListState, action) {
+export function adList(state = initialListState, action) {
   switch (action.type) {
-    case types.MEDIA_LIST_FETCH:
+    case types.AD_LIST_FETCH:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
       });

@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import {Table, Icon} from 'antd';
 
@@ -8,7 +7,6 @@ import {Table, Icon} from 'antd';
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
 
-import {media} from '../api/mock'
 import {fetchList}from '../actions/media';
 
 class MediaViewPage extends Component {
@@ -68,8 +66,13 @@ class MediaViewPage extends Component {
       )
     }, {
       title: '操作',
-      dataIndex: 'actions',
       key: 'actions',
+      render: (text, record, index) => (
+        <span key={index}>
+          <a>修改</a>
+          <a>删除</a>
+        </span>
+      )
     },];
     this.fetchMediaList = this.fetchMediaList.bind(this);
   }
@@ -103,7 +106,6 @@ MediaViewPage.propTypes = {
 
 function mapStateToProps(state) {
   const {mediaList} = state;
-
   return {
     mediaList
   };
@@ -112,7 +114,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchMediaList() {
-      dispatch(fetchList());
+      dispatch(fetchList({}));
     },
   }
 }

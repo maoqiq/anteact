@@ -12,11 +12,15 @@ const {Header, Content, Sider} = Layout;
 // version of hot reloading won't hot reload a stateless
 // component at the top-level.
 class Page extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     return (
       <div className="Page">
         <Layout>
-          <AppHeader />
+          <AppHeader router={this.props}/>
           <Layout>
             <Sider width={200} style={{background: '#fff'}}>
               <Nav />

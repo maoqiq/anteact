@@ -9,6 +9,7 @@ import ListActions from '../components/ListActions';
 
 
 import {adList} from '../api/mock'
+import {fetchList}from '../actions/ad';
 
 
 import {Switch} from 'antd';
@@ -76,45 +77,60 @@ class AdViewPage extends Component {
       )
     }, {
       title: '操作',
-      dataIndex: 'actions',
       key: 'actions',
+      render: (text, record, index) => (
+        <span>
+          <a>编辑</a>
+          <a>删除</a>
+        </span>
+      )
     }];
 
 
-    this.dataSource = adList.data.list
-    console.log(adList.data.list)
+    this.fetchAdList = this.fetchAdList.bind(this);
   }
 
+  componentDidMount() {
+    this.fetchAdList();
+  }
+
+  fetchAdList() {
+    this.props.fetchAdList()
+  }
 
   render() {
+    const {adList} = this.props;
+
     return (
       <div className="overview media-overview-page">
         <ListActions FormItems={this.adListActions}/>
         <div className="grid ad-grid" style={{padding: '10px 20px'}}>
-          <Table dataSource={this.dataSource} columns={this.columns}/>
+          {adList.data && adList.data.list &&
+          <Table rowKey="adList" dataSource={adList.data.list} columns={this.columns}/>
+          }
         </div>
       </div>
     );
   }
 }
-
 AdViewPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  fuelSavings: PropTypes.object.isRequired
+  adList: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
+  const {adList} = state;
   return {
-    fuelSavings: state.fuelSavings
+    adList
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
-  };
+    fetchAdList() {
+      dispatch(fetchList({}));
+    },
+  }
 }
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps

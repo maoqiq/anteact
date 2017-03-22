@@ -31,11 +31,7 @@ import ChartViewPage from './containers/ChartViewPage';
 export default (
   <Route path="/" component={App}>
     <IndexRoute component={LoginPage}/>
-    <Route path="page" component={Page}>
-      <IndexRoute component={HomePage}/>
-      <Route path="fuel" breadcrumbName="" component={FuelSavingsPage}/>
-      <Route path="about" component={AboutPage}/>
-
+    <Route path="page" breadcrumbName="page" component={Page}>
       <Route path="media" breadcrumbName="媒体">
         <Route path="overview" breadcrumbName="媒体列表" component={MediaViewPage}/>
         <Route path="new" breadcrumbName="新建媒体" component={MediaFormPage}/>

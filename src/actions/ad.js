@@ -2,8 +2,8 @@ import types from '../constants/actionTypes';
 import axios from 'axios'
 
 const url = {
-  list: '//rap.taobao.org/mockjsdata/15637/ssp/app/list',
-  add: '//rap.taobao.org/mockjsdata/15637/ssp/app/add'
+  list: '//rap.taobao.org/mockjsdata/15637/ssp/app/pit/list',
+  add: '//rap.taobao.org/mockjsdata/15637/ssp/app/pit/add'
 }
 
 export function fetchList(params) {
@@ -14,7 +14,7 @@ export function fetchList(params) {
       .then(response => response.data)
       .then(data => {
         dispatch({
-          type: types.MEDIA_LIST_FETCH,
+          type: types.AD_LIST_FETCH,
           payload: data
         })
       })
@@ -27,7 +27,7 @@ export function submitForm(formValues) {
       .then(response => response.data)
       .then(data => {
         dispatch({
-          type: types.MEDIA_FORM_SUBMIT,
+          type: types.AD_FORM_SUBMIT,
           payload: data
         })
       })

@@ -1,28 +1,23 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {mediaFormSubmit}from '../actions/mediaForm';
-import * as types from '../constants/actionTypes';
-
 
 import {Form, Input, Button, Radio} from 'antd';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
+import {submitForm}from '../actions/media';
 
 class MediaFormPage extends Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
-    console.log(props, props.actions)
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
     this.props.form.validateFields((err, values) => {
-      console.log(formValue)
-      this.props.request(formValue)
+      this.props.submitMediaForm(formValue)
       if (!err) {
         console.log(formValue)
       }
@@ -141,8 +136,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    request(formValues) {
-      dispatch(mediaFormSubmit.request(formValues));
+    submitMediaForm(formValues) {
+      dispatch(submitForm(formValues));
     },
   }
 }
