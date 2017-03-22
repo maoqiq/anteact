@@ -5,6 +5,7 @@ import fuelSavings from './fuelSavingsReducer';
 import account from './account';
 import {mediaForm, mediaList} from './media';
 import {adForm, adList} from './ad';
+import {shieldForm, shieldList} from './shield';
 
 const rootReducer = combineReducers({
   fuelSavings,
@@ -14,6 +15,9 @@ const rootReducer = combineReducers({
 
   adForm,
   adList,
+
+  shieldForm,
+  shieldList,
   routing: routerReducer
 })
 

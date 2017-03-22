@@ -80,6 +80,11 @@ class AppHeader extends Component {
     );
   }
 }
+
+AppHeader.propTypes = {
+  routing: PropTypes.object.isRequired
+}
+
 function mapStateToProps(state) {
   const {routing} = state;
   return {

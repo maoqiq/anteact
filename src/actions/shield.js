@@ -3,8 +3,8 @@ import axios from 'axios'
 import {apiUrl} from '../utils/apiHelper'
 
 const url = {
-  list: apiUrl('/ssp/app/pit/list'),
-  add: apiUrl('/ssp/app/pit/add')
+  list: apiUrl('/ssp/shield/strategy/list'),
+  add: apiUrl('/ssp/shield/strategy/add')
 }
 
 export function fetchList(params) {
@@ -15,7 +15,7 @@ export function fetchList(params) {
       .then(response => response.data)
       .then(data => {
         dispatch({
-          type: types.AD_LIST_FETCH,
+          type: types.SHIELD_LIST_FETCH,
           payload: data
         })
       })
@@ -28,7 +28,7 @@ export function submitForm(formValues) {
       .then(response => response.data)
       .then(data => {
         dispatch({
-          type: types.AD_FORM_SUBMIT,
+          type: types.SHIELD_FORM_SUBMIT,
           payload: data
         })
       })

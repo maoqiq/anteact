@@ -4,10 +4,6 @@ const {SubMenu} = Menu;
 const {Header, Content, Sider} = Layout;
 import {Link, IndexLink} from 'react-router';
 import AppBreadcrumb from './Breadcrumb'
-// const propTypes = {
-//   comment: PropTypes.object.isRequired,
-//   i: PropTypes.number.isRequired,
-// };
 
 class AppHeader extends Component {
   constructor(props) {
@@ -17,8 +13,7 @@ class AppHeader extends Component {
   }
 
   itemRender(route, params, routes, paths) {
-    console.log(route, params, routes, paths)
-    alert('123')
+    console.log(route)
     const last = routes.indexOf(route) === routes.length - 1;
     return last ? <span>{route.breadcrumbName}</span> : <Link to={paths.join('/')}>{route.breadcrumbName}</Link>;
   }
@@ -46,7 +41,5 @@ class AppHeader extends Component {
     );
   }
 }
-
-// AppHeader.propTypes = propTypes;
 
 export default AppHeader;

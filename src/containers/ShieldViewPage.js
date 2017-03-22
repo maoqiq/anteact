@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
 import {Table, Button} from 'antd';
 
@@ -8,14 +7,14 @@ import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
 
 import {shieldList} from '../api/mock'
-
+import {fetchList}from '../actions/shield';
 
 
 class ShieldViewPage extends Component {
   constructor(props) {
     super(props)
 
-    this.adListActions = [{
+    this.shieldListActions = [{
       type: 'text',
       label: '名称:',
       placeholder: '请输入屏蔽策略名称'
@@ -54,18 +53,26 @@ class ShieldViewPage extends Component {
       )
     }];
 
-
-    this.dataSource = shieldList.data.list
-    console.log(shieldList.data.list)
   }
 
+  componentDidMount() {
+    this.fetchShieldList();
+  }
+
+  fetchShieldList() {
+    this.props.fetchShieldList()
+  }
 
   render() {
+    const {shieldList} = this.props;
+    console.log(shieldList)
     return (
       <div className="overview shield-overview-page">
-        <ListActions FormItems={this.adListActions}/>
+        <ListActions FormItems={this.shieldListActions}/>
         <div className="grid shield-grid" style={{padding: '10px 20px'}}>
-          <Table dataSource={this.dataSource} columns={this.columns}/>
+          {shieldList.data && shieldList.data.list &&
+          <Table rowKey="shieldList" dataSource={shieldList.data.list} columns={this.columns}/>
+          }
         </div>
       </div>
     );
@@ -73,20 +80,22 @@ class ShieldViewPage extends Component {
 }
 
 ShieldViewPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  fuelSavings: PropTypes.object.isRequired
+  shieldList: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
+  const {shieldList} = state;
   return {
-    fuelSavings: state.fuelSavings
+    shieldList
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(actions, dispatch)
-  };
+    fetchShieldList() {
+      dispatch(fetchList({}));
+    },
+  }
 }
 
 export default connect(
