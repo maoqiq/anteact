@@ -1,21 +1,15 @@
 import React, {Component, PropTypes} from 'react';
-import {Layout, Menu, Breadcrumb, Icon} from 'antd';
-const {SubMenu} = Menu;
-const {Header, Content, Sider} = Layout;
-
+import {connect} from 'react-redux';
 import {Link, IndexLink} from 'react-router';
 
-// const propTypes = {
-//   comment: PropTypes.object.isRequired,
-//   i: PropTypes.number.isRequired,
-// };
+import {Layout, Menu, Icon} from 'antd';
+const {SubMenu} = Menu;
+
 
 class AppHeader extends Component {
-  render() {
-    // const {comment, i} = this.props;
-    // const {user} = comment;
-    // const image = getImageUrl(user.avatar_url, IMAGE_SIZES.LARGE);
-    const navList = [{
+  constructor(props) {
+    super(props)
+    this.navList = [{
       category: '媒体管理',
       items: [{
         name: '媒体列表',
@@ -49,15 +43,21 @@ class AppHeader extends Component {
         name: '媒体数据',
         link: '/page/chart/overview'
       }]
-    },]
+    }]
 
-    const items = navList.map((value, index) => {
+  }
+
+  render() {
+    const {routing} = this.props;
+    const currentPath = routing.locationBeforeTransitions ? routing.locationBeforeTransitions.pathname : '';
+
+    const items = this.navList.map((value, index) => {
       return (
         <SubMenu key={`nav-title-${index}`} title={<span><Icon type="user"/>{value.category}</span>}>
           {
-            value.items.map((value, index) => (
-              <Menu.Item key={`nav-item-${value.name}`}>
-                <Link to={value.link}>{value.name}</Link>
+            value.items.map((v, i) => (
+              <Menu.Item key={v.link}>
+                <Link to={v.link}>{v.name}</Link>
               </Menu.Item>
             ))
           }
@@ -69,8 +69,9 @@ class AppHeader extends Component {
       <div>
         <Menu
           mode="inline"
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['nav-title-0','nav-title-1','nav-title-2','nav-title-3']}
+          defaultSelectedKeys={['nav-item-0']}
+          selectedKeys={[currentPath]}
+          defaultOpenKeys={['nav-title-0', 'nav-title-1', 'nav-title-2', 'nav-title-3']}
           style={{height: '100%'}}
         >
           {items}
@@ -79,7 +80,15 @@ class AppHeader extends Component {
     );
   }
 }
+function mapStateToProps(state) {
+  const {routing} = state;
+  return {
+    routing
+  };
+}
 
 // AppHeader.propTypes = propTypes;
 
-export default AppHeader;
+export default connect(
+  mapStateToProps
+)(AppHeader);
