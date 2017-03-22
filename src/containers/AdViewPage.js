@@ -8,7 +8,6 @@ import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
 
 
-import {adList} from '../api/mock'
 import {fetchList}from '../actions/ad';
 
 

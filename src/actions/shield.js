@@ -22,7 +22,6 @@ export function fetchList(params) {
 }
 
 export function submitForm(formValues) {
-  console.log(formValues)
   return dispatch =>
     axios.post(url.add, formValues)
       .then(response => response.data)
