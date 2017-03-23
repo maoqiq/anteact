@@ -55,7 +55,7 @@ class AdFormPage extends Component {
           offset: 0,
         },
         sm: {
-          span: 14,
+          span: 16,
           offset: 4,
         },
       },

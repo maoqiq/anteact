@@ -25,6 +25,29 @@ class MediaFormPage extends Component {
   }
 
   render() {
+    // form 布局
+    const formItemLayout = {
+      labelCol: {
+        xs: {span: 24},
+        sm: {span: 4},
+      },
+      wrapperCol: {
+        xs: {span: 24},
+        sm: {span: 16},
+      },
+    };
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0,
+        },
+        sm: {
+          span: 16,
+          offset: 4,
+        },
+      },
+    };
     const {getFieldDecorator} = this.props.form;
     return (
       <div className="form-page" style={{padding: '10px'}}>
@@ -32,6 +55,7 @@ class MediaFormPage extends Component {
           <FormItem
             label="媒体名称"
             hasFeedback
+            {...formItemLayout}
           >
             {getFieldDecorator('appName', {
               rules: [{
@@ -44,6 +68,7 @@ class MediaFormPage extends Component {
           <FormItem
             label="系统平台"
             hasFeedback
+            {...formItemLayout}
           >
             {getFieldDecorator('platform', {
               rules: [
@@ -60,6 +85,7 @@ class MediaFormPage extends Component {
           <FormItem
             label="程序主包名"
             hasFeedback
+            {...formItemLayout}
           >
             {getFieldDecorator('appPackage', {
               rules: [{
@@ -73,6 +99,7 @@ class MediaFormPage extends Component {
           <FormItem
             label="媒体关键词"
             hasFeedback
+            {...formItemLayout}
           >
             {getFieldDecorator('appKeywords', {
               rules: [{
@@ -86,6 +113,7 @@ class MediaFormPage extends Component {
           <FormItem
             label="媒体简介"
             hasFeedback
+            {...formItemLayout}
           >
             {getFieldDecorator('description', {
               rules: [{
@@ -99,6 +127,7 @@ class MediaFormPage extends Component {
           <FormItem
             label="下载地址"
             hasFeedback
+            {...formItemLayout}
           >
             {getFieldDecorator('downloadUrl', {
               rules: [{
@@ -109,7 +138,9 @@ class MediaFormPage extends Component {
             )}
           </FormItem>
 
-          <FormItem>
+          <FormItem
+            {...tailFormItemLayout}
+          >
             <Button type="primary" htmlType="submit">提交审核</Button>
             <Button type="primary" htmlType="button">取消</Button>
           </FormItem>
@@ -122,7 +153,6 @@ class MediaFormPage extends Component {
 
 
 MediaFormPage.propTypes = {
-  // actions: PropTypes.object.isRequired,
   mediaForm: PropTypes.object.isRequired
 };
 
