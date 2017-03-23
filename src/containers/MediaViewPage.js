@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
 
-import {Table, Icon} from 'antd';
-
+import {Form, Input, Table, Button} from 'antd';
+const FormItem = Form.Item;
 
 import * as actions from '../actions/fuelSavingsActions';
 import ListActions from '../components/ListActions';
@@ -12,25 +13,6 @@ import {fetchList}from '../actions/media';
 class MediaViewPage extends Component {
   constructor(props) {
     super(props)
-    this.mediaListActions = [{
-      type: 'text',
-      label: '媒体名称:',
-      placeholder: '请输入媒体名称'
-    }, {
-      type: 'text',
-      label: '媒体ID:',
-      placeholder: '请输入媒体ID'
-    }, {
-      type: 'button',
-      label: '搜索'
-    }, {
-      type: 'button',
-      label: '新建媒体',
-      link: '/page/media/new',
-      style: {
-        float: 'right'
-      }
-    }]
 
     this.columns = [{
       title: '媒体名称',
@@ -58,10 +40,10 @@ class MediaViewPage extends Component {
       render: (text, record, index) => (
         <span key={index}>
           {record.status ? (
-              <span>审核中</span>
-            ) : (
-              <span>开启</span>
-            )}
+            <span>审核中</span>
+          ) : (
+            <span>开启</span>
+          )}
         </span>
       )
     }, {
@@ -75,21 +57,57 @@ class MediaViewPage extends Component {
       )
     },];
     this.fetchMediaList = this.fetchMediaList.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
     this.fetchMediaList();
   }
 
-  fetchMediaList() {
-    this.props.fetchMediaList()
+  fetchMediaList(params) {
+    params = Object.assign({}, {
+      pageSize: 20,
+      page: 1
+    }, params)
+    this.props.fetchMediaList(params)
+  }
+
+  handleSearch(e) {
+    e.preventDefault();
+    const formValue = this.props.form.getFieldsValue()
+    this.fetchMediaList(formValue)
   }
 
   render() {
     const {mediaList} = this.props;
+    const {getFieldDecorator} = this.props.form;
+
     return (
-      <div className="media-overview-page">
-        <ListActions FormItems={this.mediaListActions}/>
+      <div className="overview media-overview">
+        <div className="list-actions" style={{padding: '10px 20px'}}>
+          <Form className="list-search" layout="inline">
+            <FormItem label="媒体名称" key="media-search-name">
+              {getFieldDecorator('name', {})(
+                <Input type="text" placeholder="请输入媒体名称"/>
+              )}
+            </FormItem>
+            <FormItem label="媒体ID" key="media-search-id">
+              {getFieldDecorator('appKey', {})(
+                <Input type="text" placeholder="请输入媒体ID"/>
+              )}
+            </FormItem>
+            <FormItem>
+              <Button type="primary" onClick={this.handleSearch}>搜索</Button>
+            </FormItem>
+            <FormItem className="new">
+              <Button type="primary">
+                <Link to='/page/media/new'>新建媒体</Link>
+              </Button>
+            </FormItem>
+
+          </Form>
+
+        </div>
         <div className="grid media-grid" style={{padding: '10px 20px'}}>
           {mediaList.data && mediaList.data.list &&
           <Table rowKey="mediaList" dataSource={mediaList.data.list} columns={this.columns}/>
@@ -113,11 +131,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchMediaList() {
-      dispatch(fetchList({}));
+    fetchMediaList(params) {
+      dispatch(fetchList(params));
     },
   }
 }
+
+MediaViewPage = Form.create()(MediaViewPage)
+
 
 export default connect(
   mapStateToProps,

@@ -9,7 +9,8 @@ const url = {
 export function fetchList(params) {
   return dispatch =>
     axios.get(url.list, {
-      params: params
+      params: params,
+
     })
       .then(response => response.data)
       .then(data => {
