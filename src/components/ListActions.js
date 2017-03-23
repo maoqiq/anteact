@@ -40,7 +40,7 @@ class ListActions extends Component {
         case 'select':
           return (
             <FormItem label={value.label} key={`ad-list-actions-${value.label}-${key}`}>
-              <Select defaultValue="all" style={{width: 120}}>
+              <Select initialValue="all" style={{width: 120}}>
                 {
                   value.options.map((value, index) => (
                     <Option value={value.value} key={`ad-select-${value.value}-${index}`}>{value.label}</Option>

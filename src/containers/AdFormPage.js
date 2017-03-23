@@ -37,7 +37,7 @@ class AdFormPage extends Component {
     if (this.props.shieldList.data && this.props.shieldList.data.list) {
       shieldList = this.props.shieldList.data.list;
     }
-
+    // form 布局
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
@@ -163,7 +163,6 @@ AdFormPage.propTypes = {
 
 function mapStateToProps(state) {
   const {adForm, mediaList, shieldList} = state;
-  console.log(shieldList)
   return {
     adForm,
     mediaList,
@@ -186,7 +185,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 AdFormPage = Form.create()(AdFormPage)
-
 
 export default connect(
   mapStateToProps,

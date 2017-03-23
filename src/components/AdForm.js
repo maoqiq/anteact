@@ -28,7 +28,7 @@ class AdForm extends Component {
           label="媒体选择"
           hasFeedback
         >
-          <Select defaultValue="all" >
+          <Select initialValue="all" >
             <Option value="meiti">meiti</Option>
             <Option value="231">1111 </Option>
             <Option value="234235">222222</Option>
@@ -49,7 +49,7 @@ class AdForm extends Component {
           label="屏蔽策略"
           hasFeedback
         >
-          <Select defaultValue="all">
+          <Select initialValue="all">
             <Option value="meiti">meiti</Option>
             <Option value="231">1111 </Option>
             <Option value="234235">222222</Option>
