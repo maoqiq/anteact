@@ -8,7 +8,6 @@ import AppBreadcrumb from './Breadcrumb'
 class AppHeader extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.itemRender = this.itemRender.bind(this)
   }
 
@@ -19,7 +18,6 @@ class AppHeader extends Component {
   }
 
   render() {
-
     return (
       <Header className="header">
         <div className="logo"/>

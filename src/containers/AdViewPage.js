@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {Link} from 'react-router';
 
-import {Table, Icon} from 'antd';
+import {Form, Input, Table, Button, Select} from 'antd';
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 import * as actions from '../actions/fuelSavingsActions';
-import ListActions from '../components/ListActions';
-
-
 import {fetchList}from '../actions/ad';
 
 
@@ -16,39 +16,6 @@ import {Switch} from 'antd';
 class AdViewPage extends Component {
   constructor(props) {
     super(props)
-
-    this.adListActions = [{
-      type: 'text',
-      label: '名称:',
-      placeholder: '请输入广告位名称'
-    }, {
-      type: 'text',
-      label: 'ID:',
-      placeholder: '请输入广告位ID'
-    }, {
-      type: 'select',
-      label: '状态:',
-      options: [{
-        value: 'all',
-        label: '全部广告'
-      }, {
-        value: 'open',
-        label: '开启'
-      }, {
-        value: 'close',
-        label: '关闭'
-      },]
-    }, {
-      type: 'button',
-      label: '搜索',
-    }, {
-      type: 'button',
-      label: '新建广告位',
-      link: '/page/ad/new',
-      style: {
-        float: 'right'
-      }
-    },]
 
     this.columns = [{
       title: '广告位名称',
@@ -99,10 +66,40 @@ class AdViewPage extends Component {
 
   render() {
     const {adList} = this.props;
+    const {getFieldDecorator} = this.props.form;
 
     return (
-      <div className="overview media-overview-page">
-        <ListActions FormItems={this.adListActions}/>
+      <div className="overview ad-overview-page">
+        <div className="list-actions" style={{padding: '10px 20px'}}>
+          <Form className="list-search" layout="inline">
+            <FormItem label="名称" key="ad-search-name">
+              {getFieldDecorator('name', {})(
+                <Input type="text" placeholder="请输入广告位名称"/>
+              )}
+            </FormItem>
+            <FormItem label="ID" key="ad-search-id">
+              {getFieldDecorator('appKey', {})(
+                <Input type="text" placeholder="请输入广告位ID"/>
+              )}
+            </FormItem>
+            <FormItem label="状态" key="ad-search-status">
+              <Select defaultValue="all" style={{width: 120}}>
+                <Option value="all">全部广告</Option>
+                <Option value="1">开启</Option>
+                <Option value="0">关闭</Option>
+              </Select>
+            </FormItem>
+            <FormItem>
+              <Button type="primary" onClick={this.handleSearch}>搜索</Button>
+            </FormItem>
+            <FormItem className="new">
+              <Button type="primary">
+                <Link to='/page/ad/new'>新建广告位</Link>
+              </Button>
+            </FormItem>
+
+          </Form>
+        </div>
         <div className="grid ad-grid" style={{padding: '10px 20px'}}>
           {adList.data && adList.data.list &&
           <Table rowKey="adList" dataSource={adList.data.list} columns={this.columns}/>
@@ -130,6 +127,9 @@ function mapDispatchToProps(dispatch) {
     },
   }
 }
+
+AdViewPage = Form.create()(AdViewPage)
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps

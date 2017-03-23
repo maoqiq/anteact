@@ -27,7 +27,7 @@ class MediaFormPage extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
     return (
-      <div className="media-form-page" style={{padding: '10px'}}>
+      <div className="form-page" style={{padding: '10px'}}>
         <Form onSubmit={this.handleSubmit} className="form media-form">
           <FormItem
             label="媒体名称"

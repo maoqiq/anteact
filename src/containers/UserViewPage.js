@@ -55,7 +55,7 @@ class UserViewPage extends Component {
         },
         sm: {
           span: 14,
-          offset: 6,
+          offset: 4,
         },
       },
     };

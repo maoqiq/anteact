@@ -104,9 +104,7 @@ class MediaViewPage extends Component {
                 <Link to='/page/media/new'>新建媒体</Link>
               </Button>
             </FormItem>
-
           </Form>
-
         </div>
         <div className="grid media-grid" style={{padding: '10px 20px'}}>
           {mediaList.data && mediaList.data.list &&
