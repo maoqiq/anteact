@@ -1,34 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router';
 
-import {Table, Button} from 'antd';
 
-import * as actions from '../actions/fuelSavingsActions';
-import ListActions from '../components/ListActions';
+import {Form, Input, Table, Button} from 'antd';
+const FormItem = Form.Item;
 
-import {shieldList} from '../api/mock'
 import {fetchList}from '../actions/shield';
 
 
 class ShieldViewPage extends Component {
   constructor(props) {
     super(props)
-
-    this.shieldListActions = [{
-      type: 'text',
-      label: '名称:',
-      placeholder: '请输入屏蔽策略名称'
-    }, {
-      type: 'button',
-      label: '搜索',
-    }, {
-      type: 'button',
-      label: '新建屏蔽策略',
-      link: '/page/shield/new',
-      style: {
-        float: 'right'
-      }
-    },]
 
     this.columns = [{
       title: '名称',
@@ -47,28 +30,57 @@ class ShieldViewPage extends Component {
       key: 'actions',
       render: () => (
         <span>
-          <Button type="primary" size="small">编辑</Button>
-          <Button type="primary" size="small">删除</Button>
+          <Button size="small">编辑</Button>
+          <Button size="small">删除</Button>
         </span>
       )
     }];
 
+    this.fetchShieldList = this.fetchShieldList.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
-    this.fetchShieldList();
+    this.fetchShieldList()
   }
 
-  fetchShieldList() {
-    this.props.fetchShieldList()
+  fetchShieldList(params) {
+    params = Object.assign({}, {
+      pageSize: 20,
+      page: 1
+    }, params)
+    this.props.fetchShieldList(params)
+  }
+
+  handleSearch(e) {
+    e.preventDefault();
+    const formValue = this.props.form.getFieldsValue()
+    this.fetchShieldList(formValue)
   }
 
   render() {
+    const {getFieldDecorator} = this.props.form;
     const {shieldList} = this.props;
-    console.log(shieldList)
+
     return (
       <div className="overview shield-overview-page">
-        <ListActions FormItems={this.shieldListActions}/>
+        <div className="list-actions" style={{padding: '10px 20px'}}>
+          <Form className="list-search" layout="inline">
+            <FormItem label="名称" key="shield-search-name">
+              {getFieldDecorator('name', {})(
+                <Input type="text" placeholder="请输入屏蔽策略名称"/>
+              )}
+            </FormItem>
+            <FormItem>
+              <Button type="primary" onClick={this.handleSearch}>搜索</Button>
+            </FormItem>
+            <FormItem className="new">
+              <Button type="primary">
+                <Link to='/page/shield/new'>新建屏蔽策略</Link>
+              </Button>
+            </FormItem>
+          </Form>
+        </div>
         <div className="grid shield-grid" style={{padding: '10px 20px'}}>
           {shieldList.data && shieldList.data.list &&
           <Table rowKey="shieldList" dataSource={shieldList.data.list} columns={this.columns}/>
@@ -92,11 +104,13 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchShieldList() {
-      dispatch(fetchList({}));
+    fetchShieldList(params) {
+      dispatch(fetchList(params));
     },
   }
 }
+
+ShieldViewPage = Form.create()(ShieldViewPage)
 
 export default connect(
   mapStateToProps,

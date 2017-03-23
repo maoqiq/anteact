@@ -5,9 +5,6 @@ import {Link} from 'react-router';
 import {Form, Input, Table, Button} from 'antd';
 const FormItem = Form.Item;
 
-import * as actions from '../actions/fuelSavingsActions';
-import ListActions from '../components/ListActions';
-
 import {fetchList}from '../actions/media';
 
 class MediaViewPage extends Component {
@@ -56,6 +53,7 @@ class MediaViewPage extends Component {
         </span>
       )
     },];
+
     this.fetchMediaList = this.fetchMediaList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }

@@ -94,7 +94,7 @@ class AdViewPage extends Component {
             </FormItem>
             <FormItem label="状态" key="ad-search-status">
               {getFieldDecorator('status', {})(
-                <Select initialValue="all" style={{width: 120}}>
+                <Select style={{width: 120}}>
                   <Option value="all">全部广告</Option>
                   <Option value="1">开启</Option>
                   <Option value="0">关闭</Option>
