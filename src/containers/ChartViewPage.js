@@ -1,7 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as actions from '../actions/fuelSavingsActions';
+
+import {DatePicker} from 'antd';
+const {MonthPicker, RangePicker} = DatePicker;
 
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
 
@@ -22,37 +24,36 @@ class AccountViewPage extends Component {
   render() {
     return (
       <div className="overview media-overview-page">
-        <h1>媒体数据</h1>
-        <LineChart width={600} height={300} data={this.data}
-                   margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-          <XAxis dataKey="name"/>
-          <YAxis/>
-          <CartesianGrid strokeDasharray="3 3"/>
-          <Tooltip/>
-          <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d"/>
-        </LineChart>
+        <div className="list-actions" style={{padding: '10px 20px'}}>
+          <RangePicker/>
+        </div>
+
+        <div className="grid shield-grid">
+          <h1>媒体数据</h1>
+          <LineChart width={600} height={300} data={this.data}
+                     margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+            <XAxis dataKey="name"/>
+            <YAxis/>
+            <CartesianGrid strokeDasharray="3 3"/>
+            <Tooltip/>
+            <Legend />
+            <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
+            <Line type="monotone" dataKey="uv" stroke="#82ca9d"/>
+          </LineChart>
+        </div>
       </div>
     );
   }
 }
 
-AccountViewPage.propTypes = {
-  actions: PropTypes.object.isRequired,
-  fuelSavings: PropTypes.object.isRequired
-};
+AccountViewPage.propTypes = {};
 
 function mapStateToProps(state) {
-  return {
-    fuelSavings: state.fuelSavings
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(actions, dispatch)
-  };
+  return {};
 }
 
 export default connect(

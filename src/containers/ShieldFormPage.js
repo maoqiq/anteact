@@ -11,14 +11,31 @@ import {submitForm} from '../actions/shield';
 class ShieldFormPage extends Component {
   constructor(props) {
     super(props)
+
+    const mockData = [];
+    for (let i = 0; i < 10; i++) {
+      mockData.push({
+        key: i.toString(),
+        title: `content${i + 1}`,
+        description: `description of content${i + 1}`,
+      });
+    }
+    const targetKeys = mockData
+      .filter(item => +item.key % 3 > 1)
+      .map(item => item.key);
+
     this.state = {
-      mockData: [],
-      targetKeys: [],
+      mockData: mockData,
+      targetKeys: targetKeys,
       isShieldIndustry: 0,
       isShieldUrl: 0
     }
+
     this.handleIndustryRadioChange = this.handleIndustryRadioChange.bind(this)
     this.handleUrlRadioChange = this.handleUrlRadioChange.bind(this)
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleIndustryRadioChange(e) {
@@ -35,10 +52,17 @@ class ShieldFormPage extends Component {
     })
   }
 
+  handleChange(nextTargetKeys, direction, moveKeys) {
+    this.setState({targetKeys: nextTargetKeys});
+  }
+
+
   handleSubmit(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
+    console.log(formValue)
 
+    console.log(this.state.targetKeys)
   }
 
   render() {
@@ -108,13 +132,16 @@ class ShieldFormPage extends Component {
           >
             <Transfer
               dataSource={this.state.mockData}
+              titles={['选择行业', '已选行业']}
               showSearch
               listStyle={{
                 width: 250,
                 height: 300,
               }}
               targetKeys={this.state.targetKeys}
-              render={item => `${item.title}-${item.description}`}
+              render={item => `${item.title}`}
+              searchPlaceholder="搜索"
+              onChange={this.handleChange}
             />
           </FormItem>
           }
@@ -140,7 +167,9 @@ class ShieldFormPage extends Component {
           <FormItem
             {...tailFormItemLayout}
           >
-            <Input type="textarea" rows={4}/>
+            {getFieldDecorator('shieldUrls', {})(
+              <Input type="textarea" rows={4} placeholder="请输入要屏蔽的广告主url(如www.**.com)，请用“，”分隔多个url"/>
+            )}
           </FormItem>
           }
 
