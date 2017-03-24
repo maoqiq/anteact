@@ -127,8 +127,14 @@ class UserViewPage extends Component {
         <div className="info basic-info">
           <div className="title">
             <span className="text">基本信息</span>
-            <Button className="button" name="basic" size="small"
-                    onClick={this.toggleInputShow.bind(this, 'basic')}>修改</Button>
+            {!isShowBasicInput &&
+            <Button className="button"
+                    size="small"
+                    onClick={this.toggleInputShow.bind(this, 'basic')}
+            >
+              修改
+            </Button>
+            }
           </div>
           <Form name="basicInfo" onSubmit={this.handleBasicSubmit} className="form" style={{width: '80%'}} noValidate>
             <FormItem
@@ -209,7 +215,7 @@ class UserViewPage extends Component {
               {...tailFormItemLayout}
             >
               <Button type="primary" htmlType="submit">保存</Button>
-              <Button type="primary" htmlType="button">取消</Button>
+              <Button type="primary" htmlType="button" onClick={this.toggleInputShow.bind(this, 'basic')}>取消</Button>
             </FormItem>
             }
 
@@ -218,12 +224,15 @@ class UserViewPage extends Component {
         <div className="info company-info">
           <div className="title">
             <span className="text">财务信息</span>
+            {!isShowFinancialInput &&
+
             <Button className="button"
                     size="small"
                     onClick={this.toggleInputShow.bind(this, 'financial')}
             >
               修改
             </Button>
+            }
           </div>
           <Form name="financialInfo"
                 onSubmit={this.handleFinancialSubmit}
@@ -490,7 +499,8 @@ class UserViewPage extends Component {
               {...tailFormItemLayout}
             >
               <Button type="primary" htmlType="submit">保存</Button>
-              <Button type="primary" htmlType="button">取消</Button>
+              <Button type="primary" htmlType="button"
+                      onClick={this.toggleInputShow.bind(this, 'financial')}>取消</Button>
             </FormItem>
             }
           </Form>
