@@ -60,9 +60,11 @@ class ShieldFormPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
-    console.log(formValue)
-
-    console.log(this.state.targetKeys)
+    const _submit = Object.assign({}, formValue, {
+      shieldIndustryIds: this.state.targetKeys
+    })
+    //TODO:如果选择不屏蔽 是否要传入ids值
+    console.log(_submit)
   }
 
   render() {
