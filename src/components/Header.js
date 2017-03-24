@@ -1,15 +1,19 @@
 import React, {Component, PropTypes} from 'react';
+import {Link, browserHistory} from 'react-router';
+
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
 const {SubMenu} = Menu;
+const BreadcrumbItem = Breadcrumb.Item
 const {Header, Content, Sider} = Layout;
-import {Link, browserHistory} from 'react-router';
 
 
 import AppBreadcrumb from './Breadcrumb'
 
+
 class AppHeader extends Component {
   constructor(props) {
     super(props)
+
     this.itemRender = this.itemRender.bind(this, props.router)
     this.state = {
       breadcrumbItems: []
@@ -39,15 +43,15 @@ class AppHeader extends Component {
         _route = `${acc}/${current.path}`
       }
       routes.push(_route)
-      return _route;
+      return _route
     }, '')
 
     // 建立 Breadcrumb Item 数组
     return router.routes.map((route, index) => {
       if (index > 1) {
-        return <Breadcrumb.Item key={`breadcrumb-${index}`}>
+        return <BreadcrumbItem key={`breadcrumb-${index}`}>
           <Link to={routes[index]}>{route.breadcrumbName}</Link>
-        </Breadcrumb.Item>
+        </BreadcrumbItem>
       }
     })
   }
@@ -67,10 +71,9 @@ class AppHeader extends Component {
             <Link to="/">登出</Link>
           </Menu.Item>
           <Menu.Item key="breadcrumb">
-            <Breadcrumb itemRender={this.itemRender}/>
-            <div className="">
+            <Breadcrumb>
               {this.state.breadcrumbItems}
-            </div>
+            </Breadcrumb>
           </Menu.Item>
         </Menu>
       </Header>

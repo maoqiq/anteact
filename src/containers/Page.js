@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {Link, browserHistory} from 'react-router';
 
 import AppHeader from '../components/Header'
 import Nav from '../components/Nav'
@@ -16,6 +17,12 @@ class Page extends Component {
     super(props)
   }
 
+  // componentDidMount() {
+  //   browserHistory.listen((ev) => {
+  //     console.log(this.props)
+  //   });
+  // }
+
   render() {
     return (
       <div className="Page">
@@ -26,9 +33,7 @@ class Page extends Component {
               <Nav />
             </Sider>
             <Layout style={{padding: '0 15px 15px'}}>
-              {/*<Detail />*/}
               {this.props.children}
-
             </Layout>
           </Layout>
         </Layout>
