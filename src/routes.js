@@ -30,28 +30,28 @@ export default (
   <Route path="/" component={App}>
     <IndexRoute component={LoginPage}/>
     <Route path="page" breadcrumbName="page" component={Page}>
-      <Route path="media" breadcrumbName="媒体">
+      <Route path="media" breadcrumbName="媒体管理">
         <Route path="overview" breadcrumbName="媒体列表" component={MediaViewPage}/>
         <Route path="new" breadcrumbName="新建媒体" component={MediaFormPage}/>
       </Route>
-      <Route path="ad">
-        <Route path="overview" component={AdViewPage}/>
-        <Route path="new" component={AdFormPage}/>
+      <Route path="ad" breadcrumbName="广告位管理">
+        <Route path="overview" breadcrumbName="广告位列表" component={AdViewPage}/>
+        <Route path="new" breadcrumbName="新建广告位" component={AdFormPage}/>
       </Route>
       <Route path="shield">
-        <Route path="overview" component={ShieldViewPage}/>
-        <Route path="new" component={ShieldFormPage}/>
+        <Route path="overview" breadcrumbName="屏蔽策略管理" component={ShieldViewPage}/>
+        <Route path="new" breadcrumbName="新建屏蔽策略" component={ShieldFormPage}/>
       </Route>
       <Route path="doc">
-        <Route path="overview" component={DocViewPage}/>
-        <Route path="release" component={DocReleasePage}/>
+        <Route path="overview" breadcrumbName="SDK文档" component={DocViewPage}/>
+        <Route path="release" breadcrumbName="文档版本" component={DocReleasePage}/>
       </Route>
       <Route path="user">
-        <Route path="overview" component={UserViewPage}/>
-        <Route path="modify" component={UserFormPage}/>
+        <Route path="overview" breadcrumbName="用户管理" component={UserViewPage}/>
+        <Route path="modify" breadcrumbName="媒体列表" component={UserFormPage}/>
       </Route>
       <Route path="chart">
-        <Route path="overview" component={ChartViewPage}/>
+        <Route path="overview" breadcrumbName="数据分析" component={ChartViewPage}/>
       </Route>
     </Route>
     <Route path="*" component={NotFoundPage}/>
