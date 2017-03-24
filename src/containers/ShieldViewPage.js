@@ -63,7 +63,7 @@ class ShieldViewPage extends Component {
     const {shieldList} = this.props;
 
     return (
-      <div className="overview shield-overview-page">
+      <div className="overview shield-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
           <Form className="list-search" layout="inline">
             <FormItem label="名称" key="shield-search-name">

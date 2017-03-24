@@ -3,44 +3,80 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link, IndexLink} from 'react-router';
 
-import {Form, Input, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button} from 'antd';
+import {Form, Input, Radio, Button, Upload, Icon, message} from 'antd';
 const FormItem = Form.Item;
+const RadioGroup = Radio.Group;
+const Dragger = Upload.Dragger;
 
 import {fetchUser} from '../actions/user'
 
 class UserViewPage extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      isShowInput: false
-    }
-    this.toggleInputShow = this.toggleInputShow.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
 
+    this.state = {
+      isShowBasicInput: false,
+      isShowFinancialInput: false,
+      whichRoleType: 0
+    }
+
+    this.toggleInputShow = this.toggleInputShow.bind(this)
+    this.handleRoleTypeChange = this.handleRoleTypeChange.bind(this)
+
+    this.handleBasicSubmit = this.handleBasicSubmit.bind(this)
+    this.handleFinancialSubmit = this.handleFinancialSubmit.bind(this)
   }
 
+  // 组件加载完成后执行
   componentDidMount() {
     this.fetchUserInfo();
   }
 
+  // 拉去用户数据
   fetchUserInfo() {
     this.props.fetchUserInfo()
   }
 
-  // 切换信息的编辑与显示的状态
-  toggleInputShow() {
-    this.setState({isShowInput: !this.state.isShowInput})
+  // 切换 编辑input 与 显示 的状态
+  toggleInputShow(type, e) {
+    console.log(arguments)
+    switch (type) {
+      case 'basic':
+        this.setState({isShowBasicInput: !this.state.isShowBasicInput})
+        break
+      case 'financial':
+        this.setState({isShowFinancialInput: !this.state.isShowFinancialInput})
+        break
+      default:
+        break
+    }
   }
 
-  handleSubmit(e) {
+  // 处理 basic info 表单提交
+  handleBasicSubmit(e) {
     e.preventDefault();
+    console.log(e.target.name)
   }
 
+  // 处理 financial info 表单提交
+  handleFinancialSubmit(e) {
+    e.preventDefault();
+    console.log(e.target.name)
+    const formValue = this.props.form.getFieldsValue()
+    console.log(formValue)
+  }
+
+  // 处理财务对象的改变
+  handleRoleTypeChange(e) {
+    this.setState({whichRoleType: e.target.value})
+  }
+
+  // 渲染
   render() {
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
-        sm: {span: 4},
+        sm: {span: 3},
       },
       wrapperCol: {
         xs: {span: 24},
@@ -55,28 +91,51 @@ class UserViewPage extends Component {
         },
         sm: {
           span: 14,
-          offset: 4,
+          offset: 3,
         },
       },
     };
 
+    // 营业执照
+    const businessLicenseDrops = {
+      name: 'file',
+      multiple: true,
+      showUploadList: false,
+      action: '//jsonplaceholder.typicode.com/posts/',
+      onChange(info) {
+        const status = info.file.status;
+        if (status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully.`);
+        } else if (status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
+    // 设置变量
     const {userInfo} = this.props
-    const {getFieldDecorator} = this.props.form;
-    const isShowInput = this.state.isShowInput
+    const {getFieldDecorator} = this.props.form
+    const isShowBasicInput = this.state.isShowBasicInput
+    const isShowFinancialInput = this.state.isShowFinancialInput
+    const whichRoleType = this.state.whichRoleType
 
     return (
-      <div className="overview user-overview-page" style={{padding: '10px 20px'}}>
-        <div className="basic-info">
+      <div className="overview user-overview">
+        <div className="info basic-info">
           <div className="title">
             <span className="text">基本信息</span>
-            <Button className="button" onClick={this.toggleInputShow}>修改</Button>
+            <Button className="button" name="basic" size="small"
+                    onClick={this.toggleInputShow.bind(this, 'basic')}>修改</Button>
           </div>
-          <Form onSubmit={this.handleSubmit} className="form" style={{width: '80%'}} noValidate>
+          <Form name="basicInfo" onSubmit={this.handleBasicSubmit} className="form" style={{width: '80%'}} noValidate>
             <FormItem
               {...formItemLayout}
               label="公司名称:"
             >
-              {isShowInput ?
+              {isShowBasicInput ?
                 (<span>
                     {getFieldDecorator('companyName', {
                       rules: [{
@@ -90,13 +149,12 @@ class UserViewPage extends Component {
                 : <span>{userInfo.companyName}</span>
               }
 
-
             </FormItem>
             <FormItem
               {...formItemLayout}
               label="联系人:"
             >
-              {isShowInput ?
+              {isShowBasicInput ?
                 (<span>
                     {getFieldDecorator('linkman', {
                       rules: [{
@@ -114,7 +172,7 @@ class UserViewPage extends Component {
               {...formItemLayout}
               label="联系电话:"
             >
-              {isShowInput ?
+              {isShowBasicInput ?
                 (<span>
                     {getFieldDecorator('linkPhone', {
                       rules: [{
@@ -132,7 +190,7 @@ class UserViewPage extends Component {
               {...formItemLayout}
               label="电子邮箱:"
             >
-              {isShowInput ?
+              {isShowBasicInput ?
                 (<span>
                     {getFieldDecorator('email', {
                       rules: [{
@@ -146,7 +204,7 @@ class UserViewPage extends Component {
                 : <span>{userInfo.email}</span>
               }
             </FormItem>
-            {isShowInput &&
+            {isShowBasicInput &&
             <FormItem
               {...tailFormItemLayout}
             >
@@ -157,20 +215,286 @@ class UserViewPage extends Component {
 
           </Form>
         </div>
-
-        <div className="financial-info">
+        <div className="info company-info">
           <div className="title">
-            <h4 className="">财务信息</h4>
+            <span className="text">财务信息</span>
+            <Button className="button"
+                    size="small"
+                    onClick={this.toggleInputShow.bind(this, 'financial')}
+            >
+              修改
+            </Button>
           </div>
-          <h1>财务信息</h1>
-          <p>公司名称：杭州美哒网络科技有限公司</p>
-          <p>联系人：石建</p>
-          <p>联系电话：13073699786</p>
-          <p>电子邮箱：shijianwu1986@163.com</p>
+          <Form name="financialInfo"
+                onSubmit={this.handleFinancialSubmit}
+                className="form"
+                style={{width: '80%'}}
+                noValidate
+          >
+            <FormItem
+              {...formItemLayout}
+              label="财务对象:"
+            >
+              {isShowFinancialInput ?
+                (<span>
+                    {getFieldDecorator('roleType', {
+                      rules: [{
+                        required: true, message: '请选择财务对象'
+                      }],
+                      initialValue: userInfo.roleType || 0
+                    })(
+                      <RadioGroup
+                        onChange={this.handleRoleTypeChange}
+                      >
+                        <Radio value={0}>公司</Radio>
+                        <Radio value={1}>个人</Radio>
+                      </RadioGroup>
+                    )}
+                  </span>)
+                : <span>{userInfo.roleType}</span>
+              }
+            </FormItem>
+            {
+              whichRoleType === 0 &&
+              <FormItem
+                {...formItemLayout}
+                label="收款公司名称:"
+              >
+                {isShowFinancialInput ?
+                  (<span>
+                    {getFieldDecorator('financeCompanyName', {
+                      rules: [{
+                        required: true, message: '请输入收款公司名称'
+                      }],
+                      initialValue: userInfo.financeCompanyName
+                    })(
+                      <Input type="text" placeholder="请输入收款公司名称"/>
+                    )}
+                  </span>)
+                  : <span>{userInfo.financeCompanyName}</span>
+                }
+
+              </FormItem>
+            }
+
+            {
+              whichRoleType === 0 &&
+              <FormItem
+                {...formItemLayout}
+                label="营业执照号:"
+              >
+                {isShowFinancialInput ?
+                  (<span>
+                    {getFieldDecorator('businessLicenseId', {
+                      rules: [{
+                        required: true, message: '请输入营业执照号'
+                      }],
+                      initialValue: userInfo.businessLicenseId
+                    })(
+                      <Input type="text" placeholder="请输入营业执照号"/>
+                    )}
+                  </span>)
+                  : <span>{userInfo.businessLicenseId}</span>
+                }
+              </FormItem>
+            }
+            {
+              whichRoleType === 0 &&
+              <FormItem
+                {...formItemLayout}
+                label="营业执照:"
+              >
+                {isShowFinancialInput ?
+                  (<span>
+                    {getFieldDecorator('businessLicenseUrl', {
+                      rules: [{
+                        required: true, message: '请输入营业执照'
+                      }],
+                      initialValue: userInfo.businessLicenseUrl
+                    })(
+                      <div style={{marginTop: 16, height: 200}}>
+                        <Dragger {...businessLicenseDrops} style={{padding: '20px'}}>
+                          <p className="ant-upload-drag-icon">
+                            <Icon type="inbox"/>
+                          </p>
+                          <p className="ant-upload-text">点击或拖拽图片到此处上传营业执照</p>
+                          <p className="ant-upload-hint">格式限制JPG/JPEG/PNG</p>
+                        </Dragger>
+                      </div>
+                    )}
+                  </span>)
+                  : <span>{userInfo.businessLicenseUrl}</span>
+                }
+              </FormItem>
+            }
+
+            {
+              whichRoleType === 1 &&
+              <FormItem
+                {...formItemLayout}
+                label="个人姓名:"
+              >
+                {isShowFinancialInput ?
+                  (<span>
+                    {getFieldDecorator('personalName', {
+                      rules: [{
+                        required: true, message: '请输入个人姓名'
+                      }],
+                      initialValue: userInfo.personalName
+                    })(
+                      <Input type="tel" placeholder="请输入个人姓名"/>
+                    )}
+                  </span>)
+                  : <span>{userInfo.personalName}</span>
+                }
+              </FormItem>
+            }
+            {
+              whichRoleType === 1 &&
+              <FormItem
+                {...formItemLayout}
+                label="身份证号:"
+              >
+                {isShowFinancialInput ?
+                  (<span>
+                    {getFieldDecorator('idCard', {
+                      rules: [{
+                        required: true, message: '请输入身份证号'
+                      }],
+                      initialValue: userInfo.idCard
+                    })(
+                      <Input type="tel" placeholder="请输入身份证号"/>
+                    )}
+                  </span>)
+                  : <span>{userInfo.idCard}</span>
+                }
+              </FormItem>
+            }
+            {
+              whichRoleType === 1 &&
+              <FormItem
+                {...formItemLayout}
+                label="身份证正面照:"
+              >
+                {isShowFinancialInput ?
+                  (<span>
+                    {getFieldDecorator('idCardFrontUrl', {
+                      rules: [{
+                        required: true, message: '请输入身份证正面照'
+                      }],
+                      initialValue: userInfo.idCardFrontUrl
+                    })(
+                      <Input type="tel" placeholder="请输入身份证正面照"/>
+                    )}
+                  </span>)
+                  : <span>{userInfo.idCardFrontUrl}</span>
+                }
+              </FormItem>
+            } {
+            whichRoleType === 1 &&
+            <FormItem
+              {...formItemLayout}
+              label="身份证背面照:"
+            >
+              {isShowFinancialInput ?
+                (<span>
+                    {getFieldDecorator('idCardBackUrl', {
+                      rules: [{
+                        required: true, message: '请输入身份证背面照'
+                      }],
+                      initialValue: userInfo.idCardBackUrl
+                    })(
+                      <Input type="tel" placeholder="请输入身份证背面照"/>
+                    )}
+                  </span>)
+                : <span>{userInfo.idCardBackUrl}</span>
+              }
+            </FormItem>
+          }
+
+            <FormItem
+              {...formItemLayout}
+              label="开户行:"
+            >
+              {isShowFinancialInput ?
+                (<span>
+                    {getFieldDecorator('bankName', {
+                      rules: [{
+                        required: true, message: '请输入开户行'
+                      }],
+                      initialValue: userInfo.bankName
+                    })(
+                      <Input type="text" placeholder="请输入开户行"/>
+                    )}
+                  </span>)
+                : <span>{userInfo.bankName}</span>
+              }
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="支行名称:"
+            >
+              {isShowFinancialInput ?
+                (<span>
+                    {getFieldDecorator('branchName', {
+                      rules: [{
+                        required: true, message: '请输入支行名称'
+                      }],
+                      initialValue: userInfo.branchName
+                    })(
+                      <Input type="text" placeholder="请输入支行名称"/>
+                    )}
+                  </span>)
+                : <span>{userInfo.branchName}</span>
+              }
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="开户行地址:"
+            >
+              {isShowFinancialInput ?
+                (<span>
+                    {getFieldDecorator('address', {
+                      rules: [{
+                        required: true, message: '请输入开户行地址'
+                      }],
+                      initialValue: userInfo.address
+                    })(
+                      <Input type="text" placeholder="请输入开户行地址"/>
+                    )}
+                  </span>)
+                : <span>{userInfo.address}</span>
+              }
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label="银行账号:"
+            >
+              {isShowFinancialInput ?
+                (<span>
+                    {getFieldDecorator('cardNumber', {
+                      rules: [{
+                        required: true, message: '请输入银行账号'
+                      }],
+                      initialValue: userInfo.cardNumber
+                    })(
+                      <Input type="text" placeholder="请输入银行账号"/>
+                    )}
+                  </span>)
+                : <span>{userInfo.cardNumber}</span>
+              }
+            </FormItem>
+
+            {isShowFinancialInput &&
+            <FormItem
+              {...tailFormItemLayout}
+            >
+              <Button type="primary" htmlType="submit">保存</Button>
+              <Button type="primary" htmlType="button">取消</Button>
+            </FormItem>
+            }
+          </Form>
         </div>
-        <Button type="primary" className="login-form-button">
-          <Link to="/page/user/modify">修改</Link>
-        </Button>
       </div>
     );
   }
