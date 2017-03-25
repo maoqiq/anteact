@@ -1,11 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import {Link, browserHistory} from 'react-router';
 
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
 const {SubMenu} = Menu;
 const BreadcrumbItem = Breadcrumb.Item
 const {Header, Content, Sider} = Layout;
-
+import {PropTypes} from 'react-router'
 
 import AppBreadcrumb from './Breadcrumb'
 
@@ -18,6 +18,7 @@ class AppHeader extends Component {
     this.state = {
       breadcrumbItems: []
     }
+    console.log(this.context)
   }
 
   componentDidMount() {
