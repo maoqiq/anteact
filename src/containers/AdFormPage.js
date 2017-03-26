@@ -26,6 +26,12 @@ class AdFormPage extends Component {
     this.fetchShieldList()
   }
 
+  handleCancelSubmit(e) {
+    e.preventDefault();
+    this.context.router.push('/page/ad/overview')
+  }
+
+
   render() {
     const {getFieldDecorator} = this.props.form;
     let mediaList = [], shieldList = [];
@@ -145,7 +151,7 @@ class AdFormPage extends Component {
             {...tailFormItemLayout}
           >
             <Button type="primary" htmlType="submit">提交</Button>
-            <Button type="primary" htmlType="button">取消</Button>
+            <Button htmlType="button" onClick={this.handleCancelSubmit}>取消</Button>
           </FormItem>
 
         </Form>
@@ -154,6 +160,9 @@ class AdFormPage extends Component {
   }
 }
 
+AdFormPage.contextTypes = {
+  router: PropTypes.object.isRequired
+}
 
 AdFormPage.propTypes = {
   adForm: PropTypes.object.isRequired,
@@ -183,6 +192,7 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
+
 
 AdFormPage = Form.create()(AdFormPage)
 

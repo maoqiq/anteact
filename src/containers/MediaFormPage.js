@@ -11,6 +11,7 @@ class MediaFormPage extends Component {
   constructor(props) {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
   }
 
   handleSubmit(e) {
@@ -24,6 +25,11 @@ class MediaFormPage extends Component {
     });
   }
 
+  handleCancelSubmit(e) {
+    e.preventDefault();
+    this.context.router.push('/page/media/overview')
+  }
+
   render() {
     // form 布局
     const formItemLayout = {
@@ -33,7 +39,7 @@ class MediaFormPage extends Component {
       },
       wrapperCol: {
         xs: {span: 24},
-        sm: {span: 16},
+        sm: {span: 20},
       },
     };
     const tailFormItemLayout = {
@@ -51,7 +57,7 @@ class MediaFormPage extends Component {
     const {getFieldDecorator} = this.props.form;
     return (
       <div className="form-page" style={{padding: '10px'}}>
-        <Form onSubmit={this.handleSubmit} className="form media-form">
+        <Form onSubmit={this.handleSubmit} className="form media-form" style={{width: '80%'}}>
           <FormItem
             label="媒体名称"
             hasFeedback
@@ -139,10 +145,11 @@ class MediaFormPage extends Component {
           </FormItem>
 
           <FormItem
+            className="form-actions"
             {...tailFormItemLayout}
           >
-            <Button type="primary" htmlType="submit">提交审核</Button>
-            <Button type="primary" htmlType="button">取消</Button>
+            <Button type="primary" htmlType="submit">提交</Button>
+            <Button htmlType="button" onClick={this.handleCancelSubmit}>取消</Button>
           </FormItem>
 
         </Form>
@@ -150,7 +157,9 @@ class MediaFormPage extends Component {
     );
   }
 }
-
+MediaFormPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 MediaFormPage.propTypes = {
   mediaForm: PropTypes.object.isRequired

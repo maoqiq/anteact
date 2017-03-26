@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {Link, browserHistory} from 'react-router';
 
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
 const {SubMenu} = Menu;
 const BreadcrumbItem = Breadcrumb.Item
 const {Header, Content, Sider} = Layout;
-import {PropTypes} from 'react-router'
 
 import AppBreadcrumb from './Breadcrumb'
 
@@ -14,51 +13,48 @@ class AppHeader extends Component {
   constructor(props) {
     super(props)
 
-    this.itemRender = this.itemRender.bind(this, props.router)
+    this.itemRender = this.itemRender.bind(this)
     this.state = {
       breadcrumbItems: []
     }
-    console.log(this.context)
   }
 
   componentDidMount() {
-    this.setState({
-      breadcrumbItems: this.itemRender()
-    })
+    this.itemRender(this.props.router.routes)
 
     browserHistory.listen((ev) => {
-      this.setState({
-        breadcrumbItems: this.itemRender()
-      })
+      this.itemRender(this.context.router.routes)
     });
   }
 
 
   // 面包屑
-  itemRender(router) {
+  itemRender(routes) {
     // 配置每个item的path
-    const routes = [];
-    router.routes.reduce((acc, current, index) => {
+    const _paths = [];
+    routes.reduce((acc, current, index) => {
       let _route = '';
       if (index > 0) {
         _route = `${acc}/${current.path}`
       }
-      routes.push(_route)
+      _paths.push(_route)
       return _route
     }, '')
 
     // 建立 Breadcrumb Item 数组
-    return router.routes.map((route, index) => {
+    const _breadcrumbItems = routes.map((route, index) => {
       if (index > 1) {
         return <BreadcrumbItem key={`breadcrumb-${index}`}>
-          <Link to={routes[index]}>{route.breadcrumbName}</Link>
+          <Link to={_paths[index]}>{route.breadcrumbName}</Link>
         </BreadcrumbItem>
       }
+    })
+    this.setState({
+      breadcrumbItems: _breadcrumbItems
     })
   }
 
   render() {
-    console.log(this.state.breadcrumbItems)
     return (
       <Header className="header app-header">
         <div className="logo"/>
@@ -81,5 +77,10 @@ class AppHeader extends Component {
     );
   }
 }
+
+AppHeader.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 
 export default AppHeader;

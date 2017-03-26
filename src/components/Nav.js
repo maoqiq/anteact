@@ -66,7 +66,7 @@ class AppHeader extends Component {
     });
 
     return (
-      <div>
+      <nav className="nav">
         <Menu
           mode="inline"
           defaultSelectedKeys={['nav-item-0']}
@@ -76,7 +76,7 @@ class AppHeader extends Component {
         >
           {items}
         </Menu>
-      </div>
+      </nav>
     );
   }
 }
