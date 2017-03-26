@@ -25,7 +25,7 @@ class Page extends Component {
 
   render() {
     return (
-      <div className="Page">
+      <div className="page">
         <Layout>
           <AppHeader router={this.props}/>
           <Layout>
