@@ -1,16 +1,18 @@
 import types from '../constants/actionTypes';
 import axios from 'axios'
+import {apiUrl} from '../utils/apiHelper'
 
 const url = {
-  list: '//rap.taobao.org/mockjsdata/15637/ssp/app/list',
-  add: '//rap.taobao.org/mockjsdata/15637/ssp/app/add'
+  list: apiUrl('/ssp/app/list'),
+  add: apiUrl('/ssp/app/add')
 }
 
 export function fetchList(params) {
   return dispatch =>
     axios.get(url.list, {
-      params: params,
-
+      params: {
+        data: params
+      },
     })
       .then(response => response.data)
       .then(data => {

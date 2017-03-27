@@ -2,7 +2,7 @@ import {combineReducers} from 'redux';
 import {routerReducer}from 'react-router-redux';
 
 import fuelSavings from './fuelSavingsReducer';
-import account from './account';
+import {login, register, code} from './account';
 import {mediaForm, mediaList} from './media';
 import {adForm, adList} from './ad';
 import {shieldForm, shieldList} from './shield';
@@ -10,7 +10,11 @@ import {userInfo} from './user';
 
 const rootReducer = combineReducers({
   fuelSavings,
-  account,
+
+  login,
+  register,
+  code,
+
   mediaForm,
   mediaList,
 

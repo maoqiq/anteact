@@ -28,11 +28,11 @@ class LoginPage extends Component {
     const formItemLayout = {
       labelCol: {
         xs: {span: 24},
-        sm: {span: 4},
+        sm: {span: 6},
       },
       wrapperCol: {
         xs: {span: 24},
-        sm: {span: 20},
+        sm: {span: 18},
       },
     };
     const tailFormItemLayout = {
@@ -43,7 +43,7 @@ class LoginPage extends Component {
         },
         sm: {
           span: 16,
-          offset: 4,
+          offset: 6,
         },
       },
     };
@@ -84,7 +84,7 @@ class LoginPage extends Component {
             <Button type="primary" htmlType="submit" className="login-form-button">
               登陆
             </Button>
-            <a>立即注册</a>
+            <Link to="/signup">立即注册</Link>
           </FormItem>
         </Form>
       </div>

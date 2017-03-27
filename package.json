@@ -1,9 +1,9 @@
 {
   "name": "anteact",
   "version": "0.1.0",
-  "description": "fuck",
+  "description": "SSP Admin Control Panel",
   "engines": {
-    "npm": ">=3"
+    "npm": ">=6"
   },
   "scripts": {
     "preinstall": "node tools/nodeVersionCheck.js",

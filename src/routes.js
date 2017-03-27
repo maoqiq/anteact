@@ -7,6 +7,7 @@ import Page from './containers/Page';
 import NotFoundPage from './components/NotFoundPage';
 
 import LoginPage from './containers/LoginPage';
+import RegisterPage from './containers/RegisterPage';
 
 import MediaViewPage from './containers/MediaViewPage';
 import MediaFormPage from './containers/MediaFormPage';
@@ -28,8 +29,12 @@ import ChartViewPage from './containers/ChartViewPage';
 
 export default (
   <Route path="/" component={App}>
-    <IndexRoute component={LoginPage}/>
-    <Route path="page" breadcrumbName="page" component={Page}>
+    <IndexRedirect to="signin"/>
+    <Route path="signin" breadcrumbName="登陆" component={LoginPage}/>
+    <Route path="signup" breadcrumbName="注册" component={RegisterPage}/>
+    <Route path="page" breadcrumbName="SSP" component={Page}>
+      <IndexRedirect to="media"/>
+
       <Route path="media" breadcrumbName="媒体管理">
         <IndexRedirect to="overview"/>
         <Route path="overview" breadcrumbName="媒体列表" component={MediaViewPage}/>

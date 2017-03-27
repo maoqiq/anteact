@@ -5,7 +5,7 @@ const initialState = {
   password: '',
 };
 
-export default function login(state = initialState, action) {
+export function login(state = initialState, action) {
   switch (action.type) {
     case types.LOGIN_REQUEST:
       return Object.assign({}, state, {
@@ -21,6 +21,39 @@ export default function login(state = initialState, action) {
         isFetching: false,
         error: true,
       });
+    default:
+      return state;
+  }
+}
+
+
+const initialCodeState = {
+  code: ''
+}
+
+export function code(state = initialCodeState, action) {
+  switch (action.type) {
+    case types.SEND_CODE_SUCCESS:
+      return Object.assign({}, state, action.payload);
+    default:
+      return state
+  }
+}
+
+const initialRegisterState = {
+  mail: '',
+  code: '',
+  password: '',
+  companyName: '',
+  registerCode: '',
+  name: '',
+  contactTel: ''
+}
+
+export function register(state = initialRegisterState, action) {
+  switch (action.type) {
+    case types.REGISTER_SUCCESS:
+      return Object.assign({}, state, action.payload);
     default:
       return state;
   }
