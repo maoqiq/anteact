@@ -44,10 +44,10 @@ class AdViewPage extends Component {
     }, {
       title: '操作',
       key: 'actions',
-      render: (text, record, index) => (
+      render: () => (
         <span>
-          <a>编辑</a>
-          <a>删除</a>
+          <Button size="small">编辑</Button>
+          <Button size="small">删除</Button>
         </span>
       )
     }];

@@ -6,9 +6,6 @@ const {SubMenu} = Menu;
 const BreadcrumbItem = Breadcrumb.Item
 const {Header, Content, Sider} = Layout;
 
-import AppBreadcrumb from './Breadcrumb'
-
-
 class AppHeader extends Component {
   constructor(props) {
     super(props)
@@ -57,15 +54,14 @@ class AppHeader extends Component {
   render() {
     return (
       <Header className="header app-header">
-        <div className="logo"/>
         <Menu
           theme="dark"
           mode="horizontal"
           defaultSelectedKeys={['2']}
           style={{lineHeight: '64px'}}
         >
-          <Menu.Item key="logout">
-            <Link to="/">登出</Link>
+          <Menu.Item key="logout" className="logo">
+            <Link to="/">来购</Link>
           </Menu.Item>
           <Menu.Item key="breadcrumb">
             <Breadcrumb>

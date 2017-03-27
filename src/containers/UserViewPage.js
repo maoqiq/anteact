@@ -212,10 +212,11 @@ class UserViewPage extends Component {
             </FormItem>
             {isShowBasicInput &&
             <FormItem
+              className="form-actions"
               {...tailFormItemLayout}
             >
               <Button type="primary" htmlType="submit">保存</Button>
-              <Button type="primary" htmlType="button" onClick={this.toggleInputShow.bind(this, 'basic')}>取消</Button>
+              <Button htmlType="button" onClick={this.toggleInputShow.bind(this, 'basic')}>取消</Button>
             </FormItem>
             }
 
@@ -496,10 +497,11 @@ class UserViewPage extends Component {
 
             {isShowFinancialInput &&
             <FormItem
+              className="form-actions"
               {...tailFormItemLayout}
             >
               <Button type="primary" htmlType="submit">保存</Button>
-              <Button type="primary" htmlType="button"
+              <Button htmlType="button"
                       onClick={this.toggleInputShow.bind(this, 'financial')}>取消</Button>
             </FormItem>
             }

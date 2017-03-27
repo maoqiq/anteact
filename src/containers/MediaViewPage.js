@@ -46,10 +46,10 @@ class MediaViewPage extends Component {
     }, {
       title: '操作',
       key: 'actions',
-      render: (text, record, index) => (
-        <span key={index}>
-          <a>修改</a>
-          <a>删除</a>
+      render: () => (
+        <span>
+          <Button size="small">编辑</Button>
+          <Button size="small">删除</Button>
         </span>
       )
     },];

@@ -19,6 +19,8 @@ class AdFormPage extends Component {
     super(props)
     this.fetchMediaList = this.props.fetchMediaList.bind(this);
     this.fetchShieldList = this.props.fetchShieldList.bind(this);
+    this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
+
   }
 
   componentDidMount() {
@@ -148,6 +150,7 @@ class AdFormPage extends Component {
           </FormItem>
 
           <FormItem
+            className="form-actions"
             {...tailFormItemLayout}
           >
             <Button type="primary" htmlType="submit">提交</Button>

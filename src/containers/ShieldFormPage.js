@@ -36,6 +36,8 @@ class ShieldFormPage extends Component {
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
+
   }
 
   handleIndustryRadioChange(e) {
@@ -65,6 +67,11 @@ class ShieldFormPage extends Component {
     })
     //TODO:如果选择不屏蔽 是否要传入ids值
     console.log(_submit)
+  }
+
+  handleCancelSubmit(e) {
+    e.preventDefault();
+    this.context.router.push('/page/shield/overview')
   }
 
   render() {
@@ -176,10 +183,11 @@ class ShieldFormPage extends Component {
           }
 
           <FormItem
+            className="form-actions"
             {...tailFormItemLayout}
           >
             <Button type="primary" htmlType="submit">提交</Button>
-            <Button type="primary" htmlType="button">取消</Button>
+            <Button htmlType="button" onClick={this.handleCancelSubmit}>取消</Button>
           </FormItem>
 
         </Form>
@@ -187,7 +195,9 @@ class ShieldFormPage extends Component {
     );
   }
 }
-
+ShieldFormPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 ShieldFormPage.propTypes = {
   shieldForm: PropTypes.object.isRequired

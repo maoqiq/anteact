@@ -64,15 +64,14 @@ class AppHeader extends Component {
         </SubMenu>
       );
     });
-
+    const openKeys = ['nav-title-0', 'nav-title-1', 'nav-title-2', 'nav-title-3']
     return (
       <nav className="nav">
         <Menu
           mode="inline"
           defaultSelectedKeys={['nav-item-0']}
           selectedKeys={[currentPath]}
-          defaultOpenKeys={['nav-title-0', 'nav-title-1', 'nav-title-2', 'nav-title-3']}
-          style={{height: '100%'}}
+          defaultOpenKeys={openKeys}
         >
           {items}
         </Menu>
