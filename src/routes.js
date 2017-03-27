@@ -34,7 +34,6 @@ export default (
     <Route path="signup" breadcrumbName="注册" component={RegisterPage}/>
     <Route path="page" breadcrumbName="SSP" component={Page}>
       <IndexRedirect to="media"/>
-
       <Route path="media" breadcrumbName="媒体管理">
         <IndexRedirect to="overview"/>
         <Route path="overview" breadcrumbName="媒体列表" component={MediaViewPage}/>

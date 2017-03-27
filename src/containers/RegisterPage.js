@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 
 import {signUp, sendCode}  from '../actions/account'
 
-import {Form, Icon, Input, Button, Checkbox, Row, Col} from 'antd';
+import {Form, Icon, Input, Button, Checkbox, Row, Col, Spin} from 'antd';
 const FormItem = Form.Item;
 
 class RegisterPage extends Component {
@@ -13,6 +13,7 @@ class RegisterPage extends Component {
     super(props)
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSendCode = this.handleSendCode.bind(this);
+    this.handleCancelSubmit = this.handleCancelSubmit.bind(this);
   }
 
   handleSubmit(e) {
@@ -28,6 +29,12 @@ class RegisterPage extends Component {
     this.props.sendCode({mail: _mail})
     console.log(_mail)
   }
+
+  handleCancelSubmit(e) {
+    e.preventDefault();
+    this.context.router.push('/signin')
+  }
+
 
   render() {
     // form 布局
@@ -60,90 +67,92 @@ class RegisterPage extends Component {
           <h3 className="form-title">
             注册
           </h3>
-          <FormItem
-            label="用户名"
-            {...formItemLayout}
-          >
-            {getFieldDecorator('mail', {
-              rules: [{required: true, message: '请输入可用的邮箱作为用户名'}],
-            })(
-              <Input type="email" placeholder="请输入可用的邮箱作为用户名"/>
-            )}
-          </FormItem>
+          <Spin spinning={true}>
+            <FormItem
+              label="用户名"
+              {...formItemLayout}
+            >
+              {getFieldDecorator('mail', {
+                rules: [{required: true, message: '请输入可用的邮箱作为用户名'}],
+              })(
+                <Input type="email" placeholder="请输入可用的邮箱作为用户名"/>
+              )}
+            </FormItem>
 
-          <FormItem
-            label="密码"
-            {...formItemLayout}
-          >
-            {getFieldDecorator('password', {
-              rules: [{required: true, message: '请输入密码'}],
-            })(
-              <Input type="text" placeholder="请输入密码"/>
-            )}
-          </FormItem>
+            <FormItem
+              label="密码"
+              {...formItemLayout}
+            >
+              {getFieldDecorator('password', {
+                rules: [{required: true, message: '请输入密码'}],
+              })(
+                <Input type="text" placeholder="请输入密码"/>
+              )}
+            </FormItem>
 
-          <FormItem
-            label="验证码"
-            {...formItemLayout}
-          >
-            <Row gutter={8}>
-              <Col span={12}>
-                {getFieldDecorator('code', {
-                  rules: [{required: true, message: '请输入你接受到的验证码'}],
-                })(
-                  <Input size="large" type="text" placeholder="请输入验证码"/>
-                )}
-              </Col>
-              <Col span={12}>
-                <Button size="large" onClick={this.handleSendCode}>获取验证码</Button>
-              </Col>
-            </Row>
-          </FormItem>
+            <FormItem
+              label="验证码"
+              {...formItemLayout}
+            >
+              <Row gutter={8}>
+                <Col span={12}>
+                  {getFieldDecorator('code', {
+                    rules: [{required: true, message: '请输入你接受到的验证码'}],
+                  })(
+                    <Input size="large" type="text" placeholder="请输入验证码"/>
+                  )}
+                </Col>
+                <Col span={12}>
+                  <Button size="large" onClick={this.handleSendCode}>获取验证码</Button>
+                </Col>
+              </Row>
+            </FormItem>
 
-          <FormItem
-            label="公司名称"
-            {...formItemLayout}
-          >
-            {getFieldDecorator('companyName', {
-              rules: [{required: true, message: '请输入公司名称'}],
-            })(
-              <Input type="text" placeholder="请输入公司名称"/>
-            )}
-          </FormItem>
+            <FormItem
+              label="公司名称"
+              {...formItemLayout}
+            >
+              {getFieldDecorator('companyName', {
+                rules: [{required: true, message: '请输入公司名称'}],
+              })(
+                <Input type="text" placeholder="请输入公司名称"/>
+              )}
+            </FormItem>
 
-          <FormItem
-            label="联系人姓名"
-            {...formItemLayout}
-          >
-            {getFieldDecorator('name', {
-              rules: [{required: true, message: '请输入联系人姓名'}],
-            })(
-              <Input type="text" placeholder="请输入真实的联系人姓名"/>
-            )}
-          </FormItem>
+            <FormItem
+              label="联系人姓名"
+              {...formItemLayout}
+            >
+              {getFieldDecorator('name', {
+                rules: [{required: true, message: '请输入联系人姓名'}],
+              })(
+                <Input type="text" placeholder="请输入真实的联系人姓名"/>
+              )}
+            </FormItem>
 
-          <FormItem
-            label="联系电话"
-            {...formItemLayout}
-          >
-            {getFieldDecorator('contactTel', {
-              rules: [{required: true, message: '请输入联系电话'}],
-            })(
-              <Input type="tel" placeholder="请输入真实的联系电话"/>
-            )}
-          </FormItem>
+            <FormItem
+              label="联系电话"
+              {...formItemLayout}
+            >
+              {getFieldDecorator('contactTel', {
+                rules: [{required: true, message: '请输入联系电话'}],
+              })(
+                <Input type="tel" placeholder="请输入真实的联系电话"/>
+              )}
+            </FormItem>
 
-          <FormItem
-            className="form-actions"
-            {...tailFormItemLayout}
-          >
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              立即注册
-            </Button>
-            <Button htmlType="button" className="login-form-button">
-              取消
-            </Button>
-          </FormItem>
+            <FormItem
+              className="form-actions"
+              {...tailFormItemLayout}
+            >
+              <Button type="primary" htmlType="submit" className="login-form-button">
+                立即注册
+              </Button>
+              <Button htmlType="button" className="login-form-button" onClick={this.handleCancelSubmit}>
+                取消
+              </Button>
+            </FormItem>
+          </Spin>
         </Form>
       </div>
 

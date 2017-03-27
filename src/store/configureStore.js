@@ -1,11 +1,16 @@
 import {createStore, compose, applyMiddleware} from 'redux';
 import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 import thunk from 'redux-thunk';
+import { browserHistory } from 'react-router';
+import { routerMiddleware, push } from 'react-router-redux'
+
+
 import rootReducer from '../reducers';
 
 function configureStoreProd(initialState) {
   const middlewares = [
     thunk,
+    routerMiddleware(browserHistory)
   ];
 
   return createStore(
@@ -21,6 +26,7 @@ function configureStoreDev(initialState) {
   const middlewares = [
     reduxImmutableStateInvariant(),
     thunk,
+    routerMiddleware(browserHistory)
   ];
 
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // add support for Redux dev tools

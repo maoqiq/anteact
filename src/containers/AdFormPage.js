@@ -33,7 +33,6 @@ class AdFormPage extends Component {
     this.context.router.push('/page/ad/overview')
   }
 
-
   render() {
     const {getFieldDecorator} = this.props.form;
     let mediaList = [], shieldList = [];
