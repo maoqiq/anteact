@@ -13,30 +13,59 @@ import {browserHistory} from 'react-router';
 
 import {fetchList as fetchMediaList}  from '../actions/media'
 import {fetchList as fetchShieldList}  from '../actions/shield'
-import {submitForm, fetchDetail}  from '../actions/ad'
+import {submitForm, fetchDetail, updateForm}  from '../actions/ad'
 
 class AdFormPage extends Component {
   constructor(props) {
     super(props)
-    this.fetchMediaList = this.props.fetchMediaList.bind(this);
-    this.fetchShieldList = this.props.fetchShieldList.bind(this);
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = {
+      isCreate: null
+    }
   }
 
+// 页面加载完成后执行
   componentDidMount() {
-    this.fetchMediaList()
-    this.fetchShieldList()
+    this.props.fetchMediaList({page: 1, pageSize: 50})
+    this.props.fetchShieldList({page: 1, pageSize: 50})
 
     if (this.context.router.location.pathname.includes('edit')) {
+      this.setState({isCreate: false})
       this.props.fetchDetail({id: this.context.router.params.id})
+    } else if (this.context.router.location.pathname.includes('new')) {
+      this.setState({isCreate: true})
     }
-
   }
 
   handleCancelSubmit(e) {
     e.preventDefault();
     this.context.router.push('/page/ad/overview')
   }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        let formValue = values;
+        console.log(formValue)
+
+
+        if (this.state.isCreate) {
+          this.props.submitForm(formValue)
+        } else {// 如果是更新
+          formValue = Object.assign({}, formValue, {
+            id: this.props.adForm.id
+          })
+          this.props.updateForm(formValue)
+        }
+      }
+
+    });
+
+
+  }
+
 
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -51,6 +80,7 @@ class AdFormPage extends Component {
     }
 
     const {adForm} = this.props
+
     // form 布局
     const formItemLayout = {
       labelCol: {
@@ -74,9 +104,13 @@ class AdFormPage extends Component {
         },
       },
     };
+
     return (
       <div className="form-page" style={{padding: '10px'}}>
-        <Form className="form ad-form" style={{width: '60%'}}>
+        <Form
+          onSubmit={this.handleSubmit}
+          className="form ad-form"
+          style={{width: '60%'}}>
           <FormItem
             label="广告位名称:"
             hasFeedback
@@ -107,12 +141,11 @@ class AdFormPage extends Component {
               <Select>
                 {
                   mediaList.map((value, index) => (
-                    <Option value={index.toString()} key={`ad-select-${index}`}>{value.name}</Option>
+                    <Option key={value.id}>id:{value.id}-{value.name}</Option>
                   ))
                 }
               </Select>
             )}
-
           </FormItem>
 
           <FormItem
@@ -125,7 +158,7 @@ class AdFormPage extends Component {
                 required: true, message: '请选择投放方式',
               }],
             })(
-              <RadioGroup >
+              <RadioGroup>
                 <Radio value={1}>SDK投放</Radio>
                 <Radio value={2}>手动投放</Radio>
               </RadioGroup>
@@ -137,15 +170,16 @@ class AdFormPage extends Component {
             hasFeedback
             {...formItemLayout}
           >
-            {getFieldDecorator('appId', {
+            {getFieldDecorator('shieldId', {
               rules: [{
                 required: true, message: '请输入广告名称',
               }],
+              initialValue: adForm.adSpecId
             })(
               <Select>
                 {
                   shieldList.map((value, index) => (
-                    <Option value={index.toString()} key={`ad-select-${index}`}>{value.title}</Option>
+                    <Option key={value.id}>id:{value.id}-{value.title}</Option>
                   ))
                 }
               </Select>
@@ -194,14 +228,17 @@ function mapDispatchToProps(dispatch) {
     submitAdForm(formValues) {
       dispatch(submitForm(formValues));
     },
-    fetchMediaList(){
-      dispatch(fetchMediaList());
+    fetchMediaList(params){
+      dispatch(fetchMediaList(params));
     },
-    fetchShieldList(){
-      dispatch(fetchShieldList());
+    fetchShieldList(params){
+      dispatch(fetchShieldList(params));
     },
     fetchDetail(params){
       dispatch(fetchDetail(params));
+    },
+    updateForm(params){
+      dispatch(updateForm(params));
     },
 
   }

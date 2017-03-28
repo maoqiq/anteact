@@ -6,6 +6,7 @@ const url = {
   list: apiUrl('/ssp/app/pit/list'),
   add: apiUrl('/ssp/app/pit/add'),
   detail: apiUrl('/ssp/app/pit/detail'),
+  update: apiUrl('/ssp/app/pit/update')
 }
 
 export function fetchList(params) {
@@ -45,6 +46,7 @@ export function fetchDetail(params) {
       })
 }
 
+// 新建广告位
 export function submitForm(formValues) {
   console.log(formValues)
   return dispatch =>
@@ -53,6 +55,22 @@ export function submitForm(formValues) {
       .then(data => {
         dispatch({
           type: types.AD_FORM_SUBMIT_SUCCESS,
+          payload: data
+        })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+}
+
+// 更新广告位
+export function updateForm(formValues) {
+  return dispatch =>
+    axios.post(url.add, formValues)
+      .then(response => response.data)
+      .then(data => {
+        dispatch({
+          type: types.AD_FORM_UPDATE_SUCCESS,
           payload: data
         })
       })

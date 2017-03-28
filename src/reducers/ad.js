@@ -13,6 +13,7 @@ export function adForm(state = initialFormState, action) {
         error: false
       });
     case types.AD_FORM_FETCH_SUCCESS:
+    case types.AD_FORM_UPDATE_SUCCESS:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
         error: false
