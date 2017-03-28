@@ -12,21 +12,9 @@ class ShieldFormPage extends Component {
   constructor(props) {
     super(props)
 
-    const mockData = [];
-    for (let i = 0; i < 10; i++) {
-      mockData.push({
-        key: i.toString(),
-        title: `content${i + 1}`,
-        description: `description of content${i + 1}`,
-      });
-    }
-    const targetKeys = mockData
-      .filter(item => +item.key % 3 > 1)
-      .map(item => item.key);
-
     this.state = {
-      mockData: mockData,
-      targetKeys: targetKeys,
+      mockData: this.props.industryList,
+      targetKeys: [],
       isShieldIndustry: this.props.shieldForm.isShieldIndustry || false,
       isShieldUrl: this.props.shieldForm.isShieldUrl || false,
       isCreate: null,
@@ -42,6 +30,8 @@ class ShieldFormPage extends Component {
 
   // 页面加载完成后执行
   componentDidMount() {
+    this.props.fetchIndustryList()
+
     if (this.context.router.location.pathname.includes('edit')) {
       this.setState({isCreate: false})
 
@@ -60,16 +50,19 @@ class ShieldFormPage extends Component {
     }
   }
 
+  // 行业是否屏蔽
   handleIndustryRadioChange(e) {
     e.preventDefault()
     this.props.setForm({isShieldIndustry: e.target.value})
   }
 
+  // 广告主url是否屏蔽
   handleUrlRadioChange(e) {
     e.preventDefault()
     this.props.setForm({isShieldUrl: e.target.value})
   }
 
+  //
   handleChange(nextTargetKeys, direction, moveKeys) {
     this.setState({targetKeys: nextTargetKeys});
   }
@@ -128,8 +121,19 @@ class ShieldFormPage extends Component {
       },
     };
     const {getFieldDecorator} = this.props.form;
-    const {shieldForm} = this.props;
+    let {shieldForm, industryList} = this.props;
+    const dataSrouce = []
 
+
+    industryList.data.map((items) => {
+      if (items.children && items.children.length) {
+        items.children.map((item) => {
+          dataSrouce.push(item);
+        })
+      }
+    })
+
+    console.log(dataSrouce)
     return (
       <div className="form-page" style={{padding: '10px'}}>
         <Form onSubmit={this.handleSubmit} className="form" style={{width: '80%'}}>
@@ -171,7 +175,8 @@ class ShieldFormPage extends Component {
             {...tailFormItemLayout}
           >
             <Transfer
-              dataSource={this.state.mockData}
+              notFoundContent="列表为空"
+              dataSource={dataSrouce}
               titles={['选择行业', '已选行业']}
               showSearch
               listStyle={{
@@ -179,9 +184,10 @@ class ShieldFormPage extends Component {
                 height: 300,
               }}
               targetKeys={this.state.targetKeys}
-              render={item => `${item.title}`}
+              render={item => `${item.name}`}
               searchPlaceholder="搜索"
               onChange={this.handleChange}
+              rowKey={record => record.code}
             />
           </FormItem>
           }
@@ -236,10 +242,11 @@ ShieldFormPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {shieldForm} = state;
+  const {shieldForm, industryList} = state;
 
   return {
-    shieldForm
+    shieldForm,
+    industryList
   };
 }
 
@@ -256,6 +263,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateForm(params){
       dispatch(updateForm(params))
+    },
+    fetchIndustryList(){
+      dispatch(fetchIndustryList())
     }
   }
 }

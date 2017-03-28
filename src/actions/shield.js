@@ -81,9 +81,10 @@ export function updateForm(formValues) {
       .then(response => response.data)
       .then(data => {
         const _data = JSON.parse(data)
+        console.log(_data)
         dispatch({
           type: types.SHIELD_FORM_UPDATE_SUCCESS,
-          payload: _data
+          payload: _data.data
         })
       })
       .catch(error => {
@@ -102,19 +103,15 @@ export function setForm(value) {
 }
 
 
-export function fetchIndustryList(formValues){
-
+export function fetchIndustryList(formValues) {
   return dispatch =>
-    axios.get(url.industryList, {
-      params: {
-        data: formValues
-      }
-    })
+    axios.get(url.industryList)
       .then(response => response.data)
       .then(data => {
         const _data = JSON.parse(data)
+        console.log(_data)
         dispatch({
-          type: types.SHIELD_FORM_UPDATE_SUCCESS,
+          type: types.INDUSTRY_LIST_FETCH_SUCCESS,
           payload: _data
         })
       })

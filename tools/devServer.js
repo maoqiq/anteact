@@ -48,7 +48,7 @@ var proxyTable = {
     changeOrigin: true,
     logLevel: 'debug',
   },
-  'public': {
+  '/public': {
     target: 'http://192.168.10.234:8080',
     changeOrigin: true,
     logLevel: 'debug',

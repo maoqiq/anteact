@@ -30,14 +30,14 @@ export function shieldList(state = initialListState, action) {
       return state;
   }
 }
-const initialIndustryState = {}
+const initialIndustryState = {
+  data: []
+}
 
 export function industryList(state = initialIndustryState, action) {
   switch (action.type) {
     case types.INDUSTRY_LIST_FETCH_SUCCESS:
-      return Object.assign({}, state, action.payload, {
-        isFetching: false,
-      });
+      return Object.assign({}, state, action.payload);
     default:
       return state;
   }
