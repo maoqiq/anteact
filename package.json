@@ -11,6 +11,7 @@
     "remove-demo": "babel-node tools/removeDemo.js",
     "start-message": "babel-node tools/startMessage.js",
     "prestart": "npm-run-all --parallel start-message",
+    "dev": "babel-node tools/devServer.js",
     "start": "npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "open:dist": "babel-node tools/distServer.js",
@@ -33,6 +34,7 @@
   "dependencies": {
     "antd": "2.8.2",
     "axios": "0.15.3",
+    "express": "4.15.2",
     "isomorphic-fetch": "2.2.1",
     "object-assign": "4.1.1",
     "react": "15.4.2",
