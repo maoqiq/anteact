@@ -72,9 +72,9 @@ class ShieldFormPage extends Component {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
     let _submit;
-    // const _submit = Object.assign({}, formValue, {
-    //   shieldIndustryIds: this.state.targetKeys
-    // })
+    _submit = Object.assign({}, formValue, {
+      shieldIndustryIds: this.state.targetKeys.join(',')
+    })
 
     //TODO:如果选择不屏蔽 是否要传入ids值
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -82,7 +82,7 @@ class ShieldFormPage extends Component {
         if (this.state.isCreate) {
           this.props.submitForm(formValue)
         } else {// 如果是更新
-          _submit = Object.assign({}, formValue, {
+          _submit = Object.assign({}, _submit, {
             id: this.props.shieldForm.id
           })
           this.props.updateForm(_submit)
@@ -133,7 +133,6 @@ class ShieldFormPage extends Component {
       }
     })
 
-    console.log(dataSrouce)
     return (
       <div className="form-page" style={{padding: '10px'}}>
         <Form onSubmit={this.handleSubmit} className="form" style={{width: '80%'}}>
