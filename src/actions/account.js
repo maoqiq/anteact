@@ -1,6 +1,8 @@
 import {routerMiddleware, push} from 'react-router-redux'
 import axios from 'axios'
+import fetch from 'isomorphic-fetch'
 import {message} from 'antd';
+import cookie from 'react-cookie';
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
@@ -20,7 +22,8 @@ export function signIn(params) {
       payload: {}
     })
 
-    axios.get(url.signIn, {
+    axios.create({withCredentials: true}).get(url.signIn, {
+      withCredentials: true,
       params: {
         data: params
       }
@@ -45,6 +48,7 @@ export function signIn(params) {
         console.log(data)
         if (data.success) {
           dispatch(push('/page'))
+          cookie.save('esid', data.data.returnToken, {path: '/',})
         } else if (data.success === false) {
           message.error(data.msg);
         }
@@ -53,7 +57,11 @@ export function signIn(params) {
 
 }
 export function signUp(params) {
-  return dispatch =>
+  return dispatch => {
+    dispatch({
+      type: types.REGISTER_REQUEST
+    })
+
     axios.get(url.signUp, {
       params: {
         data: params
@@ -61,12 +69,31 @@ export function signUp(params) {
     })
       .then(response => response.data)
       .then(data => {
-        console.log(data.data)
-        dispatch({
-          type: types.REGISTER_SUCCESS,
-          payload: data.data
-        })
+        console.log(data)
+        const _data = data
+        if (_data.success) {
+          dispatch({
+            type: types.REGISTER_SUCCESS,
+            payload: _data
+          })
+        } else {
+          dispatch({
+            type: types.REGISTER_FAILURE,
+            payload: _data
+          })
+        }
+
+        return _data;
       })
+      .then(data => {
+        if (data.success) {
+
+        } else {
+          message.error(data.msg);
+        }
+      })
+  }
+
 }
 
 

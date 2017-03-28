@@ -18,16 +18,23 @@ class RegisterPage extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const formValues = this.props.form.getFieldsValue()
-    console.log(formValues)
-    this.props.signUp(formValues)
+
+    this.props.form.validateFields((err, fieldsValue) => {
+      if (err) {
+        // return;
+      }
+
+      const formValues = this.props.form.getFieldsValue()
+      console.log(formValues)
+      this.props.signUp(formValues)
+    })
+
   }
 
   handleSendCode(e) {
     e.preventDefault();
     const _mail = this.props.form.getFieldValue('mail')
     this.props.sendCode({mail: _mail})
-    console.log(_mail)
   }
 
   handleCancelSubmit(e) {
@@ -61,19 +68,25 @@ class RegisterPage extends Component {
       },
     };
     const {getFieldDecorator} = this.props.form;
+    const register = this.props.register
     return (
       <div className="register account">
         <Form onSubmit={this.handleSubmit} className="register-form account-form" noValidate>
           <h3 className="form-title">
             注册
           </h3>
-          <Spin spinning={true}>
+          <Spin spinning={register.isFetching}>
             <FormItem
               label="用户名"
               {...formItemLayout}
             >
               {getFieldDecorator('mail', {
-                rules: [{required: true, message: '请输入可用的邮箱作为用户名'}],
+                rules: [
+                  {
+                    required: true, message: '请输入邮箱作为用户名'
+                  }, {
+                    type: 'email', message: '请输入正确的邮箱格式'
+                  }],
               })(
                 <Input type="email" placeholder="请输入可用的邮箱作为用户名"/>
               )}

@@ -18,6 +18,10 @@ class AdViewPage extends Component {
     super(props)
 
     this.columns = [{
+      title: '广告位ID',
+      dataIndex: 'id',
+      key: 'id',
+    }, {
       title: '广告位名称',
       dataIndex: 'name',
       key: 'name',
@@ -44,9 +48,9 @@ class AdViewPage extends Component {
     }, {
       title: '操作',
       key: 'actions',
-      render: () => (
+      render: (text, record, index) => (
         <span>
-          <Button size="small">编辑</Button>
+          <Button size="small" onClick={this.handleEditMediaItem.bind(this, record)}>编辑</Button>
           <Button size="small">删除</Button>
         </span>
       )
@@ -72,6 +76,13 @@ class AdViewPage extends Component {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
     this.fetchAdList(formValue)
+
+
+  }
+
+  handleEditMediaItem(record) {
+    console.log(record)
+    this.context.router.push('/page/ad/edit/' + record.id)
   }
 
   render() {
@@ -95,7 +106,7 @@ class AdViewPage extends Component {
             <FormItem label="状态" key="ad-search-status">
               {getFieldDecorator('status', {})(
                 <Select style={{width: 120}}>
-                  <Option value="all">全部广告</Option>
+                  <Option value="">全部广告</Option>
                   <Option value="1">开启</Option>
                   <Option value="0">关闭</Option>
                 </Select>
@@ -121,6 +132,10 @@ class AdViewPage extends Component {
     );
   }
 }
+AdViewPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
 AdViewPage.propTypes = {
   adList: PropTypes.object.isRequired
 };

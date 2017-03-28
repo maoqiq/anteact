@@ -6,13 +6,14 @@ import {Link} from 'react-router';
 import {Form, Input, Select, Button} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
-const ButtonGroup = Button.Group;
 import {Radio} from 'antd';
 const RadioGroup = Radio.Group;
 
+import {browserHistory} from 'react-router';
+
 import {fetchList as fetchMediaList}  from '../actions/media'
 import {fetchList as fetchShieldList}  from '../actions/shield'
-import {submitForm}  from '../actions/ad'
+import {submitForm, fetchDetail}  from '../actions/ad'
 
 class AdFormPage extends Component {
   constructor(props) {
@@ -20,12 +21,16 @@ class AdFormPage extends Component {
     this.fetchMediaList = this.props.fetchMediaList.bind(this);
     this.fetchShieldList = this.props.fetchShieldList.bind(this);
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
-
   }
 
   componentDidMount() {
     this.fetchMediaList()
     this.fetchShieldList()
+
+    if (this.context.router.location.pathname.includes('edit')) {
+      this.props.fetchDetail({id: this.context.router.params.id})
+    }
+
   }
 
   handleCancelSubmit(e) {
@@ -44,6 +49,8 @@ class AdFormPage extends Component {
     if (this.props.shieldList.data && this.props.shieldList.data.list) {
       shieldList = this.props.shieldList.data.list;
     }
+
+    const {adForm} = this.props
     // form 布局
     const formItemLayout = {
       labelCol: {
@@ -81,6 +88,7 @@ class AdFormPage extends Component {
               }, {
                 max: 20, message: '请输入不超过20个字的名称'
               }],
+              initialValue: adForm.name
             })(
               <Input type="text" placeholder="请输入广告名称，不超过20个字"/>
             )}
@@ -191,7 +199,11 @@ function mapDispatchToProps(dispatch) {
     },
     fetchShieldList(){
       dispatch(fetchShieldList());
-    }
+    },
+    fetchDetail(params){
+      dispatch(fetchDetail(params));
+    },
+
   }
 }
 

@@ -11,51 +11,53 @@ class MediaViewPage extends Component {
   constructor(props) {
     super(props)
 
-    this.columns = [{
-      title: '媒体名称',
-      dataIndex: 'name',
-      key: 'name',
-    }, {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
-    }, {
-      title: '平台',
-      dataIndex: 'platform',
-      key: 'platform',
-    }, {
-      title: 'appKey',
-      dataIndex: 'appKey',
-      key: 'appKey',
-    }, {
-      title: 'appSecret',
-      dataIndex: 'appSecret',
-      key: 'appSecret',
-    }, {
-      title: '状态',
-      key: 'status',
-      render: (text, record, index) => (
-        <span key={index}>
+    this.columns = [
+      {
+        title: '媒体ID',
+        dataIndex: 'id',
+        key: 'id',
+      }, {
+        title: '媒体名称',
+        dataIndex: 'name',
+        key: 'name',
+      }, {
+        title: '创建时间',
+        dataIndex: 'createTime',
+        key: 'createTime',
+      }, {
+        title: '平台',
+        dataIndex: 'platformText',
+        key: 'platformText',
+      }, {
+        title: 'appKey',
+        dataIndex: 'appKey',
+        key: 'appKey',
+      }, {
+        title: '状态',
+        key: 'status',
+        render: (text, record, index) => (
+          <span key={index}>
           {record.status ? (
             <span>审核中</span>
           ) : (
             <span>开启</span>
           )}
         </span>
-      )
-    }, {
-      title: '操作',
-      key: 'actions',
-      render: () => (
-        <span>
-          <Button size="small">编辑</Button>
+        )
+      }, {
+        title: '操作',
+        key: 'actions',
+        render: (text, record, index) => (
+          <span>
+          <Button size="small" onClick={this.handleEditMediaItem.bind(this, record)}>编辑</Button>
           <Button size="small">删除</Button>
         </span>
-      )
-    },];
+        )
+      },];
 
     this.fetchMediaList = this.fetchMediaList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleEditMediaItem = this.handleEditMediaItem.bind(this);
   }
 
   componentDidMount() {
@@ -70,6 +72,13 @@ class MediaViewPage extends Component {
     this.props.fetchMediaList(params)
   }
 
+  // 编辑媒体项目
+  handleEditMediaItem(record) {
+    console.log(record)
+    // this.context.router.push('/page/media/edit/' + record.id)
+
+  }
+
   handleSearch(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
@@ -78,6 +87,7 @@ class MediaViewPage extends Component {
 
   render() {
     const {mediaList} = this.props;
+    console.log(mediaList)
     const {getFieldDecorator} = this.props.form;
 
     return (
@@ -113,6 +123,9 @@ class MediaViewPage extends Component {
     )
   }
 }
+MediaViewPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 MediaViewPage.propTypes = {
   mediaList: PropTypes.object.isRequired
@@ -130,6 +143,9 @@ function mapDispatchToProps(dispatch) {
     fetchMediaList(params) {
       dispatch(fetchList(params));
     },
+    editMediaItem(){
+
+    }
   }
 }
 

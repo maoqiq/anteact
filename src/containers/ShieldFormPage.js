@@ -6,7 +6,7 @@ import {Form, Input, Button, Radio, Transfer} from 'antd';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
-import {submitForm} from '../actions/shield';
+import {submitForm, fetchDetail, setForm, updateForm, fetchIndustryList} from '../actions/shield';
 
 class ShieldFormPage extends Component {
   constructor(props) {
@@ -27,8 +27,9 @@ class ShieldFormPage extends Component {
     this.state = {
       mockData: mockData,
       targetKeys: targetKeys,
-      isShieldIndustry: 0,
-      isShieldUrl: 0
+      isShieldIndustry: this.props.shieldForm.isShieldIndustry || false,
+      isShieldUrl: this.props.shieldForm.isShieldUrl || false,
+      isCreate: null,
     }
 
     this.handleIndustryRadioChange = this.handleIndustryRadioChange.bind(this)
@@ -37,36 +38,64 @@ class ShieldFormPage extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
+  }
 
+  // 页面加载完成后执行
+  componentDidMount() {
+    if (this.context.router.location.pathname.includes('edit')) {
+      this.setState({isCreate: false})
+
+      this.props.fetchDetail({id: this.context.router.params.id})
+    } else if (this.context.router.location.pathname.includes('new')) {
+      this.setState({isCreate: true})
+
+      this.props.setForm({
+        id: '',
+        isShieldIndustry: '',
+        isShieldUrl: '',
+        mediaId: '',
+        shieldIndustryIds: '',
+        title: ''
+      })
+    }
   }
 
   handleIndustryRadioChange(e) {
     e.preventDefault()
-    this.setState({
-      isShieldIndustry: e.target.value
-    })
+    this.props.setForm({isShieldIndustry: e.target.value})
   }
 
   handleUrlRadioChange(e) {
     e.preventDefault()
-    this.setState({
-      isShieldUrl: e.target.value
-    })
+    this.props.setForm({isShieldUrl: e.target.value})
   }
 
   handleChange(nextTargetKeys, direction, moveKeys) {
     this.setState({targetKeys: nextTargetKeys});
   }
 
-
+  // 处理提交屏蔽策略表单
   handleSubmit(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
-    const _submit = Object.assign({}, formValue, {
-      shieldIndustryIds: this.state.targetKeys
-    })
+    let _submit;
+    // const _submit = Object.assign({}, formValue, {
+    //   shieldIndustryIds: this.state.targetKeys
+    // })
+
     //TODO:如果选择不屏蔽 是否要传入ids值
-    console.log(_submit)
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        if (this.state.isCreate) {
+          this.props.submitForm(formValue)
+        } else {// 如果是更新
+          _submit = Object.assign({}, formValue, {
+            id: this.props.shieldForm.id
+          })
+          this.props.updateForm(_submit)
+        }
+      }
+    });
   }
 
   handleCancelSubmit(e) {
@@ -99,6 +128,7 @@ class ShieldFormPage extends Component {
       },
     };
     const {getFieldDecorator} = this.props.form;
+    const {shieldForm} = this.props;
 
     return (
       <div className="form-page" style={{padding: '10px'}}>
@@ -112,6 +142,7 @@ class ShieldFormPage extends Component {
               rules: [{
                 required: true, message: '请输入屏蔽策略名称',
               }],
+              initialValue: shieldForm.title
             })(
               <Input type="text" placeholder="请输入屏蔽策略名称，不超过20个字"/>
             )}
@@ -124,18 +155,18 @@ class ShieldFormPage extends Component {
             {...formItemLayout}
           >
             {getFieldDecorator('isShieldIndustry', {
-              initialValue: 0
+              initialValue: shieldForm.isShieldIndustry
             })(
               <RadioGroup
                 onChange={this.handleIndustryRadioChange}
               >
-                <Radio value={0}>不屏蔽</Radio>
-                <Radio value={1}>屏蔽</Radio>
+                <Radio value={false}>不屏蔽</Radio>
+                <Radio value={true}>屏蔽</Radio>
               </RadioGroup>
             )}
           </FormItem>
 
-          {this.state.isShieldIndustry === 1 &&
+          {shieldForm.isShieldIndustry === true &&
           <FormItem
             {...tailFormItemLayout}
           >
@@ -161,23 +192,23 @@ class ShieldFormPage extends Component {
             {...formItemLayout}
           >
             {getFieldDecorator('isShieldUrl', {
-              initialValue: 0
+              initialValue: shieldForm.isShieldUrl
             })(
               <RadioGroup
                 onChange={this.handleUrlRadioChange}
               >
-                <Radio value={0}>不屏蔽</Radio>
-                <Radio value={1}>屏蔽</Radio>
+                <Radio value={false}>不屏蔽</Radio>
+                <Radio value={true}>屏蔽</Radio>
               </RadioGroup>
             )}
           </FormItem>
 
-          {this.state.isShieldUrl === 1 &&
+          {shieldForm.isShieldUrl === true &&
           <FormItem
             {...tailFormItemLayout}
           >
             {getFieldDecorator('shieldUrls', {})(
-              <Input type="textarea" rows={4} placeholder="请输入要屏蔽的广告主url(如www.**.com)，请用“，”分隔多个url"/>
+              <Input type="textarea" rows={4} placeholder="请输入要屏蔽的广告主url(如www.**.com)，请用“,”分隔多个url"/>
             )}
           </FormItem>
           }
@@ -195,6 +226,7 @@ class ShieldFormPage extends Component {
     );
   }
 }
+
 ShieldFormPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
@@ -213,12 +245,20 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitMediaForm(formValues) {
+    submitForm(formValues) {
       dispatch(submitForm(formValues));
     },
+    fetchDetail(params){
+      dispatch(fetchDetail(params))
+    },
+    setForm(params){
+      dispatch(setForm(params))
+    },
+    updateForm(params){
+      dispatch(updateForm(params))
+    }
   }
 }
-
 ShieldFormPage = Form.create()(ShieldFormPage)
 
 

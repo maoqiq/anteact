@@ -11,9 +11,9 @@ const initialFormState = {
 
 export function mediaForm(state = initialFormState, action) {
   switch (action.type) {
-    case types.MEDIA_FORM_SUBMIT:
+    case types.MEDIA_FORM_SUBMIT_SUCCESS:
       return Object.assign({}, state, action.payload, {
-        isFetching: true,
+        isFetching: false,
       });
     default:
       return state;
@@ -24,7 +24,7 @@ const initialListState = {}
 
 export function mediaList(state = initialListState, action) {
   switch (action.type) {
-    case types.MEDIA_LIST_FETCH:
+    case types.MEDIA_LIST_FETCH_SUCCESS:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
       });

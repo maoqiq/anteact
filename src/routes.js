@@ -37,16 +37,19 @@ export default (
       <Route path="media" breadcrumbName="媒体管理">
         <IndexRedirect to="overview"/>
         <Route path="overview" breadcrumbName="媒体列表" component={MediaViewPage}/>
-        <Route path="new" breadcrumbName="新建媒体" component={MediaFormPage}/>
+        <Route path="edit/:id" breadcrumbName="编辑媒体" component={MediaFormPage}/>Î
+        <Route path="new" breadcrumbName="新建媒体" component={MediaFormPage}/>Î
       </Route>
       <Route path="ad" breadcrumbName="广告位管理">
         <IndexRedirect to="overview"/>
         <Route path="overview" breadcrumbName="广告位列表" component={AdViewPage}/>
+        <Route path="edit/:id" breadcrumbName="编辑广告位" component={AdFormPage}/>
         <Route path="new" breadcrumbName="新建广告位" component={AdFormPage}/>
       </Route>
       <Route path="shield" breadcrumbName="广告位管理">
         <IndexRedirect to="overview"/>
         <Route path="overview" breadcrumbName="屏蔽策略管理" component={ShieldViewPage}/>
+        <Route path="edit/:id" breadcrumbName="编辑屏蔽策略" component={ShieldFormPage}/>
         <Route path="new" breadcrumbName="新建屏蔽策略" component={ShieldFormPage}/>
       </Route>
       <Route path="doc" breadcrumbName="技术对接">

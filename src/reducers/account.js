@@ -11,7 +11,7 @@ const initialLoginState = {
 export function login(state = initialLoginState, action) {
   switch (action.type) {
     case types.LOGIN_REQUEST:
-      return Object.assign({}, state, action.payload, {
+      return Object.assign({}, state, {
         isFetching: true,
         error: false
       });
@@ -38,13 +38,28 @@ const initialRegisterState = {
   companyName: '',
   registerCode: '',
   name: '',
-  contactTel: ''
+  contactTel: '',
+  isFetching: false,
+  error: false
 }
 
 export function register(state = initialRegisterState, action) {
   switch (action.type) {
+    case types.REGISTER_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        error: false
+      });
     case types.REGISTER_SUCCESS:
-      return Object.assign({}, state, action.payload);
+      return Object.assign({}, state, action.payload, {
+        isFetching: false,
+        error: false
+      });
+    case types.REGISTER_FAILURE:
+      return Object.assign({}, state, action.payload, {
+        isFetching: false,
+        error: true
+      });
     default:
       return state;
   }

@@ -1,6 +1,9 @@
 import types from '../constants/actionTypes';
 import axios from 'axios'
+import fetch from 'isomorphic-fetch'
+
 import {apiUrl} from '../utils/apiHelper'
+
 
 const url = {
   list: apiUrl('/ssp/app/list'),
@@ -12,13 +15,15 @@ export function fetchList(params) {
     axios.get(url.list, {
       params: {
         data: params
-      },
+      }
     })
       .then(response => response.data)
       .then(data => {
+        const _data = JSON.parse(data)
+        console.log(_data)
         dispatch({
-          type: types.MEDIA_LIST_FETCH,
-          payload: data
+          type: types.MEDIA_LIST_FETCH_SUCCESS,
+          payload: _data
         })
       })
 }

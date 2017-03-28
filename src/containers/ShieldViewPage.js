@@ -14,6 +14,10 @@ class ShieldViewPage extends Component {
     super(props)
 
     this.columns = [{
+      title: '策略ID',
+      dataIndex: 'id',
+      key: 'id',
+    }, {
       title: '名称',
       dataIndex: 'title',
       key: 'title',
@@ -28,9 +32,9 @@ class ShieldViewPage extends Component {
     }, {
       title: '操作',
       key: 'actions',
-      render: () => (
+      render: (text, record, index) => (
         <span>
-          <Button size="small">编辑</Button>
+          <Button size="small" onClick={this.handleEditMediaItem.bind(this, record)}>编辑</Button>
           <Button size="small">删除</Button>
         </span>
       )
@@ -56,6 +60,11 @@ class ShieldViewPage extends Component {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
     this.fetchShieldList(formValue)
+  }
+
+  handleEditMediaItem(record) {
+    console.log(record)
+    this.context.router.push('/page/shield/edit/' + record.id)
   }
 
   render() {
@@ -90,6 +99,10 @@ class ShieldViewPage extends Component {
     );
   }
 }
+
+ShieldViewPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 ShieldViewPage.propTypes = {
   shieldList: PropTypes.object.isRequired

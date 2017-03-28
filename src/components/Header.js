@@ -61,12 +61,19 @@ class AppHeader extends Component {
           style={{lineHeight: '64px'}}
         >
           <Menu.Item key="logout" className="logo">
-            <Link to="/">来购</Link>
+            <Link to="/page">来购</Link>
           </Menu.Item>
           <Menu.Item key="breadcrumb">
             <Breadcrumb>
               {this.state.breadcrumbItems}
             </Breadcrumb>
+          </Menu.Item>
+
+          <Menu.Item key="header-logout" style={{float: 'right'}}>
+            <span>退出</span>
+          </Menu.Item>
+          <Menu.Item key="header-user-name" style={{float: 'right'}}>
+            <span>上海一家贼屌的公司</span>
           </Menu.Item>
         </Menu>
       </Header>
