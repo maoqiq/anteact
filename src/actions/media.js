@@ -39,12 +39,11 @@ export function fetchDetail(params) {
     })
       .then(response => response.data)
       .then(data => {
-        console.log(data)
         const _data = JSON.parse(data)
         console.log(_data)
         dispatch({
           type: types.MEDIA_FORM_FETCH_SUCCESS,
-          payload: _data
+          payload: _data.data
         })
       })
 }

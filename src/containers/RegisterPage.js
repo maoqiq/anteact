@@ -19,7 +19,7 @@ class RegisterPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    this.props.form.validateFields((err, fieldsValue) => {
+    this.props.form.validateFields((err, values) => {
       if (err) {
         // return;
       }

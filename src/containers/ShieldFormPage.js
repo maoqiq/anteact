@@ -123,7 +123,7 @@ class ShieldFormPage extends Component {
     const {getFieldDecorator} = this.props.form;
     let {shieldForm, industryList} = this.props;
     const dataSource = []
-console.log(shieldForm.shieldIndustryIds.split(','))
+    console.log(shieldForm.shieldIndustryIds.split(','))
 
     industryList.data.map((items) => {
       if (items.children && items.children.length) {
@@ -187,7 +187,7 @@ console.log(shieldForm.shieldIndustryIds.split(','))
               render={item => `${item.name}`}
               searchPlaceholder="搜索"
               onChange={this.handleChange}
-              rowKey={record => record.code}
+              rowKey={record => record.code.toString()}
             />
           </FormItem>
           }

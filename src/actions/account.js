@@ -1,6 +1,5 @@
-import {routerMiddleware, push} from 'react-router-redux'
+import {push} from 'react-router-redux'
 import axios from 'axios'
-import fetch from 'isomorphic-fetch'
 import {message} from 'antd';
 import cookie from 'react-cookie';
 
@@ -69,7 +68,9 @@ export function signUp(params) {
     })
       .then(response => response.data)
       .then(data => {
-        console.log(data)
+        if (typeof data === 'string') {
+          data = JSON.parse(data)
+        }
         const _data = data
         if (_data.success) {
           dispatch({
@@ -86,11 +87,19 @@ export function signUp(params) {
         return _data;
       })
       .then(data => {
+        console.log(data)
         if (data.success) {
           dispatch(push('/signin'))
+          message.success('注册成功！')
         } else if (data.success === false) {
-          message.error(data.msg);
+          message.error(data.msg)
         }
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch({
+          type: types.REGISTER_FAILURE,
+        })
       })
   }
 
