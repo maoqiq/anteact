@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const Dragger = Upload.Dragger;
 
-import {fetchUser} from '../actions/user'
+import {fetchInfo} from '../actions/user'
 
 class UserViewPage extends Component {
   constructor(props) {
@@ -29,12 +29,7 @@ class UserViewPage extends Component {
 
   // 组件加载完成后执行
   componentDidMount() {
-    this.fetchUserInfo();
-  }
-
-  // 拉去用户数据
-  fetchUserInfo() {
-    this.props.fetchUserInfo()
+    this.props.fetchInfo();
   }
 
   // 切换 编辑input 与 显示 的状态
@@ -525,8 +520,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchUserInfo() {
-      dispatch(fetchUser({}));
+    fetchInfo() {
+      dispatch(fetchInfo({}));
     },
   }
 }

@@ -127,12 +127,10 @@ export function updateForm(formValues) {
         if (_data.success) {
           dispatch({
             type: types.SHIELD_FORM_UPDATE_SUCCESS,
-            payload: _data
           })
         } else {
           dispatch({
             type: types.SHIELD_FORM_UPDATE_FAILURE,
-            payload: _data
           })
         }
 
@@ -161,8 +159,7 @@ export function setForm(value) {
   }
 }
 
-
-export function fetchIndustryList(formValues) {
+export function fetchIndustryList() {
   return dispatch =>
     axios.get(url.industryList)
       .then(response => response.data)

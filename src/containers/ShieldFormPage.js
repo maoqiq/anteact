@@ -12,20 +12,17 @@ class ShieldFormPage extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      mockData: this.props.industryList,
-      targetKeys: [],
-      isShieldIndustry: this.props.shieldForm.isShieldIndustry || false,
-      isShieldUrl: this.props.shieldForm.isShieldUrl || false,
-      isCreate: null,
-    }
-
     this.handleIndustryRadioChange = this.handleIndustryRadioChange.bind(this)
     this.handleUrlRadioChange = this.handleUrlRadioChange.bind(this)
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
+
+  }
+
+  componentWillMount() {
+    this.props.clearForm()
   }
 
   // 页面加载完成后执行
@@ -34,19 +31,10 @@ class ShieldFormPage extends Component {
 
     if (this.context.router.location.pathname.includes('edit')) {
       this.setState({isCreate: false})
-
       this.props.fetchDetail({id: this.context.router.params.id})
+
     } else if (this.context.router.location.pathname.includes('new')) {
       this.setState({isCreate: true})
-
-      this.props.setForm({
-        id: '',
-        isShieldIndustry: '',
-        isShieldUrl: '',
-        mediaId: '',
-        shieldIndustryIds: '',
-        title: ''
-      })
     }
   }
 
@@ -64,7 +52,7 @@ class ShieldFormPage extends Component {
 
   // 处理Transfer
   handleChange(nextTargetKeys, direction, moveKeys) {
-    this.setState({targetKeys: nextTargetKeys});
+    this.props.setForm({shieldIndustryIds: nextTargetKeys})
   }
 
   // 处理提交屏蔽策略表单
@@ -72,7 +60,7 @@ class ShieldFormPage extends Component {
     e.preventDefault();
     let formValue = this.props.form.getFieldsValue()
     formValue = Object.assign({}, formValue, {
-      shieldIndustryIds: this.state.targetKeys.join(',')
+      shieldIndustryIds: this.props.shieldForm.shieldIndustryIds
     })
 
     //TODO:如果选择不屏蔽 是否要传入ids值
@@ -123,7 +111,7 @@ class ShieldFormPage extends Component {
     const {getFieldDecorator} = this.props.form;
     let {shieldForm, industryList} = this.props;
     const dataSource = []
-    console.log(shieldForm.shieldIndustryIds.split(','))
+
 
     industryList.data.map((items) => {
       if (items.children && items.children.length) {
@@ -132,7 +120,6 @@ class ShieldFormPage extends Component {
         })
       }
     })
-    console.log(dataSource)
 
     return (
       <div className="form-page" style={{padding: '10px'}}>
@@ -183,11 +170,11 @@ class ShieldFormPage extends Component {
                 width: 250,
                 height: 300,
               }}
-              targetKeys={shieldForm.shieldIndustryIds.split(',')}
+              targetKeys={shieldForm.shieldIndustryIds}
               render={item => `${item.name}`}
               searchPlaceholder="搜索"
               onChange={this.handleChange}
-              rowKey={record => record.code.toString()}
+              rowKey={record => record.code}
             />
           </FormItem>
           }
@@ -268,6 +255,11 @@ function mapDispatchToProps(dispatch) {
     },
     fetchIndustryList(){
       dispatch(fetchIndustryList())
+    },
+    clearForm(params){
+      dispatch({
+        type: 'CLEAR_SHIELD_FORM',
+      })
     }
   }
 }

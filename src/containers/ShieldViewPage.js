@@ -23,8 +23,13 @@ class ShieldViewPage extends Component {
       key: 'title',
     }, {
       title: '屏蔽内容',
-      dataIndex: 'shieldIndustryIds',
       key: 'shieldIndustryIds',
+      render: (text, record, index) => (
+        <ul>
+          {record.isShieldIndustry && <li>行业</li>}
+          {record.isShieldUrl && <li>广告主</li>}
+        </ul>
+      )
     }, {
       title: '创建日期',
       dataIndex: 'createTime',

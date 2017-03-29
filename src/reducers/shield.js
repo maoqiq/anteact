@@ -9,12 +9,16 @@ export function shieldForm(state = initialFormState, action) {
   switch (action.type) {
     case types.SHIELD_FORM_FETCH_SUCCESS:
     case types.SHIELD_FORM_UPDATE_SUCCESS:
-    case types.SHIELD_FORM_SET:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
       });
     case types.SHIELD_FORM_SUBMIT_SUCCESS:
       return {};
+      break
+    case types.SHIELD_FORM_SET:
+      return Object.assign({}, state, action.payload);
+    case types.CLEAR_SHIELD_FORM:
+      return Object.assign({});
     default:
       return state;
   }
