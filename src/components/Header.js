@@ -70,7 +70,7 @@ class AppHeader extends Component {
           </Menu.Item>
 
           <Menu.Item key="header-logout" style={{float: 'right'}}>
-            <span>退出</span>
+            <Link to="/">退出</Link>
           </Menu.Item>
           <Menu.Item key="header-user-name" style={{float: 'right'}}>
             <span>上海一家贼屌的公司</span>

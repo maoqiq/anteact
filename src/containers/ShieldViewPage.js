@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 import {Form, Input, Table, Button} from 'antd';
 const FormItem = Form.Item;
 
-import {fetchList}from '../actions/shield';
+import {fetchList, deleteShield}from '../actions/shield';
 
 
 class ShieldViewPage extends Component {
@@ -34,37 +34,44 @@ class ShieldViewPage extends Component {
       key: 'actions',
       render: (text, record, index) => (
         <span>
-          <Button size="small" onClick={this.handleEditMediaItem.bind(this, record)}>编辑</Button>
-          <Button size="small">删除</Button>
+          <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
+          <Button size="small" onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
         </span>
       )
     }];
 
-    this.fetchShieldList = this.fetchShieldList.bind(this);
+    this.fetchList = this.fetchList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
-    this.fetchShieldList()
+    this.fetchList()
   }
 
-  fetchShieldList(params) {
+  fetchList(params) {
     params = Object.assign({}, {
       pageSize: 20,
       page: 1
     }, params)
-    this.props.fetchShieldList(params)
+
+    this.props.fetchList(params)
   }
 
+  // 搜索屏蔽策略
   handleSearch(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
-    this.fetchShieldList(formValue)
+    console.log(formValue)
+    this.fetchList(formValue)
   }
 
-  handleEditMediaItem(record) {
+  handleEditItem(record) {
     console.log(record)
     this.context.router.push('/page/shield/edit/' + record.id)
+  }
+
+  handleDeleteItem(record) {
+    this.props.deleteShield({id: record.id})
   }
 
   render() {
@@ -76,7 +83,7 @@ class ShieldViewPage extends Component {
         <div className="list-actions" style={{padding: '10px 20px'}}>
           <Form className="list-search" layout="inline">
             <FormItem label="名称" key="shield-search-name">
-              {getFieldDecorator('name', {})(
+              {getFieldDecorator('title', {})(
                 <Input type="text" placeholder="请输入屏蔽策略名称"/>
               )}
             </FormItem>
@@ -117,8 +124,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchShieldList(params) {
+    fetchList(params) {
       dispatch(fetchList(params));
+    },
+    deleteShield(params) {
+      dispatch(deleteShield(params));
     },
   }
 }

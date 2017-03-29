@@ -54,8 +54,8 @@ export function signIn(params) {
         }
       })
   }
-
 }
+
 export function signUp(params) {
   return dispatch => {
     dispatch({
@@ -87,8 +87,8 @@ export function signUp(params) {
       })
       .then(data => {
         if (data.success) {
-
-        } else {
+          dispatch(push('/signin'))
+        } else if (data.success === false) {
           message.error(data.msg);
         }
       })

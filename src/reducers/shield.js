@@ -11,8 +11,10 @@ export function shieldForm(state = initialFormState, action) {
     case types.SHIELD_FORM_UPDATE_SUCCESS:
     case types.SHIELD_FORM_SET:
       return Object.assign({}, state, action.payload, {
-        isFetching: true,
+        isFetching: false,
       });
+    case types.SHIELD_FORM_SUBMIT_SUCCESS:
+      return {};
     default:
       return state;
   }

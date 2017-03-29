@@ -70,9 +70,8 @@ class ShieldFormPage extends Component {
   // 处理提交屏蔽策略表单
   handleSubmit(e) {
     e.preventDefault();
-    const formValue = this.props.form.getFieldsValue()
-    let _submit;
-    _submit = Object.assign({}, formValue, {
+    let formValue = this.props.form.getFieldsValue()
+    formValue = Object.assign({}, formValue, {
       shieldIndustryIds: this.state.targetKeys.join(',')
     })
 
@@ -82,10 +81,10 @@ class ShieldFormPage extends Component {
         if (this.state.isCreate) {
           this.props.submitForm(formValue)
         } else {// 如果是更新
-          _submit = Object.assign({}, _submit, {
+          formValue = Object.assign({}, formValue, {
             id: this.props.shieldForm.id
           })
-          this.props.updateForm(_submit)
+          this.props.updateForm(formValue)
         }
       }
     });
@@ -212,7 +211,9 @@ class ShieldFormPage extends Component {
           <FormItem
             {...tailFormItemLayout}
           >
-            {getFieldDecorator('shieldUrls', {})(
+            {getFieldDecorator('shieldUrls', {
+              initialValue: shieldForm.shieldUrls
+            })(
               <Input type="textarea" rows={4} placeholder="请输入要屏蔽的广告主url(如www.**.com)，请用“,”分隔多个url"/>
             )}
           </FormItem>

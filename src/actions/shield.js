@@ -1,5 +1,8 @@
-import types from '../constants/actionTypes';
+import {message} from 'antd'
+import {push} from 'react-router-redux'
 import axios from 'axios'
+
+import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
 
 const url = {
@@ -7,7 +10,8 @@ const url = {
   add: apiUrl('/ssp/shield/strategy/create'),
   detail: apiUrl('/ssp/shield/strategy/detail'),
   update: apiUrl('/ssp/shield/strategy/update'),
-  industryList: apiUrl('/public/tag/industry/get')
+  industryList: apiUrl('/public/tag/industry/get'),
+  delete: apiUrl('/ssp/shield/strategy/delete')
 }
 
 export function fetchList(params) {
@@ -25,6 +29,29 @@ export function fetchList(params) {
           type: types.SHIELD_LIST_FETCH,
           payload: _data
         })
+      })
+      .catch(error => {
+        console.log(error);
+        message.error(error);
+      });
+}
+
+export function deleteShield(params) {
+  return dispatch =>
+    axios.get(url.delete, {
+      params: {
+        data: params
+      }
+    })
+      .then(response => response.data)
+      .then(data => {
+        const _data = JSON.parse(data);
+        console.log(_data);
+
+      })
+      .catch(error => {
+        console.log(error);
+        message.error(error);
       })
 }
 
@@ -49,7 +76,6 @@ export function fetchDetail(params) {
 
 // 提交屏蔽策略
 export function submitForm(formValues) {
-  console.log(formValues)
   return dispatch =>
     axios.get(url.add, {
       params: {
@@ -59,13 +85,30 @@ export function submitForm(formValues) {
       .then(response => response.data)
       .then(data => {
         const _data = JSON.parse(data)
-        dispatch({
-          type: types.SHIELD_FORM_SUBMIT,
-          payload: _data
-        })
+        console.log(_data)
+        if (_data.success) {
+          dispatch({
+            type: types.SHIELD_FORM_SUBMIT_SUCCESS,
+            payload: _data
+          })
+        } else {
+          dispatch({
+            type: types.SHIELD_FORM_SUBMIT_FAILURE,
+            payload: _data
+          })
+        }
+        return _data
+      })
+      .then(data => {
+        if (data.success) {
+          dispatch(push('/page/shield'))
+        } else if (data.success === false) {
+          message.error(data.msg);
+        }
       })
       .catch(error => {
         console.log(error);
+        message.error(error);
       });
 }
 
@@ -82,13 +125,30 @@ export function updateForm(formValues) {
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
-        dispatch({
-          type: types.SHIELD_FORM_UPDATE_SUCCESS,
-          payload: _data.data
-        })
+        if (_data.success) {
+          dispatch({
+            type: types.SHIELD_FORM_UPDATE_SUCCESS,
+            payload: _data
+          })
+        } else {
+          dispatch({
+            type: types.SHIELD_FORM_UPDATE_FAILURE,
+            payload: _data
+          })
+        }
+
+        return _data
+      })
+      .then(data => {
+        if (data.success) {
+          dispatch(push('/page/shield'))
+        } else if (data.success === false) {
+          message.error(data.msg);
+        }
       })
       .catch(error => {
         console.log(error);
+        message.error(error);
       });
 }
 
@@ -117,5 +177,6 @@ export function fetchIndustryList(formValues) {
       })
       .catch(error => {
         console.log(error);
+        message.error(error);
       });
 }

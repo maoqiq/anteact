@@ -25,7 +25,6 @@ class RegisterPage extends Component {
       }
 
       const formValues = this.props.form.getFieldsValue()
-      console.log(formValues)
       this.props.signUp(formValues)
     })
 
