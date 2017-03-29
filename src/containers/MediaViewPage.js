@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 import {Form, Input, Table, Button, Switch} from 'antd';
 const FormItem = Form.Item;
 
-import {fetchList, updateForm, enableStatus, disableStatus}from '../actions/media';
+import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media';
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -87,7 +87,7 @@ class MediaViewPage extends Component {
   }
 
   handleDeleteItem(record, status) {
-
+    // this.props.deleteItem({id: record.id})
   }
 
   handleSwitchChange(record, status) {
@@ -159,6 +159,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateForm(params){
       dispatch(updateForm(params))
+    },
+    deleteItem(params){
+      dispatch(deleteItem(params))
     },
     enableStatus(params){
       dispatch(enableStatus(params))

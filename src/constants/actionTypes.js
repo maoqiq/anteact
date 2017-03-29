@@ -3,6 +3,7 @@ import {createConstants} from '../utils/reduxHelper';
 export default {
 
   CLEAR_ALL: 'CLEAR_ALL',
+  DELETE_ITEM: 'DELETE_ITEM',
   // 登陆
   LOGIN_REQUEST: 'LOGIN_REQUEST',
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',

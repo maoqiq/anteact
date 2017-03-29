@@ -123,23 +123,27 @@ export function updateForm(params) {
 }
 
 export function deleteItem(params) {
-  return dispatch =>
-    axios.get(url.delete, {
-      params: {
-        data: params
-      }
+  return dispatch => {
+    // axios.get(url.delete, {
+    //   params: {
+    //     data: params
+    //   }
+    // })
+    //   .then(response => response.data)
+    //   .then(data => {
+    //     const _data = JSON.parse(data)
+    //     console.log(params)
+    //     if (_data.success) {
+    //
+    //     }
+    //   })
+    console.log(params)
+    dispatch({
+      type: types.DELETE_ITEM,
+      payload: params
     })
-      .then(response => response.data)
-      .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
-          dispatch({
-            type: types.MEDIA_FORM_FETCH_SUCCESS,
-            payload: _data.data
-          })
-        }
-      })
+  }
+
 }
 
 export function setForm() {
