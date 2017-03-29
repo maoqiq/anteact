@@ -87,7 +87,7 @@ class MediaViewPage extends Component {
   }
 
   handleDeleteItem(record, status) {
-    // this.props.deleteItem({id: record.id})
+    this.props.deleteItem({id: record.id})
   }
 
   handleSwitchChange(record, status) {

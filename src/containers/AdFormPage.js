@@ -11,7 +11,7 @@ const RadioGroup = Radio.Group;
 
 import {fetchList as fetchMediaList}  from '../actions/media'
 import {fetchList as fetchShieldList}  from '../actions/shield'
-import {submitForm, fetchDetail, updateForm}  from '../actions/ad'
+import {submitForm, fetchDetail, updateForm, fetchSpecList}  from '../actions/ad'
 
 // 广告位表单
 class AdFormPage extends Component {
@@ -20,14 +20,22 @@ class AdFormPage extends Component {
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.state = {
-      isCreate: null
+      isCreate: null,
+      isShowSpec: true
     }
   }
+
+
+  componentWillMount() {
+    this.props.clearForm()
+  }
+
 
 // 页面加载完成后执行
   componentDidMount() {
     this.props.fetchMediaList({page: 1, pageSize: 50})
     this.props.fetchShieldList({page: 1, pageSize: 50})
+    this.props.fetchSpecList()
 
     if (this.context.router.location.pathname.includes('edit')) {
       this.setState({isCreate: false})
@@ -68,7 +76,7 @@ class AdFormPage extends Component {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    let mediaList = [], shieldList = [];
+    let mediaList = [], shieldList = [], specList = [];
     // 设置媒体列表 屏蔽列表
     if (this.props.mediaList.data && this.props.mediaList.data.list) {
       mediaList = this.props.mediaList.data.list;
@@ -78,6 +86,9 @@ class AdFormPage extends Component {
       shieldList = this.props.shieldList.data.list;
     }
 
+    if (this.props.specList.data) {
+      specList = this.props.specList.data;
+    }
     const {adForm} = this.props
 
     // form 布局
@@ -134,13 +145,14 @@ class AdFormPage extends Component {
           >
             {getFieldDecorator('appId', {
               rules: [{
-                required: true, message: '请输入广告名称',
+                required: true, message: '请选择媒体',
               }],
+              initialValue: adForm.appId
             })(
-              <Select>
+              <Select disabled={!this.state.isCreate}>
                 {
                   mediaList.map((value, index) => (
-                    <Option key={value.id}>id:{value.id}-{value.name}</Option>
+                    <Option key={value.id} value={value.id}>id:{value.id}-{value.name}</Option>
                   ))
                 }
               </Select>
@@ -156,14 +168,38 @@ class AdFormPage extends Component {
               rules: [{
                 required: true, message: '请选择投放方式',
               }],
+              initialValue: adForm.putType
             })(
-              <RadioGroup>
+              <RadioGroup disabled={!this.state.isCreate}>
                 <Radio value={1}>SDK投放</Radio>
                 <Radio value={2}>手动投放</Radio>
               </RadioGroup>
             )}
           </FormItem>
 
+
+          {this.state.isShowSpec &&
+          <FormItem
+            label="广告规格"
+            hasFeedback
+            {...formItemLayout}
+          >
+            {getFieldDecorator('adSpecId', {
+              rules: [{
+                required: true, message: '请输入广告规格',
+              }],
+              initialValue: adForm.adSpecId
+            })(
+              <Select disabled={!this.state.isCreate}>
+                {
+                  specList.map((value, index) => (
+                    <Option key={value.id} value={value.id}>id:{value.id}-{value.title}</Option>
+                  ))
+                }
+              </Select>
+            )}
+          </FormItem>
+          }
           <FormItem
             label="屏蔽策略"
             hasFeedback
@@ -171,14 +207,14 @@ class AdFormPage extends Component {
           >
             {getFieldDecorator('shieldId', {
               rules: [{
-                required: true, message: '请输入广告名称',
+                required: true, message: '请输入屏蔽策略',
               }],
-              initialValue: adForm.adSpecId
+              initialValue: adForm.shieldId
             })(
               <Select>
                 {
                   shieldList.map((value, index) => (
-                    <Option key={value.id}>id:{value.id}-{value.title}</Option>
+                    <Option key={value.id} value={value.id}>id:{value.id}-名称:{value.title}</Option>
                   ))
                 }
               </Select>
@@ -214,17 +250,18 @@ AdFormPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {adForm, mediaList, shieldList} = state;
+  const {adForm, mediaList, shieldList, specList} = state;
   return {
     adForm,
     mediaList,
-    shieldList
+    shieldList,
+    specList
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitAdForm(formValues) {
+    submitForm(formValues) {
       dispatch(submitForm(formValues));
     },
     fetchMediaList(params){
@@ -238,6 +275,14 @@ function mapDispatchToProps(dispatch) {
     },
     updateForm(params){
       dispatch(updateForm(params));
+    },
+    fetchSpecList(params){
+      dispatch(fetchSpecList(params));
+    },
+    clearForm(params){
+      dispatch({
+        type: 'CLEAR_ALL',
+      })
     },
 
   }

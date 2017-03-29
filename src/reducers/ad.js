@@ -23,6 +23,12 @@ export function adForm(state = initialFormState, action) {
         isFetching: false,
         error: true
       });
+      break
+    case types.AD_FORM_SET:
+      return Object.assign({}, state, action.payload);
+      break
+    case types.CLEAR_ALL:
+      return {}
     default:
       return state;
   }
@@ -51,3 +57,19 @@ export function adList(state = initialListState, action) {
       return state;
   }
 }
+
+const initialSpecListState = {}
+
+export function specList(state = initialSpecListState, action) {
+  switch (action.type) {
+    case types.SPEC_LIST_FETCH_SUCCESS:
+      return Object.assign({}, state, action.payload, {
+        isFetching: true,
+        error: false
+      });
+      break
+    default:
+      return state;
+  }
+}
+

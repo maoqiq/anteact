@@ -14,17 +14,17 @@ export function login(state = initialLoginState, action) {
       return Object.assign({}, state, {
         isFetching: true,
         error: false
-      });
+      })
     case types.LOGIN_SUCCESS:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
         error: false
-      });
+      })
     case types.LOGIN_FAILURE:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
         error: true
-      });
+      })
     default:
       return state;
   }

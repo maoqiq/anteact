@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 import * as actions from '../actions/fuelSavingsActions';
-import {fetchList, deleteItem}from '../actions/ad';
+import {fetchList, deleteItem, enableStatus, disableStatus}from '../actions/ad';
 
 
 import {Switch} from 'antd';
@@ -42,7 +42,7 @@ class AdViewPage extends Component {
       key: 'status',
       render: (text, record, index) => (
         <span>
-          <Switch defaultChecked={record.status === 1}/>
+          <Switch defaultChecked={record.status === 1} onChange={this.handleSwitchChange.bind(this, record)}/>
         </span>
       )
     }, {
@@ -86,6 +86,15 @@ class AdViewPage extends Component {
   handleDeleteItem(record, index) {
     console.log(arguments)
     this.props.deleteItem({id: record.id}, index, this.props.adList)
+  }
+
+  handleSwitchChange(record, status) {
+    console.log(record, status)
+    if (status) {
+      this.props.enableStatus({id: record.id})
+    } else {
+      this.props.disableStatus({id: record.id})
+    }
   }
 
   render() {
@@ -159,6 +168,12 @@ function mapDispatchToProps(dispatch) {
     },
     deleteItem(params) {
       dispatch(deleteItem(params));
+    },
+    enableStatus(params){
+      dispatch(enableStatus(params))
+    },
+    disableStatus(params){
+      dispatch(disableStatus(params))
     },
   }
 }
