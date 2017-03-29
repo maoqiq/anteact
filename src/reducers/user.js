@@ -1,11 +1,6 @@
 import types from '../constants/actionTypes';
 
-const initialUserState = {
-  companyName: '',
-  linkman: '',
-  linkPhone: '',
-  email: '',
-};
+const initialUserState = {};
 
 export function userInfo(state = initialUserState, action) {
   switch (action.type) {

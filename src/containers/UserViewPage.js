@@ -1,7 +1,7 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Link, IndexLink} from 'react-router';
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import {Link, IndexLink} from 'react-router'
 
 import {Form, Input, Radio, Button, Upload, Icon, message} from 'antd';
 const FormItem = Form.Item;
@@ -17,7 +17,7 @@ class UserViewPage extends Component {
     this.state = {
       isShowBasicInput: false,
       isShowFinancialInput: false,
-      whichRoleType: 0
+      whichRoleType: 1
     }
 
     this.toggleInputShow = this.toggleInputShow.bind(this)
@@ -117,19 +117,21 @@ class UserViewPage extends Component {
     const isShowFinancialInput = this.state.isShowFinancialInput
     const whichRoleType = this.state.whichRoleType
 
+    console.log(userInfo)
+
     return (
       <div className="overview user-overview">
         <div className="info basic-info">
           <div className="title">
             <span className="text">基本信息</span>
-            {!isShowBasicInput &&
-            <Button className="button"
-                    size="small"
-                    onClick={this.toggleInputShow.bind(this, 'basic')}
-            >
-              修改
-            </Button>
-            }
+            {/*{!isShowBasicInput &&*/}
+            {/*<Button className="button"*/}
+            {/*size="small"*/}
+            {/*onClick={this.toggleInputShow.bind(this, 'basic')}*/}
+            {/*>*/}
+            {/*修改*/}
+            {/*</Button>*/}
+            {/*}*/}
           </div>
           <Form name="basicInfo" onSubmit={this.handleBasicSubmit} className="form" style={{width: '80%'}} noValidate>
             <FormItem
@@ -138,16 +140,16 @@ class UserViewPage extends Component {
             >
               {isShowBasicInput ?
                 (<span>
-                    {getFieldDecorator('companyName', {
+                    {getFieldDecorator('entName', {
                       rules: [{
                         required: true, message: '请输入公司名称'
                       }],
-                      initialValue: userInfo.companyName
+                      initialValue: userInfo.entName
                     })(
                       <Input type="text" placeholder="请输入公司名称"/>
                     )}
                   </span>)
-                : <span>{userInfo.companyName}</span>
+                : <span>{userInfo.entName}</span>
               }
 
             </FormItem>
@@ -157,16 +159,16 @@ class UserViewPage extends Component {
             >
               {isShowBasicInput ?
                 (<span>
-                    {getFieldDecorator('linkman', {
+                    {getFieldDecorator('name', {
                       rules: [{
                         required: true, message: '请输入联系人'
                       }],
-                      initialValue: userInfo.linkman
+                      initialValue: userInfo.name
                     })(
                       <Input type="text" placeholder="请输入联系人"/>
                     )}
                   </span>)
-                : <span>{userInfo.linkman}</span>
+                : <span>{userInfo.name}</span>
               }
             </FormItem>
             <FormItem
@@ -175,16 +177,16 @@ class UserViewPage extends Component {
             >
               {isShowBasicInput ?
                 (<span>
-                    {getFieldDecorator('linkPhone', {
+                    {getFieldDecorator('contactTel', {
                       rules: [{
                         required: true, message: '请输入联系电话'
                       }],
-                      initialValue: userInfo.linkPhone
+                      initialValue: userInfo.contactTel
                     })(
                       <Input type="tel" placeholder="请输入联系电话"/>
                     )}
                   </span>)
-                : <span>{userInfo.linkPhone}</span>
+                : <span>{userInfo.contactTel}</span>
               }
             </FormItem>
             <FormItem
@@ -193,16 +195,16 @@ class UserViewPage extends Component {
             >
               {isShowBasicInput ?
                 (<span>
-                    {getFieldDecorator('email', {
+                    {getFieldDecorator('contactMail', {
                       rules: [{
                         required: true, message: '请输入邮箱'
                       }],
-                      initialValue: userInfo.email
+                      initialValue: userInfo.contactMail
                     })(
                       <Input type="email" placeholder="请输入邮箱"/>
                     )}
                   </span>)
-                : <span>{userInfo.email}</span>
+                : <span>{userInfo.contactMail}</span>
               }
             </FormItem>
             {isShowBasicInput &&
@@ -246,21 +248,21 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请选择财务对象'
                       }],
-                      initialValue: userInfo.roleType || 0
+                      initialValue: userInfo.finance.roleType || 0
                     })(
                       <RadioGroup
                         onChange={this.handleRoleTypeChange}
                       >
-                        <Radio value={0}>公司</Radio>
-                        <Radio value={1}>个人</Radio>
+                        <Radio value={1}>公司</Radio>
+                        <Radio value={2}>个人</Radio>
                       </RadioGroup>
                     )}
                   </span>)
-                : <span>{userInfo.roleType}</span>
+                : <span>{userInfo.finance.roleType === 2 ? '个人' : '公司'}</span>
               }
             </FormItem>
             {
-              whichRoleType === 0 &&
+              whichRoleType === 1 &&
               <FormItem
                 {...formItemLayout}
                 label="收款公司名称:"
@@ -271,19 +273,19 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入收款公司名称'
                       }],
-                      initialValue: userInfo.financeCompanyName
+                      initialValue: userInfo.finance.companyName
                     })(
                       <Input type="text" placeholder="请输入收款公司名称"/>
                     )}
                   </span>)
-                  : <span>{userInfo.financeCompanyName}</span>
+                  : <span>{userInfo.finance.companyName}</span>
                 }
 
               </FormItem>
             }
 
             {
-              whichRoleType === 0 &&
+              whichRoleType === 1 &&
               <FormItem
                 {...formItemLayout}
                 label="营业执照号:"
@@ -294,17 +296,17 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入营业执照号'
                       }],
-                      initialValue: userInfo.businessLicenseId
+                      initialValue: userInfo.finance.registerCode
                     })(
                       <Input type="text" placeholder="请输入营业执照号"/>
                     )}
                   </span>)
-                  : <span>{userInfo.businessLicenseId}</span>
+                  : <span>{userInfo.finance.registerCode}</span>
                 }
               </FormItem>
             }
             {
-              whichRoleType === 0 &&
+              whichRoleType === 1 &&
               <FormItem
                 {...formItemLayout}
                 label="营业执照:"
@@ -315,7 +317,7 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入营业执照'
                       }],
-                      initialValue: userInfo.businessLicenseUrl
+                      initialValue: userInfo.finance.licenseUrl
                     })(
                       <div style={{marginTop: 16, height: 200}}>
                         <Dragger {...businessLicenseDrops} style={{padding: '20px'}}>
@@ -328,7 +330,7 @@ class UserViewPage extends Component {
                       </div>
                     )}
                   </span>)
-                  : <span>{userInfo.businessLicenseUrl}</span>
+                  : <span>{userInfo.finance.licenseUrl}</span>
                 }
               </FormItem>
             }
@@ -345,12 +347,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入个人姓名'
                       }],
-                      initialValue: userInfo.personalName
+                      initialValue: userInfo.finance.personalName
                     })(
                       <Input type="tel" placeholder="请输入个人姓名"/>
                     )}
                   </span>)
-                  : <span>{userInfo.personalName}</span>
+                  : <span>{userInfo.finance.personalName}</span>
                 }
               </FormItem>
             }
@@ -366,12 +368,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入身份证号'
                       }],
-                      initialValue: userInfo.idCard
+                      initialValue: userInfo.finance.idCard
                     })(
                       <Input type="tel" placeholder="请输入身份证号"/>
                     )}
                   </span>)
-                  : <span>{userInfo.idCard}</span>
+                  : <span>{userInfo.finance.idCard}</span>
                 }
               </FormItem>
             }
@@ -387,12 +389,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入身份证正面照'
                       }],
-                      initialValue: userInfo.idCardFrontUrl
+                      initialValue: userInfo.finance.idCardFrontUrl
                     })(
                       <Input type="tel" placeholder="请输入身份证正面照"/>
                     )}
                   </span>)
-                  : <span>{userInfo.idCardFrontUrl}</span>
+                  : <span>{userInfo.finance.idCardFrontUrl}</span>
                 }
               </FormItem>
             } {
@@ -407,12 +409,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入身份证背面照'
                       }],
-                      initialValue: userInfo.idCardBackUrl
+                      initialValue: userInfo.finance.idCardBackUrl
                     })(
                       <Input type="tel" placeholder="请输入身份证背面照"/>
                     )}
                   </span>)
-                : <span>{userInfo.idCardBackUrl}</span>
+                : <span>{userInfo.finance.idCardBackUrl}</span>
               }
             </FormItem>
           }
@@ -427,12 +429,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入开户行'
                       }],
-                      initialValue: userInfo.bankName
+                      initialValue: userInfo.finance.bankName
                     })(
                       <Input type="text" placeholder="请输入开户行"/>
                     )}
                   </span>)
-                : <span>{userInfo.bankName}</span>
+                : <span>{userInfo.finance.bankName}</span>
               }
             </FormItem>
             <FormItem
@@ -445,12 +447,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入支行名称'
                       }],
-                      initialValue: userInfo.branchName
+                      initialValue: userInfo.finance.branchName
                     })(
                       <Input type="text" placeholder="请输入支行名称"/>
                     )}
                   </span>)
-                : <span>{userInfo.branchName}</span>
+                : <span>{userInfo.finance.branchName}</span>
               }
             </FormItem>
             <FormItem
@@ -463,12 +465,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入开户行地址'
                       }],
-                      initialValue: userInfo.address
+                      initialValue: userInfo.finance.address
                     })(
                       <Input type="text" placeholder="请输入开户行地址"/>
                     )}
                   </span>)
-                : <span>{userInfo.address}</span>
+                : <span>{userInfo.finance.address}</span>
               }
             </FormItem>
             <FormItem
@@ -481,12 +483,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入银行账号'
                       }],
-                      initialValue: userInfo.cardNumber
+                      initialValue: userInfo.finance.cardNumber
                     })(
                       <Input type="text" placeholder="请输入银行账号"/>
                     )}
                   </span>)
-                : <span>{userInfo.cardNumber}</span>
+                : <span>{userInfo.finance.cardNumber}</span>
               }
             </FormItem>
 

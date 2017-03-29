@@ -9,17 +9,14 @@ const url = {
 
 export function fetchInfo(params) {
   return dispatch =>
-    axios.get(url.list, {
-      params: {
-        data: params
-      }
-    })
+    axios.get(url.list)
       .then(response => response.data)
       .then(data => {
-        console.log(data.data)
+        const _data = JSON.parse(data)
+        console.log(_data)
         dispatch({
           type: types.USER_INFO_FETCH,
-          payload: data.data
+          payload: _data.data
         })
       })
 }
