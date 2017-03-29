@@ -2,10 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-import {Form, Input, Table, Button} from 'antd';
+import {Form, Input, Table, Button, Switch} from 'antd';
 const FormItem = Form.Item;
 
-import {fetchList}from '../actions/media';
+import {fetchList, updateForm, enableStatus, disableStatus}from '../actions/media';
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -33,15 +33,15 @@ class MediaViewPage extends Component {
         dataIndex: 'appKey',
         key: 'appKey',
       }, {
+        title: 'appSecret',
+        dataIndex: 'appSecret',
+        key: 'appSecret',
+      }, {
         title: '状态',
         key: 'status',
         render: (text, record, index) => (
-          <span key={index}>
-          {record.status ? (
-            <span>审核中</span>
-          ) : (
-            <span>开启</span>
-          )}
+          <span>
+          <Switch defaultChecked={record.status === 1} onChange={this.handleSwitchChange.bind(this, record)}/>
         </span>
         )
       }, {
@@ -50,7 +50,8 @@ class MediaViewPage extends Component {
         render: (text, record, index) => (
           <span>
           <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
-          <Button size="small" onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
+          <Button size="small" disabled={record.status === 1}
+                  onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
         </span>
         )
       },];
@@ -83,12 +84,19 @@ class MediaViewPage extends Component {
   handleEditItem(record) {
     console.log(record)
     this.context.router.push('/page/media/edit/' + record.id)
+  }
+
+  handleDeleteItem(record, status) {
 
   }
 
-
-  handleDeleteItem(record) {
-
+  handleSwitchChange(record, status) {
+    console.log(record, status)
+    if (status) {
+      this.props.enableStatus({id: record.id})
+    } else {
+      this.props.disableStatus({id: record.id})
+    }
   }
 
   render() {
@@ -149,9 +157,15 @@ function mapDispatchToProps(dispatch) {
     fetchMediaList(params) {
       dispatch(fetchList(params));
     },
-    editMediaItem(){
-
-    }
+    updateForm(params){
+      dispatch(updateForm(params))
+    },
+    enableStatus(params){
+      dispatch(enableStatus(params))
+    },
+    disableStatus(params){
+      dispatch(disableStatus(params))
+    },
   }
 }
 

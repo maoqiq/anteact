@@ -1,27 +1,35 @@
 import types from '../constants/actionTypes';
 
 const initialFormState = {
-  appName: '',
-  platform: '',
-  appKeyWords: '',
-  appPackage: '',
-  description: '',
-  downloadUrl: ''
+  isFetching: false,
+  error: false
 };
 
 export function mediaForm(state = initialFormState, action) {
   switch (action.type) {
     case types.MEDIA_FORM_SUBMIT_SUCCESS:
+    case types.MEDIA_FORM_UPDATE_SUCCESS:
     case types.MEDIA_FORM_FETCH_SUCCESS:
       return Object.assign({}, state, action.payload, {
         isFetching: false,
+        error: false
       });
+      break
+    case types.MEDIA_FORM_SET:
+      return Object.assign({}, state, action.payload);
+      break
+    case types.CLEAR_ALL:
+      return {}
+      break
     default:
       return state;
   }
 }
 
-const initialListState = {}
+const initialListState = {
+  isFetching: false,
+  error: false
+}
 
 export function mediaList(state = initialListState, action) {
   switch (action.type) {
@@ -33,3 +41,4 @@ export function mediaList(state = initialListState, action) {
       return state;
   }
 }
+

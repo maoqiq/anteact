@@ -47,7 +47,6 @@ export function deleteShield(params) {
       .then(data => {
         const _data = JSON.parse(data);
         console.log(_data);
-
       })
       .catch(error => {
         console.log(error);

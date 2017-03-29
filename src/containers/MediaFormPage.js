@@ -5,7 +5,7 @@ import {Form, Input, Button, Radio} from 'antd';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
-import {submitForm, fetchDetail} from '../actions/media';
+import {submitForm, updateForm, fetchDetail, setForm} from '../actions/media';
 
 class MediaFormPage extends Component {
   constructor(props) {
@@ -18,6 +18,10 @@ class MediaFormPage extends Component {
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
   }
 
+  componentWillMount() {
+    this.props.clearForm()
+  }
+
   componentDidMount() {
     if (this.context.router.location.pathname.includes('edit')) {
       this.setState({isCreate: false})
@@ -25,6 +29,7 @@ class MediaFormPage extends Component {
 
     } else if (this.context.router.location.pathname.includes('new')) {
       this.setState({isCreate: true})
+      // this.props.setForm()
     }
   }
 
@@ -35,9 +40,16 @@ class MediaFormPage extends Component {
       if (err) {
         // return
       }
-      const formValue = values;
-      console.log(formValue);
-      this.props.submitMediaForm(formValue)
+      let formValue = values;
+
+      if (this.state.isCreate) {
+        this.props.submitForm(formValue)
+      } else {// 如果是更新
+        formValue = Object.assign({}, formValue, {
+          id: this.props.mediaForm.id
+        })
+        this.props.updateForm(formValue)
+      }
 
     });
   }
@@ -73,7 +85,6 @@ class MediaFormPage extends Component {
     };
     const {getFieldDecorator} = this.props.form;
     const {mediaForm} = this.props
-
     return (
       <div className="form-page" style={{padding: '10px'}}>
         <Form onSubmit={this.handleSubmit} className="form media-form" style={{width: '80%'}}>
@@ -82,11 +93,11 @@ class MediaFormPage extends Component {
             hasFeedback
             {...formItemLayout}
           >
-            {getFieldDecorator('appName', {
+            {getFieldDecorator('name', {
               rules: [{
                 required: true, message: '请输入媒体名称',
               }],
-              initialValue: mediaForm.appName
+              initialValue: mediaForm.name
             })(
               <Input type="text" placeholder="请输入媒体名称，不超过10个字"/>
             )}
@@ -103,9 +114,9 @@ class MediaFormPage extends Component {
               initialValue: mediaForm.platform
             })(
               <RadioGroup>
-                <Radio value={1}>Android</Radio>
-                <Radio value={2}>IOS</Radio>
-                <Radio value={3}>HTML</Radio>
+                <Radio value={1}>H5</Radio>
+                <Radio value={2}>Android</Radio>
+                <Radio value={3}>IOS</Radio>
               </RadioGroup>
             )}
           </FormItem>
@@ -129,11 +140,11 @@ class MediaFormPage extends Component {
             hasFeedback
             {...formItemLayout}
           >
-            {getFieldDecorator('appKeyWords', {
+            {getFieldDecorator('keyWords', {
               rules: [{
                 required: true, message: '请输入媒体关键词',
               }],
-              initialValue: mediaForm.appKeyWords
+              initialValue: mediaForm.keyWords
             })(
               <Input type="text" placeholder="请输入媒体关键词，0-20个字符，每个分割词之间用“,”分隔"/>
             )}
@@ -162,7 +173,7 @@ class MediaFormPage extends Component {
           >
             {getFieldDecorator('downloadUrl', {
               rules: [{
-                required: true, message: '请输入下载地址', type: 'url'
+                required: true, message: '请输入下载地址'
               }],
               initialValue: mediaForm.downloadUrl
             })(
@@ -201,12 +212,20 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitMediaForm(formValues) {
+    submitForm(formValues) {
       dispatch(submitForm(formValues));
     },
     fetchDetail(params) {
       dispatch(fetchDetail(params));
     },
+    updateForm(params){
+      dispatch(updateForm(params));
+    },
+    clearForm(params){
+      dispatch({
+        type: 'CLEAR_ALL',
+      })
+    }
 
   }
 }
