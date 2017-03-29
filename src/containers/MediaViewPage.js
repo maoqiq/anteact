@@ -49,15 +49,15 @@ class MediaViewPage extends Component {
         key: 'actions',
         render: (text, record, index) => (
           <span>
-          <Button size="small" onClick={this.handleEditMediaItem.bind(this, record)}>编辑</Button>
-          <Button size="small">删除</Button>
+          <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
+          <Button size="small" onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
         </span>
         )
       },];
 
     this.fetchMediaList = this.fetchMediaList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
-    this.handleEditMediaItem = this.handleEditMediaItem.bind(this);
+    this.handleEditItem = this.handleEditItem.bind(this);
   }
 
   componentDidMount() {
@@ -72,17 +72,23 @@ class MediaViewPage extends Component {
     this.props.fetchMediaList(params)
   }
 
-  // 编辑媒体项目
-  handleEditMediaItem(record) {
-    console.log(record)
-    // this.context.router.push('/page/media/edit/' + record.id)
-
-  }
-
+  // 搜索
   handleSearch(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
     this.fetchMediaList(formValue)
+  }
+
+  // 编辑媒体项目
+  handleEditItem(record) {
+    console.log(record)
+    this.context.router.push('/page/media/edit/' + record.id)
+
+  }
+
+
+  handleDeleteItem(record) {
+
   }
 
   render() {
@@ -100,7 +106,7 @@ class MediaViewPage extends Component {
               )}
             </FormItem>
             <FormItem label="媒体ID" key="media-search-id">
-              {getFieldDecorator('appKey', {})(
+              {getFieldDecorator('id', {})(
                 <Input type="text" placeholder="请输入媒体ID"/>
               )}
             </FormItem>

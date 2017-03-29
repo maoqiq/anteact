@@ -10,7 +10,9 @@ const url = {
 export function fetchUser(params) {
   return dispatch =>
     axios.get(url.list, {
-      params: params
+      params: {
+        data: params
+      }
     })
       .then(response => response.data)
       .then(data => {

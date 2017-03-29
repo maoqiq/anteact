@@ -6,7 +6,8 @@ const url = {
   list: apiUrl('/ssp/app/pit/list'),
   add: apiUrl('/ssp/app/pit/add'),
   detail: apiUrl('/ssp/app/pit/detail'),
-  update: apiUrl('/ssp/app/pit/update')
+  update: apiUrl('/ssp/app/pit/update'),
+  delete: apiUrl('/ssp/app/pit/delete'),
 }
 
 export function fetchList(params) {
@@ -24,6 +25,20 @@ export function fetchList(params) {
           type: types.AD_LIST_FETCH_SUCCESS,
           payload: _data
         })
+      })
+}
+
+export function deleteItem(params, index, list) {
+  return dispatch =>
+    axios.get(url.delete, {
+      params: {
+        data: params
+      }
+    })
+      .then(response => response.data)
+      .then(data => {
+        const _data = JSON.parse(data)
+        fetchList({page: 1, pageSize: 20})
       })
 }
 
@@ -47,10 +62,14 @@ export function fetchDetail(params) {
 }
 
 // 新建广告位
-export function submitForm(formValues) {
-  console.log(formValues)
+export function submitForm(params) {
+  console.log(params)
   return dispatch =>
-    axios.post(url.add, formValues)
+    axios.get(url.add, {
+      params: {
+        data: params
+      }
+    })
       .then(response => response.data)
       .then(data => {
         dispatch({
@@ -64,14 +83,22 @@ export function submitForm(formValues) {
 }
 
 // 更新广告位
-export function updateForm(formValues) {
+export function updateForm(params) {
+  console.log(params)
+
   return dispatch =>
-    axios.post(url.add, formValues)
+    axios.get(url.update, {
+      params: {
+        data: params
+      }
+    })
       .then(response => response.data)
       .then(data => {
+        const _data = JSON.parse(data)
+        console.log(_data)
         dispatch({
           type: types.AD_FORM_UPDATE_SUCCESS,
-          payload: data
+          payload: _data
         })
       })
       .catch(error => {

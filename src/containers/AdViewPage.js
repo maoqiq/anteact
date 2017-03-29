@@ -8,7 +8,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 import * as actions from '../actions/fuelSavingsActions';
-import {fetchList}from '../actions/ad';
+import {fetchList, deleteItem}from '../actions/ad';
 
 
 import {Switch} from 'antd';
@@ -50,39 +50,42 @@ class AdViewPage extends Component {
       key: 'actions',
       render: (text, record, index) => (
         <span>
-          <Button size="small" onClick={this.handleEditMediaItem.bind(this, record)}>编辑</Button>
-          <Button size="small">删除</Button>
+          <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
+          <Button size="small" onClick={this.handleDeleteItem.bind(this, record, index)}>删除</Button>
         </span>
       )
     }];
 
-    this.fetchAdList = this.fetchAdList.bind(this);
+    this.fetchList = this.fetchList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
-    this.fetchAdList();
+    this.fetchList();
   }
 
-  fetchAdList(params) {
+  fetchList(params) {
     params = Object.assign({}, {
       pageSize: 20,
       page: 1
     }, params)
-    this.props.fetchAdList(params)
+    this.props.fetchList(params)
   }
 
   handleSearch(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
-    this.fetchAdList(formValue)
-
-
+    this.fetchList(formValue)
   }
 
-  handleEditMediaItem(record) {
+  handleEditItem(record) {
     console.log(record)
     this.context.router.push('/page/ad/edit/' + record.id)
+  }
+
+  handleDeleteItem(record, index) {
+    console.log(arguments)
+    this.props.deleteItem({id: record.id}, index, this.props.adList)
   }
 
   render() {
@@ -104,7 +107,9 @@ class AdViewPage extends Component {
               )}
             </FormItem>
             <FormItem label="状态" key="ad-search-status">
-              {getFieldDecorator('status', {})(
+              {getFieldDecorator('status', {
+                initialValue: ''
+              })(
                 <Select style={{width: 120}}>
                   <Option value="">全部广告</Option>
                   <Option value="1">开启</Option>
@@ -149,8 +154,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchAdList(params) {
+    fetchList(params) {
       dispatch(fetchList(params));
+    },
+    deleteItem(params) {
+      dispatch(deleteItem(params));
     },
   }
 }

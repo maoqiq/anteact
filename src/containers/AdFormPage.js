@@ -9,12 +9,11 @@ const Option = Select.Option;
 import {Radio} from 'antd';
 const RadioGroup = Radio.Group;
 
-import {browserHistory} from 'react-router';
-
 import {fetchList as fetchMediaList}  from '../actions/media'
 import {fetchList as fetchShieldList}  from '../actions/shield'
 import {submitForm, fetchDetail, updateForm}  from '../actions/ad'
 
+// 广告位表单
 class AdFormPage extends Component {
   constructor(props) {
     super(props)
@@ -46,19 +45,19 @@ class AdFormPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        let formValue = values;
-        console.log(formValue)
+      if (err) {
+        return
+      }
+      let formValue = values;
+      console.log(formValue)
 
-
-        if (this.state.isCreate) {
-          this.props.submitForm(formValue)
-        } else {// 如果是更新
-          formValue = Object.assign({}, formValue, {
-            id: this.props.adForm.id
-          })
-          this.props.updateForm(formValue)
-        }
+      if (this.state.isCreate) {
+        this.props.submitForm(formValue)
+      } else {// 如果是更新
+        formValue = Object.assign({}, formValue, {
+          id: this.props.adForm.id
+        })
+        this.props.updateForm(formValue)
       }
 
     });

@@ -7,7 +7,8 @@ import {apiUrl} from '../utils/apiHelper'
 
 const url = {
   list: apiUrl('/ssp/app/list'),
-  add: apiUrl('/ssp/app/add')
+  add: apiUrl('/ssp/app/add'),
+  detail: apiUrl('/ssp/app/detail')
 }
 
 export function fetchList(params) {
@@ -28,14 +29,38 @@ export function fetchList(params) {
       })
 }
 
-export function submitForm(formValues) {
-  console.log(formValues)
+export function fetchDetail(params) {
+  console.log(params)
   return dispatch =>
-    axios.post(url.add, formValues)
+    axios.get(url.detail, {
+      params: {
+        data: params
+      }
+    })
+      .then(response => response.data)
+      .then(data => {
+        console.log(data)
+        const _data = JSON.parse(data)
+        console.log(_data)
+        dispatch({
+          type: types.MEDIA_FORM_FETCH_SUCCESS,
+          payload: _data
+        })
+      })
+}
+
+export function submitForm(params) {
+  console.log(params)
+  return dispatch =>
+    axios.get(url.add, {
+      params: {
+        data: params
+      }
+    })
       .then(response => response.data)
       .then(data => {
         dispatch({
-          type: types.MEDIA_FORM_SUBMIT,
+          type: types.MEDIA_FORM_SUBMIT_SUCCESS,
           payload: data
         })
       })

@@ -62,7 +62,7 @@ class ShieldFormPage extends Component {
     this.props.setForm({isShieldUrl: e.target.value})
   }
 
-  //
+  // 处理Transfer
   handleChange(nextTargetKeys, direction, moveKeys) {
     this.setState({targetKeys: nextTargetKeys});
   }
@@ -90,6 +90,7 @@ class ShieldFormPage extends Component {
     });
   }
 
+  // 取消表单修改
   handleCancelSubmit(e) {
     e.preventDefault();
     this.context.router.push('/page/shield/overview')
@@ -121,16 +122,17 @@ class ShieldFormPage extends Component {
     };
     const {getFieldDecorator} = this.props.form;
     let {shieldForm, industryList} = this.props;
-    const dataSrouce = []
-
+    const dataSource = []
+console.log(shieldForm.shieldIndustryIds.split(','))
 
     industryList.data.map((items) => {
       if (items.children && items.children.length) {
         items.children.map((item) => {
-          dataSrouce.push(item);
+          dataSource.push(item);
         })
       }
     })
+    console.log(dataSource)
 
     return (
       <div className="form-page" style={{padding: '10px'}}>
@@ -174,14 +176,14 @@ class ShieldFormPage extends Component {
           >
             <Transfer
               notFoundContent="列表为空"
-              dataSource={dataSrouce}
+              dataSource={dataSource}
               titles={['选择行业', '已选行业']}
               showSearch
               listStyle={{
                 width: 250,
                 height: 300,
               }}
-              targetKeys={this.state.targetKeys}
+              targetKeys={shieldForm.shieldIndustryIds.split(',')}
               render={item => `${item.name}`}
               searchPlaceholder="搜索"
               onChange={this.handleChange}
