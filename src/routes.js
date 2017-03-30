@@ -36,7 +36,8 @@ export default (
       <IndexRedirect to="media"/>
       <Route path="media" breadcrumbName="媒体管理">
         <IndexRedirect to="overview"/>
-        <Route path="overview" breadcrumbName="媒体列表" component={MediaViewPage}/>
+        <Redirect from="overview" to="overview/1"/>
+        <Route path="overview/:id" breadcrumbName="媒体列表" component={MediaViewPage}/>
         <Route path="edit/:id" breadcrumbName="编辑媒体" component={MediaFormPage}/>Î
         <Route path="new" breadcrumbName="新建媒体" component={MediaFormPage}/>Î
       </Route>

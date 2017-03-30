@@ -22,6 +22,8 @@ export function mediaForm(state = initialFormState, action) {
       return {}
       break
     case types.DELETE_ITEM:
+      console.log(state)
+      return {}
       break
     default:
       return state;

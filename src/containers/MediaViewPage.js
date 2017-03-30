@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-import {Form, Input, Table, Button, Switch} from 'antd';
+import {Form, Input, Table, Button, Switch, Pagination} from 'antd';
 const FormItem = Form.Item;
 
 import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media';
@@ -59,18 +59,22 @@ class MediaViewPage extends Component {
     this.fetchMediaList = this.fetchMediaList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleEditItem = this.handleEditItem.bind(this);
+    this.handleTableChange = this.handleTableChange.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchMediaList();
+  componentWillMount() {
+    console.log(this.context.router)
+    this.page = parseInt(this.context.router.params.id) || 1
+    this.fetchMediaList({page: this.page})
   }
 
   fetchMediaList(params) {
     params = Object.assign({}, {
-      pageSize: 20,
+      pageSize: 10,
       page: 1
     }, params)
     this.props.fetchMediaList(params)
+
   }
 
   // 搜索
@@ -90,6 +94,7 @@ class MediaViewPage extends Component {
     this.props.deleteItem({id: record.id})
   }
 
+  // 切换媒体状态
   handleSwitchChange(record, status) {
     console.log(record, status)
     if (status) {
@@ -97,6 +102,15 @@ class MediaViewPage extends Component {
     } else {
       this.props.disableStatus({id: record.id})
     }
+  }
+
+  // 分页
+  handleTableChange(pagination, filters, sorter) {
+    console.log(pagination, filters, sorter)
+    const page = pagination.current
+    const pageSize = pagination.pageSize
+    this.fetchMediaList({page: page, pageSize: pageSize})
+    this.context.router.push('/page/media/overview/' + page)
   }
 
   render() {
@@ -130,7 +144,13 @@ class MediaViewPage extends Component {
         </div>
         <div className="grid media-grid" style={{padding: '10px 20px'}}>
           {mediaList.data && mediaList.data.list &&
-          <Table rowKey="id" dataSource={mediaList.data.list} columns={this.columns}/>
+          <div>
+            <Table rowKey="id"
+                   dataSource={mediaList.data.list}
+                   columns={this.columns}
+                   pagination={{defaultCurrent: this.page, total: mediaList.data.totalCount, pageSize: 10}}
+                   onChange={this.handleTableChange}/>
+          </div>
           }
         </div>
       </div>
