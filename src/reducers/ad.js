@@ -53,6 +53,9 @@ export function adList(state = initialListState, action) {
         isFetching: false,
         error: true
       });
+    case types.DELETE_AD_ITEM:
+      const _list = state.list.filter(item => item.id !== action.payload.id);
+      return Object.assign({}, state, {list: _list});
     default:
       return state;
   }

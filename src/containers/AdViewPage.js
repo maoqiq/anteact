@@ -83,10 +83,19 @@ class AdViewPage extends Component {
     this.context.router.push('/page/ad/edit/' + record.id)
   }
 
-  handleDeleteItem(record, index) {
-    console.log(arguments)
-    this.props.deleteItem({id: record.id}, index, this.props.adList)
+  handleDeleteItem(record, status) {
+    const self = this
+    confirm({
+      title: '确认删除这个项目么?',
+      onOk() {
+        return self.props.deleteItem({id: record.id})
+      },
+      onCancel() {
+      },
+    });
+
   }
+
 
   handleSwitchChange(record, status) {
     console.log(record, status)

@@ -135,7 +135,7 @@ export function deleteItem(params) {
         console.log(_data)
         if (_data.success) {
           dispatch({
-            type: types.DELETE_ITEM,
+            type: types.DELETE_MEDIA_ITEM,
             payload: params
           })
         }
@@ -148,9 +148,7 @@ export function deleteItem(params) {
           message.error(data.msg)
         }
       })
-
   }
-
 }
 
 export function setForm() {

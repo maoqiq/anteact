@@ -36,8 +36,8 @@ export function fetchList(params) {
       })
 }
 
-export function deleteItem(params, index, list) {
-  return dispatch =>
+export function deleteItem(params) {
+  return dispatch => {
     axios.get(url.delete, {
       params: {
         data: params
@@ -46,8 +46,23 @@ export function deleteItem(params, index, list) {
       .then(response => response.data)
       .then(data => {
         const _data = JSON.parse(data)
-        fetchList({page: 1, pageSize: 20})
+        console.log(_data)
+        if (_data.success) {
+          dispatch({
+            type: types.DELETE_AD_ITEM,
+            payload: params
+          })
+        }
+        return _data
       })
+      .then(data => {
+        if (data.success) {
+          message.success('删除成功')
+        } else {
+          message.error(data.msg)
+        }
+      })
+  }
 }
 
 // 编辑广告位
