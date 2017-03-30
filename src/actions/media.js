@@ -31,7 +31,7 @@ export function fetchList(params) {
         console.log(_data)
         dispatch({
           type: types.MEDIA_LIST_FETCH_SUCCESS,
-          payload: _data
+          payload: _data.data
         })
       })
 }
@@ -124,24 +124,31 @@ export function updateForm(params) {
 
 export function deleteItem(params) {
   return dispatch => {
-    // axios.get(url.delete, {
-    //   params: {
-    //     data: params
-    //   }
-    // })
-    //   .then(response => response.data)
-    //   .then(data => {
-    //     const _data = JSON.parse(data)
-    //     console.log(params)
-    //     if (_data.success) {
-    //
-    //     }
-    //   })
-    console.log(params)
-    dispatch({
-      type: types.DELETE_ITEM,
-      payload: params
+    axios.get(url.delete, {
+      params: {
+        data: params
+      }
     })
+      .then(response => response.data)
+      .then(data => {
+        const _data = JSON.parse(data)
+        console.log(_data)
+        if (_data.success) {
+          dispatch({
+            type: types.DELETE_ITEM,
+            payload: params
+          })
+        }
+        return _data
+      })
+      .then(data => {
+        if (data.success) {
+          message.success('删除成功')
+        } else {
+          message.error(data.msg)
+        }
+      })
+
   }
 
 }

@@ -143,15 +143,13 @@ class MediaViewPage extends Component {
           </Form>
         </div>
         <div className="grid media-grid" style={{padding: '10px 20px'}}>
-          {mediaList.data && mediaList.data.list &&
           <div>
             <Table rowKey="id"
-                   dataSource={mediaList.data.list}
+                   dataSource={mediaList.list}
                    columns={this.columns}
-                   pagination={{defaultCurrent: this.page, total: mediaList.data.totalCount, pageSize: 10}}
+                   pagination={{defaultCurrent: this.page, total: mediaList.totalCount, pageSize: 10}}
                    onChange={this.handleTableChange}/>
           </div>
-          }
         </div>
       </div>
     )
