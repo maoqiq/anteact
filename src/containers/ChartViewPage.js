@@ -1,14 +1,19 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+
+import moment from 'moment'
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 import {Form, Input, Table, Button, Switch, DatePicker} from 'antd';
 const {MonthPicker, RangePicker} = DatePicker;
 
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
 
-import {fetchApp} from '../actions/chart'
+import {fetchApp, fetchPit} from '../actions/chart'
 
+import AppChart from '../components/chart/AppChart'
+import PitChart from '../components/chart/PitChart'
 
 class AccountViewPage extends Component {
   constructor(props) {
@@ -23,44 +28,41 @@ class AccountViewPage extends Component {
       {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
     ];
 
+    this.defaultStartDate = moment().subtract(7, 'days')
+    this.defaultEndDate = moment()
 
-    this.columns = [
-      {
-        title: 'appId',
-        dataIndex: 'appId',
-        key: 'appId',
-      }, {
-        title: 'appName',
-        dataIndex: 'appName',
-        key: 'appName',
-      }, {
-        title: 'exposureCount',
-        dataIndex: 'exposureCount',
-        key: 'exposureCount',
-      }, {
-        title: 'clickCount',
-        dataIndex: 'clickCount',
-        key: 'clickCount',
-      }, {
-        title: 'clickRate',
-        dataIndex: 'clickRate',
-        key: 'clickRate',
-      },]
+    this.defaultRange = [this.defaultStartDate, this.defaultEndDate]
 
-    this.handleDateChange = this.handleDateChange.bind(this)
+    this.fetchData = this.fetchData.bind(this)
+
   }
 
   componentDidMount() {
-    this.props.fetchApp()
+    this.fetchData(this.defaultRange)
   }
 
-  handleDateChange(date, dateString) {
-    console.log(date, dateString)
+  fetchData(date) {
+    const path = this.context.router.routes[3].path
+    const params = {
+      offset: 0,
+      pageSize: 20,
+      startDate: date[0].format('YYYY-MM-DD'),
+      endDate: date[1].format('YYYY-MM-DD'),
+    }
 
+    switch (path) {
+      case 'pit':
+        this.props.fetchPit(params)
+        break
+      case 'app':
+        this.props.fetchApp(params)
+
+    }
   }
 
   render() {
     const {chart} = this.props
+
     let dataSource = [], chartData = []
     if (chart.appData) {
       dataSource = chart.appData
@@ -74,7 +76,7 @@ class AccountViewPage extends Component {
     return (
       <div className="overview chart-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <RangePicker onChange={this.handleDateChange}/>
+          <RangePicker onChange={this.handleDateChange} defaultValue={this.defaultRange}/>
         </div>
 
         <div className="grid shield-grid">
@@ -106,12 +108,15 @@ class AccountViewPage extends Component {
         </div>
 
         <div className="grid chart-grid">
-          <Table rowKey="appId" dataSource={dataSource} columns={this.columns}/>
+          <AppChart dataSource={dataSource}/>
         </div>
       </div>
     );
   }
 }
+AccountViewPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 
 
 AccountViewPage.propTypes = {
@@ -127,8 +132,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchApp() {
-      dispatch(fetchApp({offset: 0, pageSize: 20}));
+    fetchApp(params) {
+      dispatch(fetchApp(params));
+    },
+    fetchPit(params) {
+      dispatch(fetchPit(params));
     },
 
   }

@@ -7,8 +7,10 @@ import {apiUrl} from '../utils/apiHelper'
 
 const url = {
   app: apiUrl('/ssp/data/appAction'),
+  pit: apiUrl('/ssp/data/pitAction')
 }
 
+// 媒体数据
 export function fetchApp(params) {
   return dispatch =>
     axios.get(url.app, {
@@ -31,3 +33,28 @@ export function fetchApp(params) {
 
       })
 }
+
+// 广告位数据
+export function fetchPit(params) {
+  return dispatch =>
+    axios.get(url.app, {
+      params: {
+        data: params,
+        mediaId: 1
+      }
+    })
+      .then(response => response.data)
+      .then(data => {
+        const _data = JSON.parse(data)
+        console.log(_data)
+        if (_data.success) {
+          dispatch({
+            type: types.CHART_APP_FETCH_SUCCESS,
+            payload: _data.data
+          })
+
+        }
+
+      })
+}
+
