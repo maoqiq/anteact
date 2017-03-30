@@ -2,8 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-import {Form, Input, Table, Button, Switch, Pagination} from 'antd';
+import {Form, Input, Table, Button, Switch, Pagination, Modal} from 'antd';
 const FormItem = Form.Item;
+const confirm = Modal.confirm;
 
 import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media';
 
@@ -91,8 +92,18 @@ class MediaViewPage extends Component {
   }
 
   handleDeleteItem(record, status) {
-    this.props.deleteItem({id: record.id})
+    const self = this
+    confirm({
+      title: '确认删除这个项目么?',
+      onOk() {
+        return self.props.deleteItem({id: record.id})
+      },
+      onCancel() {
+      },
+    });
+
   }
+
 
   // 切换媒体状态
   handleSwitchChange(record, status) {
