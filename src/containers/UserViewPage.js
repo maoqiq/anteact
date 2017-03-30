@@ -8,7 +8,8 @@ const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const Dragger = Upload.Dragger;
 
-import {fetchInfo} from '../actions/user'
+import {fetchInfo, setFinanceForm, modifyInfo} from '../actions/user'
+import UploadImage from '../components/user/UploadImage'
 
 class UserViewPage extends Component {
   constructor(props) {
@@ -17,7 +18,6 @@ class UserViewPage extends Component {
     this.state = {
       isShowBasicInput: false,
       isShowFinancialInput: false,
-      whichRoleType: 1
     }
 
     this.toggleInputShow = this.toggleInputShow.bind(this)
@@ -25,6 +25,7 @@ class UserViewPage extends Component {
 
     this.handleBasicSubmit = this.handleBasicSubmit.bind(this)
     this.handleFinancialSubmit = this.handleFinancialSubmit.bind(this)
+    this.handleDraggerChange = this.handleDraggerChange.bind(this)
   }
 
   // 组件加载完成后执行
@@ -50,21 +51,49 @@ class UserViewPage extends Component {
   // 处理 basic info 表单提交
   handleBasicSubmit(e) {
     e.preventDefault();
-    console.log(e.target.name)
+
   }
 
   // 处理 financial info 表单提交
   handleFinancialSubmit(e) {
     e.preventDefault();
     console.log(e.target.name)
-    const formValue = this.props.form.getFieldsValue()
-    console.log(formValue)
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (err) {
+        // return
+      }
+      console.log(values)
+      // values = Object.assign({}, values, {
+      //   licenseUrl: this.props.financeInfo.licenseUrl,
+      //   idCardFrontUrl: this.props.financeInfo.idCardFrontUrl,
+      //   idCardBackUrl: this.props.financeInfo.idCardBackUrl,
+      // })
+      this.props.modifyInfo(values)
+    })
   }
 
   // 处理财务对象的改变
   handleRoleTypeChange(e) {
-    this.setState({whichRoleType: e.target.value})
+    this.props.setFinanceForm({roleType: e.target.value})
   }
+
+  // 处理dragger
+  handleDraggerChange(obj, info) {
+    const status = info.file.status;
+    if (status !== 'uploading') {
+      console.log(info.file, info.fileList);
+    }
+    if (status === 'done') {
+      console.log(info);
+      const imgUrl = info.file.response.data;
+      this.props.setFinanceForm({[obj]: imgUrl})
+      message.success(`${info.file.name}上传成功`);
+    } else if (status === 'error') {
+      console.log(info);
+      message.error(`${info.file.name}上传失败`);
+    }
+  }
+
 
   // 渲染
   render() {
@@ -91,33 +120,12 @@ class UserViewPage extends Component {
       },
     };
 
-    // 营业执照
-    const businessLicenseDrops = {
-      name: 'file',
-      multiple: true,
-      showUploadList: false,
-      action: '//jsonplaceholder.typicode.com/posts/',
-      onChange(info) {
-        const status = info.file.status;
-        if (status !== 'uploading') {
-          console.log(info.file, info.fileList);
-        }
-        if (status === 'done') {
-          message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === 'error') {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
-    };
-
     // 设置变量
-    const {userInfo} = this.props
+    const {userInfo, financeInfo} = this.props
     const {getFieldDecorator} = this.props.form
     const isShowBasicInput = this.state.isShowBasicInput
     const isShowFinancialInput = this.state.isShowFinancialInput
-    const whichRoleType = this.state.whichRoleType
 
-    console.log(userInfo)
 
     return (
       <div className="overview user-overview">
@@ -248,7 +256,7 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请选择财务对象'
                       }],
-                      initialValue: userInfo.finance.roleType || 0
+                      initialValue: financeInfo.roleType || 0
                     })(
                       <RadioGroup
                         onChange={this.handleRoleTypeChange}
@@ -258,85 +266,78 @@ class UserViewPage extends Component {
                       </RadioGroup>
                     )}
                   </span>)
-                : <span>{userInfo.finance.roleType === 2 ? '个人' : '公司'}</span>
+                : <span>{financeInfo.roleType === 2 ? '个人' : '公司'}</span>
               }
             </FormItem>
             {
-              whichRoleType === 1 &&
+              financeInfo.roleType === 1 &&
               <FormItem
                 {...formItemLayout}
                 label="收款公司名称:"
               >
                 {isShowFinancialInput ?
                   (<span>
-                    {getFieldDecorator('financeCompanyName', {
+                    {getFieldDecorator('companyName', {
                       rules: [{
                         required: true, message: '请输入收款公司名称'
                       }],
-                      initialValue: userInfo.finance.companyName
+                      initialValue: financeInfo.companyName
                     })(
                       <Input type="text" placeholder="请输入收款公司名称"/>
                     )}
                   </span>)
-                  : <span>{userInfo.finance.companyName}</span>
+                  : <span>{financeInfo.companyName}</span>
                 }
 
               </FormItem>
             }
 
             {
-              whichRoleType === 1 &&
+              financeInfo.roleType === 1 &&
               <FormItem
                 {...formItemLayout}
                 label="营业执照号:"
               >
                 {isShowFinancialInput ?
                   (<span>
-                    {getFieldDecorator('businessLicenseId', {
+                    {getFieldDecorator('registerCode', {
                       rules: [{
                         required: true, message: '请输入营业执照号'
                       }],
-                      initialValue: userInfo.finance.registerCode
+                      initialValue: financeInfo.registerCode
                     })(
                       <Input type="text" placeholder="请输入营业执照号"/>
                     )}
                   </span>)
-                  : <span>{userInfo.finance.registerCode}</span>
+                  : <span>{financeInfo.registerCode}</span>
                 }
               </FormItem>
             }
             {
-              whichRoleType === 1 &&
+              financeInfo.roleType === 1 &&
               <FormItem
                 {...formItemLayout}
                 label="营业执照:"
               >
                 {isShowFinancialInput ?
                   (<span>
-                    {getFieldDecorator('businessLicenseUrl', {
+                    {getFieldDecorator('licenseUrl', {
                       rules: [{
                         required: true, message: '请输入营业执照'
                       }],
-                      initialValue: userInfo.finance.licenseUrl
+                      initialValue: financeInfo.licenseUrl
                     })(
-                      <div style={{marginTop: 16, height: 200}}>
-                        <Dragger {...businessLicenseDrops} style={{padding: '20px'}}>
-                          <p className="ant-upload-drag-icon">
-                            <Icon type="inbox"/>
-                          </p>
-                          <p className="ant-upload-text">点击或拖拽图片到此处上传营业执照</p>
-                          <p className="ant-upload-hint">格式限制JPG/JPEG/PNG</p>
-                        </Dragger>
-                      </div>
+                      <UploadImage onChange={this.handleDraggerChange.bind(this, 'licenseUrl')}
+                                   imgUrl={financeInfo.licenseUrl}/>
                     )}
                   </span>)
-                  : <span>{userInfo.finance.licenseUrl}</span>
+                  : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.licenseUrl})`}}></div>
                 }
               </FormItem>
             }
 
             {
-              whichRoleType === 1 &&
+              financeInfo.roleType === 2 &&
               <FormItem
                 {...formItemLayout}
                 label="个人姓名:"
@@ -347,17 +348,17 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入个人姓名'
                       }],
-                      initialValue: userInfo.finance.personalName
+                      initialValue: financeInfo.personalName
                     })(
                       <Input type="tel" placeholder="请输入个人姓名"/>
                     )}
                   </span>)
-                  : <span>{userInfo.finance.personalName}</span>
+                  : <span>{financeInfo.personalName}</span>
                 }
               </FormItem>
             }
             {
-              whichRoleType === 1 &&
+              financeInfo.roleType === 2 &&
               <FormItem
                 {...formItemLayout}
                 label="身份证号:"
@@ -368,17 +369,17 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入身份证号'
                       }],
-                      initialValue: userInfo.finance.idCard
+                      initialValue: financeInfo.idCard
                     })(
                       <Input type="tel" placeholder="请输入身份证号"/>
                     )}
                   </span>)
-                  : <span>{userInfo.finance.idCard}</span>
+                  : <span>{financeInfo.idCard}</span>
                 }
               </FormItem>
             }
             {
-              whichRoleType === 1 &&
+              financeInfo.roleType === 2 &&
               <FormItem
                 {...formItemLayout}
                 label="身份证正面照:"
@@ -387,18 +388,20 @@ class UserViewPage extends Component {
                   (<span>
                     {getFieldDecorator('idCardFrontUrl', {
                       rules: [{
-                        required: true, message: '请输入身份证正面照'
+                        required: true, message: '请上传身份证正面照'
                       }],
-                      initialValue: userInfo.finance.idCardFrontUrl
+                      initialValue: financeInfo.idCardFrontUrl
                     })(
-                      <Input type="tel" placeholder="请输入身份证正面照"/>
+                      <UploadImage onChange={this.handleDraggerChange.bind(this, 'idCardFrontUrl')}
+                                   imgUrl={financeInfo.idCardFrontUrl}/>
                     )}
                   </span>)
-                  : <span>{userInfo.finance.idCardFrontUrl}</span>
+                  : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.idCardFrontUrl})`}}>
+                    <p></p></div>
                 }
               </FormItem>
             } {
-            whichRoleType === 1 &&
+            financeInfo.roleType === 2 &&
             <FormItem
               {...formItemLayout}
               label="身份证背面照:"
@@ -407,14 +410,15 @@ class UserViewPage extends Component {
                 (<span>
                     {getFieldDecorator('idCardBackUrl', {
                       rules: [{
-                        required: true, message: '请输入身份证背面照'
+                        required: true, message: '请上传身份证背面照'
                       }],
-                      initialValue: userInfo.finance.idCardBackUrl
+                      initialValue: financeInfo.idCardBackUrl
                     })(
-                      <Input type="tel" placeholder="请输入身份证背面照"/>
+                      <UploadImage onChange={this.handleDraggerChange.bind(this, 'idCardBackUrl')}
+                                   imgUrl={financeInfo.idCardBackUrl}/>
                     )}
                   </span>)
-                : <span>{userInfo.finance.idCardBackUrl}</span>
+                : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.idCardBackUrl})`}}></div>
               }
             </FormItem>
           }
@@ -429,12 +433,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入开户行'
                       }],
-                      initialValue: userInfo.finance.bankName
+                      initialValue: financeInfo.bankName
                     })(
                       <Input type="text" placeholder="请输入开户行"/>
                     )}
                   </span>)
-                : <span>{userInfo.finance.bankName}</span>
+                : <span>{financeInfo.bankName}</span>
               }
             </FormItem>
             <FormItem
@@ -447,12 +451,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入支行名称'
                       }],
-                      initialValue: userInfo.finance.branchName
+                      initialValue: financeInfo.branchName
                     })(
                       <Input type="text" placeholder="请输入支行名称"/>
                     )}
                   </span>)
-                : <span>{userInfo.finance.branchName}</span>
+                : <span>{financeInfo.branchName}</span>
               }
             </FormItem>
             <FormItem
@@ -465,12 +469,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入开户行地址'
                       }],
-                      initialValue: userInfo.finance.address
+                      initialValue: financeInfo.address
                     })(
                       <Input type="text" placeholder="请输入开户行地址"/>
                     )}
                   </span>)
-                : <span>{userInfo.finance.address}</span>
+                : <span>{financeInfo.address}</span>
               }
             </FormItem>
             <FormItem
@@ -483,12 +487,12 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请输入银行账号'
                       }],
-                      initialValue: userInfo.finance.cardNumber
+                      initialValue: financeInfo.cardNumber
                     })(
                       <Input type="text" placeholder="请输入银行账号"/>
                     )}
                   </span>)
-                : <span>{userInfo.finance.cardNumber}</span>
+                : <span>{financeInfo.cardNumber}</span>
               }
             </FormItem>
 
@@ -514,9 +518,10 @@ UserViewPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {userInfo} = state;
+  const {userInfo, financeInfo} = state;
   return {
-    userInfo
+    userInfo,
+    financeInfo
   };
 }
 
@@ -525,6 +530,12 @@ function mapDispatchToProps(dispatch) {
     fetchInfo() {
       dispatch(fetchInfo({}));
     },
+    setFinanceForm(params){
+      dispatch(setFinanceForm(params))
+    },
+    modifyInfo(params){
+      dispatch(modifyInfo(params))
+    }
   }
 }
 

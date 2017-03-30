@@ -3,8 +3,6 @@ import {connect} from 'react-redux';
 
 class CompanyForm extends Component {
   render() {
-
-
     return (
       <FormItem
         {...formItemLayout}
@@ -32,6 +30,7 @@ class CompanyForm extends Component {
           : <span>{userInfo.finance.licenseUrl}</span>
         }
       </FormItem>
+    )
   }
 }
 

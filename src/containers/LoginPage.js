@@ -20,10 +20,11 @@ class LoginPage extends Component {
 
   // 处理表单提交
   handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     const formValues = this.props.form.getFieldsValue()
     this.signIn(formValues)
   }
+
 
   // 登陆
   signIn(params) {
@@ -32,7 +33,7 @@ class LoginPage extends Component {
   }
 
   render() {
-    const {getFieldDecorator} = this.props.form;
+    const {getFieldDecorator} = this.props.form
     const login = this.props.login
 
     return (
