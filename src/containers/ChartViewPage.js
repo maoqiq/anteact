@@ -2,10 +2,13 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 
-import {DatePicker} from 'antd';
+import {Form, Input, Table, Button, Switch, DatePicker} from 'antd';
 const {MonthPicker, RangePicker} = DatePicker;
 
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+
+import {fetchApp} from '../actions/chart'
+
 
 class AccountViewPage extends Component {
   constructor(props) {
@@ -19,13 +22,59 @@ class AccountViewPage extends Component {
       {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
       {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
     ];
+
+
+    this.columns = [
+      {
+        title: 'appId',
+        dataIndex: 'appId',
+        key: 'appId',
+      }, {
+        title: 'appName',
+        dataIndex: 'appName',
+        key: 'appName',
+      }, {
+        title: 'exposureCount',
+        dataIndex: 'exposureCount',
+        key: 'exposureCount',
+      }, {
+        title: 'clickCount',
+        dataIndex: 'clickCount',
+        key: 'clickCount',
+      }, {
+        title: 'clickRate',
+        dataIndex: 'clickRate',
+        key: 'clickRate',
+      },]
+
+    this.handleDateChange = this.handleDateChange.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.fetchApp()
+  }
+
+  handleDateChange(date, dateString) {
+    console.log(date, dateString)
+
   }
 
   render() {
+    const {chart} = this.props
+    let dataSource = [], chartData = []
+    if (chart.appData) {
+      dataSource = chart.appData
+
+      chartData = chart.actionData.map((app, app_index) => {
+        console.log(app)
+        return app.detailVOs
+      })
+    }
+
     return (
-      <div className="overview media-overview-page">
+      <div className="overview chart-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <RangePicker/>
+          <RangePicker onChange={this.handleDateChange}/>
         </div>
 
         <div className="grid shield-grid">
@@ -37,24 +86,54 @@ class AccountViewPage extends Component {
             <CartesianGrid strokeDasharray="3 3"/>
             <Tooltip/>
             <Legend />
-            <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{r: 8}}/>
+            <Line type="monotone" dataKey="pv" stroke="#8884d8"/>
             <Line type="monotone" dataKey="uv" stroke="#82ca9d"/>
           </LineChart>
+        </div>
+
+        <div className="grid shield-grid">
+          <LineChart width={600} height={300} data={chartData[0]}
+                     margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+            <XAxis dataKey="date"/>
+            <YAxis/>
+            <CartesianGrid strokeDasharray="3 3"/>
+            <Tooltip/>
+            <Legend />
+            <Line type="monotone" dataKey="clickCount" stroke="#8884d8"/>
+            <Line type="monotone" dataKey="clickRate" stroke="#82ca9d"/>
+            <Line type="monotone" dataKey="exposureCount" stroke="#523aed"/>
+          </LineChart>
+        </div>
+
+        <div className="grid chart-grid">
+          <Table rowKey="appId" dataSource={dataSource} columns={this.columns}/>
         </div>
       </div>
     );
   }
 }
 
-AccountViewPage.propTypes = {};
+
+AccountViewPage.propTypes = {
+  chart: PropTypes.object.isRequired
+};
 
 function mapStateToProps(state) {
-  return {};
+  const {chart} = state;
+  return {
+    chart
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {
+    fetchApp() {
+      dispatch(fetchApp({offset: 0, pageSize: 20}));
+    },
+
+  }
 }
+
 
 export default connect(
   mapStateToProps,

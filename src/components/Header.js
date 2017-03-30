@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import {connect} from 'react-redux'
 import {Link, browserHistory} from 'react-router';
 
 import {Layout, Menu, Breadcrumb, Icon} from 'antd';
@@ -52,6 +53,7 @@ class AppHeader extends Component {
   }
 
   render() {
+    const {userInfo} = this.props
     return (
       <Header className="header app-header">
         <Menu
@@ -73,7 +75,7 @@ class AppHeader extends Component {
             <Link to="/">退出</Link>
           </Menu.Item>
           <Menu.Item key="header-user-name" style={{float: 'right'}}>
-            <span>上海一家贼屌的公司</span>
+            <span>{userInfo.entName}</span>
           </Menu.Item>
         </Menu>
       </Header>
@@ -86,4 +88,27 @@ AppHeader.contextTypes = {
 };
 
 
-export default AppHeader;
+AppHeader.propTypes = {
+  userInfo: PropTypes.object.isRequired
+};
+
+function mapStateToProps(state) {
+  const {userInfo} = state;
+  return {
+    userInfo,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchInfo() {
+      dispatch(fetchInfo({}));
+    }
+  }
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppHeader);

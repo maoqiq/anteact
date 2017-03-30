@@ -62,9 +62,10 @@ export default (
         <Route path="overview" breadcrumbName="用户管理" component={UserViewPage}/>
         <Route path="modify" breadcrumbName="媒体列表" component={UserFormPage}/>
       </Route>
-      <Route path="chart" breadcrumbName="结算数据">
+      <Route path="chart" breadcrumbName="数据分析">
         <IndexRedirect to="overview"/>
-        <Route path="overview" breadcrumbName="数据分析" component={ChartViewPage}/>
+        <Route path="app" breadcrumbName="媒体数据" component={ChartViewPage}/>
+        <Route path="pit" breadcrumbName="广告位数据" component={ChartViewPage}/>
       </Route>
     </Route>
     <Route path="*" component={NotFoundPage}/>

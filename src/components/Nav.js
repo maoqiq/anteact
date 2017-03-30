@@ -38,10 +38,13 @@ class AppHeader extends Component {
         link: '/page/user/overview'
       }]
     }, {
-      category: '结算数据',
+      category: '数据分析',
       items: [{
         name: '媒体数据',
-        link: '/page/chart/overview'
+        link: '/page/chart/app'
+      }, {
+        name: '广告位数据',
+        link: '/page/chart/pit'
       }]
     }]
 
@@ -64,7 +67,7 @@ class AppHeader extends Component {
         </SubMenu>
       );
     });
-    const openKeys = ['nav-title-0', 'nav-title-1', 'nav-title-2', 'nav-title-3']
+    const openKeys = ['nav-title-0', 'nav-title-1', 'nav-title-2', 'nav-title-3', 'nav-title-4']
     return (
       <nav className="nav">
         <Menu

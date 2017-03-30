@@ -130,7 +130,7 @@ class MediaViewPage extends Component {
         </div>
         <div className="grid media-grid" style={{padding: '10px 20px'}}>
           {mediaList.data && mediaList.data.list &&
-          <Table rowKey="mediaList" dataSource={mediaList.data.list} columns={this.columns}/>
+          <Table rowKey="id" dataSource={mediaList.data.list} columns={this.columns}/>
           }
         </div>
       </div>

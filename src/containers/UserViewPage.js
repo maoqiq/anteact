@@ -63,11 +63,11 @@ class UserViewPage extends Component {
         // return
       }
       console.log(values)
-      // values = Object.assign({}, values, {
-      //   licenseUrl: this.props.financeInfo.licenseUrl,
-      //   idCardFrontUrl: this.props.financeInfo.idCardFrontUrl,
-      //   idCardBackUrl: this.props.financeInfo.idCardBackUrl,
-      // })
+      values = Object.assign({}, values, {
+        licenseUrl: this.props.financeInfo.licenseUrl,
+        idCardFrontUrl: this.props.financeInfo.idCardFrontUrl,
+        idCardBackUrl: this.props.financeInfo.idCardBackUrl,
+      })
       this.props.modifyInfo(values)
     })
   }

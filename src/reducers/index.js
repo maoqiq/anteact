@@ -6,7 +6,8 @@ import {login, register, code} from './account';
 import {mediaForm, mediaList} from './media';
 import {adForm, adList, specList} from './ad';
 import {shieldForm, shieldList, industryList} from './shield';
-import {userInfo,financeInfo} from './user';
+import {userInfo, financeInfo} from './user';
+import {chart} from './chart';
 
 const rootReducer = combineReducers({
   fuelSavings,
@@ -28,6 +29,8 @@ const rootReducer = combineReducers({
 
   userInfo,
   financeInfo,
+
+  chart,
 
   routing: routerReducer
 })
