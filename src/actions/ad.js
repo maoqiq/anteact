@@ -29,10 +29,12 @@ export function fetchList(params) {
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
-        dispatch({
-          type: types.AD_LIST_FETCH_SUCCESS,
-          payload: _data
-        })
+        if (_data.success) {
+          dispatch({
+            type: types.AD_LIST_FETCH_SUCCESS,
+            payload: _data.data
+          })
+        }
       })
 }
 

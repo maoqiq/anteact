@@ -49,13 +49,16 @@ class ShieldViewPage extends Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchList()
+  //
+  componentWillMount() {
+    this.page = parseInt(this.context.router.params.page) || 1
+    this.fetchList({page: this.page})
   }
 
+  // 获取数据
   fetchList(params) {
     params = Object.assign({}, {
-      pageSize: 20,
+      pageSize: 10,
       page: 1
     }, params)
 
@@ -79,6 +82,15 @@ class ShieldViewPage extends Component {
     this.props.deleteShield({id: record.id})
   }
 
+  // 分页
+  handleTableChange(pagination, filters, sorter) {
+    console.log(pagination, filters, sorter)
+    const page = pagination.current
+    const pageSize = pagination.pageSize
+    this.fetchList({page: page, pageSize: pageSize})
+    this.context.router.push('/page/shield/overview/' + page)
+  }
+
   render() {
     const {getFieldDecorator} = this.props.form;
     const {shieldList} = this.props;
@@ -86,14 +98,14 @@ class ShieldViewPage extends Component {
     return (
       <div className="overview shield-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <Form className="list-search" layout="inline">
+          <Form className="list-search" layout="inline" onSubmit={this.handleSearch}>
             <FormItem label="名称" key="shield-search-name">
               {getFieldDecorator('title', {})(
                 <Input type="text" placeholder="请输入屏蔽策略名称"/>
               )}
             </FormItem>
             <FormItem>
-              <Button type="primary" onClick={this.handleSearch}>搜索</Button>
+              <Button type="primary" htmlType="submit">搜索</Button>
             </FormItem>
             <FormItem className="new">
               <Button type="primary">
@@ -103,9 +115,11 @@ class ShieldViewPage extends Component {
           </Form>
         </div>
         <div className="grid shield-grid" style={{padding: '10px 20px'}}>
-          {shieldList.data && shieldList.data.list &&
-          <Table rowKey="shieldList" dataSource={shieldList.data.list} columns={this.columns}/>
-          }
+          <Table rowKey="id"
+                 dataSource={shieldList.list}
+                 columns={this.columns}
+                 pagination={{defaultCurrent: this.page, total: shieldList.totalCount, pageSize: 10}}
+                 onChange={this.handleTableChange}/>
         </div>
       </div>
     );

@@ -57,8 +57,6 @@ class AdFormPage extends Component {
         return
       }
       let formValue = values;
-      console.log(formValue)
-
       if (this.state.isCreate) {
         this.props.submitForm(formValue)
       } else {// 如果是更新
@@ -69,8 +67,6 @@ class AdFormPage extends Component {
       }
 
     });
-
-
   }
 
 
@@ -78,8 +74,8 @@ class AdFormPage extends Component {
     const {getFieldDecorator} = this.props.form;
     let mediaList = [], shieldList = [], specList = [];
     // 设置媒体列表 屏蔽列表
-    if (this.props.mediaList.data && this.props.mediaList.data.list) {
-      mediaList = this.props.mediaList.data.list;
+    if (this.props.mediaList && this.props.mediaList.list) {
+      mediaList = this.props.mediaList.list;
     }
 
     if (this.props.shieldList.data && this.props.shieldList.data.list) {
@@ -207,7 +203,7 @@ class AdFormPage extends Component {
           >
             {getFieldDecorator('shieldId', {
               rules: [{
-                required: true, message: '请输入屏蔽策略',
+                required: true, message: '请输入广告规格',
               }],
               initialValue: adForm.shieldId
             })(

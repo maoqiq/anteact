@@ -64,35 +64,26 @@ class AccountViewPage extends Component {
     const {chart} = this.props
 
     let dataSource = [], chartData = []
+
+
     if (chart.appData) {
       dataSource = chart.appData
 
       chartData = chart.actionData.map((app, app_index) => {
-        console.log(app)
-        return app.detailVOs
+        console.log(app.detailVOs)
+        return app.detailVOs.map((item, item_index) => {
+          return {clickCount: item.clickCount, date: item.date}
+        })
       })
     }
+
+    console.log(chartData)
 
     return (
       <div className="overview chart-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
           <RangePicker onChange={this.handleDateChange} defaultValue={this.defaultRange}/>
         </div>
-
-        <div className="grid shield-grid">
-          <h1>媒体数据</h1>
-          <LineChart width={600} height={300} data={this.data}
-                     margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-            <XAxis dataKey="name"/>
-            <YAxis/>
-            <CartesianGrid strokeDasharray="3 3"/>
-            <Tooltip/>
-            <Legend />
-            <Line type="monotone" dataKey="pv" stroke="#8884d8"/>
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d"/>
-          </LineChart>
-        </div>
-
         <div className="grid shield-grid">
           <LineChart width={600} height={300} data={chartData[0]}
                      margin={{top: 5, right: 30, left: 20, bottom: 5}}>
@@ -102,8 +93,6 @@ class AccountViewPage extends Component {
             <Tooltip/>
             <Legend />
             <Line type="monotone" dataKey="clickCount" stroke="#8884d8"/>
-            <Line type="monotone" dataKey="clickRate" stroke="#82ca9d"/>
-            <Line type="monotone" dataKey="exposureCount" stroke="#523aed"/>
           </LineChart>
         </div>
 

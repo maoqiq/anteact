@@ -25,10 +25,12 @@ export function fetchList(params) {
       .then(data => {
         const _data = JSON.parse(data);
         console.log(_data);
-        dispatch({
-          type: types.SHIELD_LIST_FETCH,
-          payload: _data
-        })
+        if (_data.success) {
+          dispatch({
+            type: types.SHIELD_LIST_FETCH,
+            payload: _data.data
+          })
+        }
       })
       .catch(error => {
         console.log(error);

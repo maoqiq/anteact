@@ -146,6 +146,9 @@ class ShieldFormPage extends Component {
             {...formItemLayout}
           >
             {getFieldDecorator('isShieldIndustry', {
+              rules: [{
+                required: true, message: '请选择是否屏蔽',
+              }],
               initialValue: shieldForm.isShieldIndustry
             })(
               <RadioGroup
@@ -185,6 +188,9 @@ class ShieldFormPage extends Component {
             {...formItemLayout}
           >
             {getFieldDecorator('isShieldUrl', {
+              rules: [{
+                required: true, message: '请选择是否屏蔽',
+              }],
               initialValue: shieldForm.isShieldUrl
             })(
               <RadioGroup

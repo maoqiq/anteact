@@ -64,8 +64,7 @@ class MediaViewPage extends Component {
   }
 
   componentWillMount() {
-    console.log(this.context.router)
-    this.page = parseInt(this.context.router.params.id) || 1
+    this.page = parseInt(this.context.router.params.page) || 1
     this.fetchMediaList({page: this.page})
   }
 
@@ -75,7 +74,6 @@ class MediaViewPage extends Component {
       page: 1
     }, params)
     this.props.fetchMediaList(params)
-
   }
 
   // 搜索

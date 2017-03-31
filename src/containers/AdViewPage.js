@@ -3,15 +3,14 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router';
 
-import {Form, Input, Table, Button, Select} from 'antd';
+import {Form, Input, Table, Button, Select, Modal, Switch} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const confirm = Modal.confirm;
 
 import * as actions from '../actions/fuelSavingsActions';
 import {fetchList, deleteItem, enableStatus, disableStatus}from '../actions/ad';
 
-
-import {Switch} from 'antd';
 
 class AdViewPage extends Component {
   constructor(props) {
@@ -51,38 +50,45 @@ class AdViewPage extends Component {
       render: (text, record, index) => (
         <span>
           <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
-          <Button size="small" onClick={this.handleDeleteItem.bind(this, record, index)}>删除</Button>
+          <Button size="small" disabled={record.status === 1}
+                  onClick={this.handleDeleteItem.bind(this, record, index)}>删除</Button>
         </span>
       )
     }];
 
     this.fetchList = this.fetchList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleTableChange = this.handleTableChange.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchList();
+  componentWillMount() {
+    this.page = parseInt(this.context.router.params.page) || 1
+    this.fetchList({page: this.page})
   }
 
+  // 获取数据
   fetchList(params) {
     params = Object.assign({}, {
-      pageSize: 20,
+      pageSize: 10,
       page: 1
     }, params)
     this.props.fetchList(params)
   }
 
+  // 搜索
   handleSearch(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
     this.fetchList(formValue)
   }
 
+  // 进入编辑页
   handleEditItem(record) {
     console.log(record)
     this.context.router.push('/page/ad/edit/' + record.id)
   }
 
+  // 删除单项
   handleDeleteItem(record, status) {
     const self = this
     confirm({
@@ -93,10 +99,9 @@ class AdViewPage extends Component {
       onCancel() {
       },
     });
-
   }
 
-
+  // 切换状态
   handleSwitchChange(record, status) {
     console.log(record, status)
     if (status) {
@@ -106,6 +111,16 @@ class AdViewPage extends Component {
     }
   }
 
+  // 分页
+  handleTableChange(pagination, filters, sorter) {
+    console.log(pagination, filters, sorter)
+    const page = pagination.current
+    const pageSize = pagination.pageSize
+    this.fetchList({page: page, pageSize: pageSize})
+    this.context.router.push('/page/ad/overview/' + page)
+
+  }
+
   render() {
     const {adList} = this.props;
     const {getFieldDecorator} = this.props.form;
@@ -113,7 +128,7 @@ class AdViewPage extends Component {
     return (
       <div className="overview ad-overview-page">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <Form className="list-search" layout="inline">
+          <Form className="list-search" layout="inline" onSubmit={this.handleSearch}>
             <FormItem label="名称" key="ad-search-name">
               {getFieldDecorator('name', {})(
                 <Input type="text" placeholder="请输入广告位名称"/>
@@ -136,7 +151,7 @@ class AdViewPage extends Component {
               )}
             </FormItem>
             <FormItem>
-              <Button type="primary" onClick={this.handleSearch}>搜索</Button>
+              <Button type="primary" htmlType="submit">搜索</Button>
             </FormItem>
             <FormItem className="new">
               <Button type="primary">
@@ -147,9 +162,11 @@ class AdViewPage extends Component {
           </Form>
         </div>
         <div className="grid ad-grid" style={{padding: '10px 20px'}}>
-          {adList.data && adList.data.list &&
-          <Table rowKey="adList" dataSource={adList.data.list} columns={this.columns}/>
-          }
+          <Table rowKey="id"
+                 dataSource={adList.list}
+                 columns={this.columns}
+                 pagination={{defaultCurrent: this.page, total: adList.totalCount, pageSize: 10}}
+                 onChange={this.handleTableChange}/>
         </div>
       </div>
     );
