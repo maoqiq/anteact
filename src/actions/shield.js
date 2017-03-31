@@ -38,8 +38,8 @@ export function fetchList(params) {
       });
 }
 
-export function deleteShield(params) {
-  return dispatch =>
+export function deleteItem(params) {
+  return dispatch => {
     axios.get(url.delete, {
       params: {
         data: params
@@ -49,11 +49,27 @@ export function deleteShield(params) {
       .then(data => {
         const _data = JSON.parse(data);
         console.log(_data);
+        if (_data.success) {
+          dispatch({
+            type: types.DELETE_SHIELD_ITEM,
+            payload: params
+          })
+        }
+        return _data
+      })
+      .then(data => {
+        if (data.success) {
+          message.success('删除成功')
+        } else {
+          message.error(data.msg)
+        }
       })
       .catch(error => {
         console.log(error);
         message.error(error);
       })
+  }
+
 }
 
 // 屏蔽策略详情

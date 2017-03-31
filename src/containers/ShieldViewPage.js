@@ -3,10 +3,12 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 
-import {Form, Input, Table, Button} from 'antd';
+import {Form, Input, Table, Button, Select, Modal, Switch} from 'antd';
 const FormItem = Form.Item;
+const Option = Select.Option;
+const confirm = Modal.confirm;
 
-import {fetchList, deleteShield}from '../actions/shield';
+import {fetchList, deleteItem}from '../actions/shield';
 
 
 class ShieldViewPage extends Component {
@@ -47,18 +49,20 @@ class ShieldViewPage extends Component {
 
     this.fetchList = this.fetchList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleTableChange = this.handleTableChange.bind(this);
   }
 
   //
   componentWillMount() {
     this.page = parseInt(this.context.router.params.page) || 1
+    this.pageSize = 10
     this.fetchList({page: this.page})
   }
 
   // 获取数据
   fetchList(params) {
     params = Object.assign({}, {
-      pageSize: 10,
+      pageSize: this.pageSize,
       page: 1
     }, params)
 
@@ -73,13 +77,23 @@ class ShieldViewPage extends Component {
     this.fetchList(formValue)
   }
 
+  // 进入编辑也
   handleEditItem(record) {
     console.log(record)
     this.context.router.push('/page/shield/edit/' + record.id)
   }
 
-  handleDeleteItem(record) {
-    this.props.deleteShield({id: record.id})
+  // 删除单项
+  handleDeleteItem(record, status) {
+    const self = this
+    confirm({
+      title: '确认删除这个项目么?',
+      onOk() {
+        return self.props.deleteItem({id: record.id})
+      },
+      onCancel() {
+      },
+    });
   }
 
   // 分页
@@ -87,6 +101,7 @@ class ShieldViewPage extends Component {
     console.log(pagination, filters, sorter)
     const page = pagination.current
     const pageSize = pagination.pageSize
+    console.log(this.fetchList)
     this.fetchList({page: page, pageSize: pageSize})
     this.context.router.push('/page/shield/overview/' + page)
   }
@@ -118,7 +133,7 @@ class ShieldViewPage extends Component {
           <Table rowKey="id"
                  dataSource={shieldList.list}
                  columns={this.columns}
-                 pagination={{defaultCurrent: this.page, total: shieldList.totalCount, pageSize: 10}}
+                 pagination={{defaultCurrent: this.page, total: shieldList.totalCount, pageSize: this.pageSize}}
                  onChange={this.handleTableChange}/>
         </div>
       </div>
@@ -146,8 +161,8 @@ function mapDispatchToProps(dispatch) {
     fetchList(params) {
       dispatch(fetchList(params));
     },
-    deleteShield(params) {
-      dispatch(deleteShield(params));
+    deleteItem(params) {
+      dispatch(deleteItem(params));
     },
   }
 }
