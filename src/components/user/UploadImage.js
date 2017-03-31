@@ -53,4 +53,5 @@ class UploadImage extends Component {
   }
 }
 
+
 export default UploadImage

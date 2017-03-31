@@ -5,15 +5,17 @@ import moment from 'moment'
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-import {Form, Input, Table, Button, Switch, DatePicker} from 'antd';
+import {Form, Input, Table, Button, Switch, DatePicker, Tabs} from 'antd';
 const {MonthPicker, RangePicker} = DatePicker;
+const TabPane = Tabs.TabPane;
 
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
 
 import {fetchApp, fetchPit} from '../actions/chart'
-
 import AppChart from '../components/chart/AppChart'
 import PitChart from '../components/chart/PitChart'
+
+import ClickCountChart from '../components/chart/ClickCountChart'
 
 class AccountViewPage extends Component {
   constructor(props) {
@@ -68,32 +70,29 @@ class AccountViewPage extends Component {
 
     if (chart.appData) {
       dataSource = chart.appData
-
+      // chartData = chart.actionData
       chartData = chart.actionData.map((app, app_index) => {
-        console.log(app.detailVOs)
         return app.detailVOs.map((item, item_index) => {
           return {clickCount: item.clickCount, date: item.date}
         })
       })
     }
 
-    console.log(chartData)
-
     return (
       <div className="overview chart-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <RangePicker onChange={this.handleDateChange} defaultValue={this.defaultRange}/>
+          <RangePicker onChange={this.fetchData} defaultValue={this.defaultRange}/>
         </div>
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Tab 1" key="1">
+            <ClickCountChart data={chartData}/>
+          </TabPane>
+          <TabPane tab="Tab 2" key="2">Content of Tab Pane 2</TabPane>
+          <TabPane tab="Tab 3" key="3">Content of Tab Pane 3</TabPane>
+        </Tabs>
+
         <div className="grid shield-grid">
-          <LineChart width={600} height={300} data={chartData[0]}
-                     margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-            <XAxis dataKey="date"/>
-            <YAxis/>
-            <CartesianGrid strokeDasharray="3 3"/>
-            <Tooltip/>
-            <Legend />
-            <Line type="monotone" dataKey="clickCount" stroke="#8884d8"/>
-          </LineChart>
+
         </div>
 
         <div className="grid chart-grid">
