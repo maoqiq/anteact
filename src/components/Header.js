@@ -4,10 +4,11 @@ import {Link, browserHistory} from 'react-router';
 
 import {Layout, Menu, Breadcrumb} from 'antd';
 const BreadcrumbItem = Breadcrumb.Item
-const {Header, Content, Sider} = Layout;
+const {Header} = Layout;
 
 import LoadingBar from 'react-redux-loading-bar'
 
+import {fetchInfo} from '../actions/user'
 
 class AppHeader extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class AppHeader extends Component {
 
   componentDidMount() {
     this.itemRender(this.props.router.routes)
+    this.props.fetchInfo()
 
     browserHistory.listen((ev) => {
       this.itemRender(this.context.router.routes)
