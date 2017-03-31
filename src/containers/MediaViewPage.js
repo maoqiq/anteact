@@ -1,12 +1,12 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {Link} from 'react-router'
 
-import {Form, Input, Table, Button, Switch, Modal} from 'antd';
-const FormItem = Form.Item;
-const confirm = Modal.confirm;
+import {Form, Input, Table, Button, Switch, Modal} from 'antd'
+const FormItem = Form.Item
+const confirm = Modal.confirm
 
-import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media';
+import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media'
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -55,12 +55,12 @@ class MediaViewPage extends Component {
                   onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
         </span>
         )
-      },];
+      },]
 
-    this.fetchList = this.fetchList.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleEditItem = this.handleEditItem.bind(this);
-    this.handleTableChange = this.handleTableChange.bind(this);
+    this.fetchList = this.fetchList.bind(this)
+    this.handleSearch = this.handleSearch.bind(this)
+    this.handleEditItem = this.handleEditItem.bind(this)
+    this.handleTableChange = this.handleTableChange.bind(this)
   }
 
   componentWillMount() {
@@ -80,7 +80,7 @@ class MediaViewPage extends Component {
 
   // 搜索
   handleSearch(e) {
-    e.preventDefault();
+    e.preventDefault()
     const formValue = this.props.form.getFieldsValue()
     this.fetchList(formValue)
   }
@@ -101,7 +101,7 @@ class MediaViewPage extends Component {
       },
       onCancel() {
       },
-    });
+    })
   }
 
   // 切换媒体状态
@@ -123,13 +123,13 @@ class MediaViewPage extends Component {
   }
 
   render() {
-    const {mediaList} = this.props;
-    const {getFieldDecorator} = this.props.form;
+    const {mediaList} = this.props
+    const {getFieldDecorator} = this.props.form
 
     return (
       <div className="overview media-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <Form className="list-search" layout="inline">
+          <Form className="list-search" layout="inline" onSubmit={this.handleSearch}>
             <FormItem label="媒体名称" key="media-search-name">
               {getFieldDecorator('name', {})(
                 <Input type="text" placeholder="请输入媒体名称"/>
@@ -141,7 +141,7 @@ class MediaViewPage extends Component {
               )}
             </FormItem>
             <FormItem>
-              <Button type="primary" onClick={this.handleSearch}>搜索</Button>
+              <Button type="primary" htmlType="submit">搜索</Button>
             </FormItem>
             <FormItem className="new">
               <Button type="primary">
@@ -165,23 +165,23 @@ class MediaViewPage extends Component {
 }
 MediaViewPage.contextTypes = {
   router: PropTypes.object.isRequired
-};
+}
 
 MediaViewPage.propTypes = {
   mediaList: PropTypes.object.isRequired
-};
+}
 
 function mapStateToProps(state) {
-  const {mediaList} = state;
+  const {mediaList} = state
   return {
     mediaList
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchList(params) {
-      dispatch(fetchList(params));
+      dispatch(fetchList(params))
     },
     updateForm(params){
       dispatch(updateForm(params))
@@ -203,4 +203,4 @@ MediaViewPage = Form.create()(MediaViewPage)
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MediaViewPage);
+)(MediaViewPage)
