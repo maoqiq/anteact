@@ -29,18 +29,19 @@ class MediaFormPage extends Component {
 
     } else if (this.context.router.location.pathname.includes('new')) {
       this.setState({isCreate: true})
-      // this.props.setForm()
     }
   }
 
+  // 提交表单
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
 
       if (err) {
-        // return
+        return
       }
-      let formValue = values;
+
+      let formValue = values
 
       if (this.state.isCreate) {
         this.props.submitForm(formValue)
@@ -54,6 +55,7 @@ class MediaFormPage extends Component {
     });
   }
 
+  // 取消表单修改
   handleCancelSubmit(e) {
     e.preventDefault();
     this.context.router.push('/page/media/overview')
@@ -83,8 +85,10 @@ class MediaFormPage extends Component {
         },
       },
     };
+
     const {getFieldDecorator} = this.props.form;
     const {mediaForm} = this.props
+
     return (
       <div className="form-page" style={{padding: '10px'}}>
         <Form onSubmit={this.handleSubmit} className="form media-form" style={{width: '80%'}}>

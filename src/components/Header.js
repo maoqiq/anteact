@@ -2,10 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
 import {Link, browserHistory} from 'react-router';
 
-import {Layout, Menu, Breadcrumb, Icon} from 'antd';
-const {SubMenu} = Menu;
+import {Layout, Menu, Breadcrumb} from 'antd';
 const BreadcrumbItem = Breadcrumb.Item
 const {Header, Content, Sider} = Layout;
+
+import LoadingBar from 'react-redux-loading-bar'
+
 
 class AppHeader extends Component {
   constructor(props) {
@@ -56,6 +58,7 @@ class AppHeader extends Component {
     const {userInfo} = this.props
     return (
       <Header className="header app-header">
+        <LoadingBar />
         <Menu
           theme="dark"
           mode="horizontal"

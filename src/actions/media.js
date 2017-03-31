@@ -1,12 +1,11 @@
 import {push} from 'react-router-redux'
 import {message} from 'antd'
-import axios from 'axios'
 
 import types from '../constants/actionTypes';
 import fetch from 'isomorphic-fetch'
 
 import {apiUrl} from '../utils/apiHelper'
-
+import axiosGet from '../api/axios'
 
 const url = {
   list: apiUrl('/ssp/app/list'),
@@ -20,30 +19,22 @@ const url = {
 
 export function fetchList(params) {
   return dispatch =>
-    axios.get(url.list, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.list, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
-        dispatch({
-          type: types.MEDIA_LIST_FETCH_SUCCESS,
-          payload: _data.data
-        })
+        if (_data.success) {
+          dispatch({
+            type: types.MEDIA_LIST_FETCH_SUCCESS,
+            payload: _data.data
+          })
+        }
       })
 }
 
 export function fetchDetail(params) {
   return dispatch =>
-    axios.get(url.detail, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.detail, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -57,17 +48,10 @@ export function fetchDetail(params) {
 }
 
 export function submitForm(params) {
-  console.log(params)
   return dispatch =>
-    axios.get(url.add, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.add, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
-
         if (_data.success) {
           dispatch({
             type: types.MEDIA_FORM_SUBMIT_SUCCESS,
@@ -91,12 +75,7 @@ export function submitForm(params) {
 
 export function updateForm(params) {
   return dispatch =>
-    axios.get(url.update, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.update, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         if (_data.success) {
@@ -105,7 +84,6 @@ export function updateForm(params) {
             payload: _data
           })
         }
-
         return _data
       })
       .then(data => {
@@ -124,12 +102,7 @@ export function updateForm(params) {
 
 export function deleteItem(params) {
   return dispatch => {
-    axios.get(url.delete, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.delete, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -162,12 +135,7 @@ export function setForm() {
 
 export function enableStatus(params) {
   return dispatch => {
-    axios.get(url.enable, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.enable, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -183,12 +151,7 @@ export function enableStatus(params) {
 }
 export function disableStatus(params) {
   return dispatch => {
-    axios.get(url.disable, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.disable, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)

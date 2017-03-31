@@ -1,9 +1,9 @@
 import {message} from 'antd'
 import {push} from 'react-router-redux'
-import axios from 'axios'
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
+import axiosGet from '../api/axios'
 
 const url = {
   list: apiUrl('/ssp/media/account/info'),
@@ -13,8 +13,7 @@ const url = {
 
 export function fetchInfo(params) {
   return dispatch =>
-    axios.get(url.list)
-      .then(response => response.data)
+    axiosGet(url.list)
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -34,12 +33,7 @@ export function fetchInfo(params) {
 
 export function modifyInfo(params) {
   return dispatch =>
-    axios.get(url.edit, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.edit, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)

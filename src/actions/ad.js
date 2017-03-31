@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
+import axiosGet from '../api/axios'
 
 const url = {
   list: apiUrl('/ssp/app/pit/list'),
@@ -20,12 +21,7 @@ const url = {
 
 export function fetchList(params) {
   return dispatch =>
-    axios.get(url.list, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.list, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -40,12 +36,7 @@ export function fetchList(params) {
 
 export function deleteItem(params) {
   return dispatch => {
-    axios.get(url.delete, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.delete, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -70,12 +61,7 @@ export function deleteItem(params) {
 // 编辑广告位
 export function fetchDetail(params) {
   return dispatch =>
-    axios.get(url.detail, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.detail, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -88,14 +74,8 @@ export function fetchDetail(params) {
 
 // 新建广告位
 export function submitForm(params) {
-  console.log(params)
   return dispatch =>
-    axios.get(url.add, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.add, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -126,15 +106,8 @@ export function submitForm(params) {
 
 // 更新广告位
 export function updateForm(params) {
-  console.log(params)
-
   return dispatch =>
-    axios.get(url.update, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.update, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -167,12 +140,7 @@ export function updateForm(params) {
 
 export function enableStatus(params) {
   return dispatch => {
-    axios.get(url.enable, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.enable, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -186,14 +154,10 @@ export function enableStatus(params) {
       })
   }
 }
+// 禁用
 export function disableStatus(params) {
   return dispatch => {
-    axios.get(url.disable, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.disable, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -208,12 +172,10 @@ export function disableStatus(params) {
   }
 }
 
-
 // 广告规格
 export function fetchSpecList() {
   return dispatch =>
-    axios.get(url.specList)
-      .then(response => response.data)
+    axiosGet(url.specList)
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)

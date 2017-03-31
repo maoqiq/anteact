@@ -5,6 +5,7 @@ import cookie from 'react-cookie';
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
+import axiosGet from '../api/axios'
 
 
 const url = {
@@ -21,13 +22,7 @@ export function signIn(params) {
       payload: {}
     })
 
-    axios.create({withCredentials: true}).get(url.signIn, {
-      withCredentials: true,
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.signIn, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         if (_data.success) {
@@ -61,12 +56,8 @@ export function signUp(params) {
       type: types.REGISTER_REQUEST
     })
 
-    axios.get(url.signUp, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+
+    axiosGet(url.signUp, {data: params})
       .then(data => {
         if (typeof data === 'string') {
           data = JSON.parse(data)
@@ -106,14 +97,9 @@ export function signUp(params) {
 }
 
 
-export function sendCode(mail) {
+export function sendCode(params) {
   return dispatch =>
-    axios.get(url.sendCode, {
-      params: {
-        data: mail
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.sendCode, {data: params})
       .then(data => {
         console.log(data.data)
         dispatch({

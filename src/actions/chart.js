@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
+import axiosGet from '../api/axios'
 
 const url = {
   app: apiUrl('/ssp/data/appAction'),
@@ -13,13 +14,7 @@ const url = {
 // 媒体数据
 export function fetchApp(params) {
   return dispatch =>
-    axios.get(url.app, {
-      params: {
-        data: params,
-        mediaId: 1
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.app, {data: params, mediaId: 1})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -37,13 +32,7 @@ export function fetchApp(params) {
 // 广告位数据
 export function fetchPit(params) {
   return dispatch =>
-    axios.get(url.app, {
-      params: {
-        data: params,
-        mediaId: 1
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.app, {data: params, mediaId: 1})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)

@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
-import {Form, Input, Table, Button, Switch, Pagination, Modal} from 'antd';
+import {Form, Input, Table, Button, Switch, Modal} from 'antd';
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
 
@@ -57,7 +57,7 @@ class MediaViewPage extends Component {
         )
       },];
 
-    this.fetchMediaList = this.fetchMediaList.bind(this);
+    this.fetchList = this.fetchList.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleEditItem = this.handleEditItem.bind(this);
     this.handleTableChange = this.handleTableChange.bind(this);
@@ -65,22 +65,24 @@ class MediaViewPage extends Component {
 
   componentWillMount() {
     this.page = parseInt(this.context.router.params.page) || 1
-    this.fetchMediaList({page: this.page})
+    this.pageSize = 20
+    this.fetchList({page: this.page})
   }
 
-  fetchMediaList(params) {
+  // 拉取数据
+  fetchList(params) {
     params = Object.assign({}, {
-      pageSize: 10,
+      pageSize: this.pageSize,
       page: 1
     }, params)
-    this.props.fetchMediaList(params)
+    this.props.fetchList(params)
   }
 
   // 搜索
   handleSearch(e) {
     e.preventDefault();
     const formValue = this.props.form.getFieldsValue()
-    this.fetchMediaList(formValue)
+    this.fetchList(formValue)
   }
 
   // 编辑媒体项目
@@ -89,6 +91,7 @@ class MediaViewPage extends Component {
     this.context.router.push('/page/media/edit/' + record.id)
   }
 
+  // 删除项目
   handleDeleteItem(record, status) {
     const self = this
     confirm({
@@ -99,13 +102,10 @@ class MediaViewPage extends Component {
       onCancel() {
       },
     });
-
   }
-
 
   // 切换媒体状态
   handleSwitchChange(record, status) {
-    console.log(record, status)
     if (status) {
       this.props.enableStatus({id: record.id})
     } else {
@@ -118,13 +118,12 @@ class MediaViewPage extends Component {
     console.log(pagination, filters, sorter)
     const page = pagination.current
     const pageSize = pagination.pageSize
-    this.fetchMediaList({page: page, pageSize: pageSize})
+    this.fetchList({page: page, pageSize: pageSize})
     this.context.router.push('/page/media/overview/' + page)
   }
 
   render() {
     const {mediaList} = this.props;
-    console.log(mediaList)
     const {getFieldDecorator} = this.props.form;
 
     return (
@@ -156,7 +155,7 @@ class MediaViewPage extends Component {
             <Table rowKey="id"
                    dataSource={mediaList.list}
                    columns={this.columns}
-                   pagination={{defaultCurrent: this.page, total: mediaList.totalCount, pageSize: 10}}
+                   pagination={{defaultCurrent: this.page, total: mediaList.totalCount, pageSize: this.pageSize}}
                    onChange={this.handleTableChange}/>
           </div>
         </div>
@@ -181,7 +180,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchMediaList(params) {
+    fetchList(params) {
       dispatch(fetchList(params));
     },
     updateForm(params){
@@ -200,7 +199,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 MediaViewPage = Form.create()(MediaViewPage)
-
 
 export default connect(
   mapStateToProps,

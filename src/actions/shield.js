@@ -4,6 +4,7 @@ import axios from 'axios'
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
+import axiosGet from '../api/axios'
 
 const url = {
   list: apiUrl('/ssp/shield/strategy/list'),
@@ -16,12 +17,7 @@ const url = {
 
 export function fetchList(params) {
   return dispatch =>
-    axios.get(url.list, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.list, {data: params})
       .then(data => {
         const _data = JSON.parse(data);
         console.log(_data);
@@ -40,12 +36,7 @@ export function fetchList(params) {
 
 export function deleteItem(params) {
   return dispatch => {
-    axios.get(url.delete, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.delete, {data: params})
       .then(data => {
         const _data = JSON.parse(data);
         console.log(_data);
@@ -75,12 +66,7 @@ export function deleteItem(params) {
 // 屏蔽策略详情
 export function fetchDetail(params) {
   return dispatch =>
-    axios.get(url.detail, {
-      params: {
-        data: params
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.detail, {data: params})
       .then(data => {
         const _data = JSON.parse(data);
         console.log(_data);
@@ -92,14 +78,9 @@ export function fetchDetail(params) {
 }
 
 // 提交屏蔽策略
-export function submitForm(formValues) {
+export function submitForm(params) {
   return dispatch =>
-    axios.get(url.add, {
-      params: {
-        data: formValues
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.add, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -130,15 +111,10 @@ export function submitForm(formValues) {
 }
 
 // 更新屏蔽策略
-export function updateForm(formValues) {
+export function updateForm(params) {
   console.log(formValues)
   return dispatch =>
-    axios.get(url.update, {
-      params: {
-        data: formValues
-      }
-    })
-      .then(response => response.data)
+    axiosGet(url.update, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)
@@ -179,8 +155,7 @@ export function setForm(value) {
 
 export function fetchIndustryList() {
   return dispatch =>
-    axios.get(url.industryList)
-      .then(response => response.data)
+    axiosGet(url.industryList, {data: params})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)

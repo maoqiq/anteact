@@ -69,17 +69,16 @@ class AdFormPage extends Component {
     });
   }
 
-
   render() {
     const {getFieldDecorator} = this.props.form;
     let mediaList = [], shieldList = [], specList = [];
     // 设置媒体列表 屏蔽列表
-    if (this.props.mediaList && this.props.mediaList.list) {
+    if (this.props.mediaList.list) {
       mediaList = this.props.mediaList.list;
     }
 
-    if (this.props.shieldList.data && this.props.shieldList.data.list) {
-      shieldList = this.props.shieldList.data.list;
+    if (this.props.shieldList.list) {
+      shieldList = this.props.shieldList.list;
     }
 
     if (this.props.specList.data) {
