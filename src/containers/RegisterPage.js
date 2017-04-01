@@ -3,10 +3,12 @@ import {connect} from 'react-redux';
 import {Link, IndexLink} from 'react-router';
 import {bindActionCreators} from 'redux';
 
-import {signUp, sendCode}  from '../actions/account'
 
 import {Form, Icon, Input, Button, Checkbox, Row, Col, Spin} from 'antd';
 const FormItem = Form.Item;
+
+import {signUp, sendCode}  from '../actions/account'
+import CountDown from '../components/account/CountDown'
 
 class RegisterPage extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class RegisterPage extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSendCode = this.handleSendCode.bind(this);
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this);
+
   }
 
   handleSubmit(e) {
@@ -21,28 +24,32 @@ class RegisterPage extends Component {
 
     this.props.form.validateFields((err, values) => {
       if (err) {
-        // return;
+        return;
       }
-
       const formValues = this.props.form.getFieldsValue()
       this.props.signUp(formValues)
     })
 
   }
 
-  handleSendCode(e) {
-    e.preventDefault();
-    const _mail = this.props.form.getFieldValue('mail')
-    this.props.sendCode({mail: _mail})
-  }
 
   handleCancelSubmit(e) {
     e.preventDefault();
     this.context.router.push('/signin')
   }
 
+  handleSendCode(e) {
+    console.log(this)
+
+    const _mail = this.props.form.getFieldValue('mail')
+    console.log('send code')
+    this.props.sendCode({mail: _mail})
+  }
+
 
   render() {
+
+
     // form 布局
     const formItemLayout = {
       labelCol: {
@@ -107,15 +114,16 @@ class RegisterPage extends Component {
               {...formItemLayout}
             >
               <Row gutter={8}>
-                <Col span={12}>
+                <Col span={14}>
                   {getFieldDecorator('code', {
                     rules: [{required: true, message: '请输入你接受到的验证码'}],
                   })(
                     <Input size="large" type="text" placeholder="请输入验证码"/>
                   )}
                 </Col>
-                <Col span={12}>
-                  <Button size="large" onClick={this.handleSendCode}>获取验证码</Button>
+                <Col span={10}>
+                  <CountDown sendCode={this.handleSendCode} countTime={5}/>
+                  {/*<Button size="large" onClick={this.handleSendCode}>获取验证码</Button>*/}
                 </Col>
               </Row>
             </FormItem>
@@ -161,7 +169,7 @@ class RegisterPage extends Component {
                 立即注册
               </Button>
               <Button htmlType="button" className="login-form-button" onClick={this.handleCancelSubmit}>
-                取消
+                返回
               </Button>
             </FormItem>
           </Spin>

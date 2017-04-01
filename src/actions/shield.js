@@ -155,7 +155,7 @@ export function setForm(value) {
 
 export function fetchIndustryList() {
   return dispatch =>
-    axiosGet(url.industryList, {data: params})
+    axiosGet(url.industryList)
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)

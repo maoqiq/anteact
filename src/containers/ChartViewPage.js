@@ -15,20 +15,11 @@ import {fetchApp, fetchPit} from '../actions/chart'
 import AppChart from '../components/chart/AppChart'
 import PitChart from '../components/chart/PitChart'
 
-import ClickCountChart from '../components/chart/ClickCountChart'
+import DataChart from '../components/chart/DataChart'
 
 class AccountViewPage extends Component {
   constructor(props) {
     super(props)
-    this.data = [
-      {name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-      {name: 'Page B', uv: 3000, pv: 1398, amt: 2210},
-      {name: 'Page C', uv: 2000, pv: 9800, amt: 2290},
-      {name: 'Page D', uv: 2780, pv: 3908, amt: 2000},
-      {name: 'Page E', uv: 1890, pv: 4800, amt: 2181},
-      {name: 'Page F', uv: 2390, pv: 3800, amt: 2500},
-      {name: 'Page G', uv: 3490, pv: 4300, amt: 2100},
-    ];
 
     this.defaultStartDate = moment().subtract(7, 'days')
     this.defaultEndDate = moment()
@@ -44,7 +35,10 @@ class AccountViewPage extends Component {
   }
 
   fetchData(date) {
-    const path = this.context.router.routes[3].path
+    const path = this.context.router.routes[2].path
+
+    console.log(date)
+
     const params = {
       offset: 0,
       pageSize: 20,
@@ -53,53 +47,58 @@ class AccountViewPage extends Component {
     }
 
     switch (path) {
-      case 'pit':
+      case 'chart-pit':
         this.props.fetchPit(params)
         break
-      case 'app':
+      case 'chart-app':
         this.props.fetchApp(params)
-
     }
   }
 
   render() {
     const {chart} = this.props
 
-    let dataSource = [], chartData = []
+    let dataSource = []
 
+    let exposeCount = [],
+      clickCount = [],
+      clickPercent = []
 
-    if (chart.appData) {
+    if (chart.actionData) {
+      exposeCount = chart.actionData[0]
+      clickCount = chart.actionData[1]
+      clickPercent = chart.actionData[2]
+
       dataSource = chart.appData
-      // chartData = chart.actionData
-      chartData = chart.actionData.map((app, app_index) => {
-        return app.detailVOs.map((item, item_index) => {
-          return {clickCount: item.clickCount, date: item.date}
-        })
-      })
     }
+
 
     return (
       <div className="overview chart-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
           <RangePicker onChange={this.fetchData} defaultValue={this.defaultRange}/>
         </div>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Tab 1" key="1">
-            <ClickCountChart data={chartData}/>
-          </TabPane>
-          <TabPane tab="Tab 2" key="2">Content of Tab Pane 2</TabPane>
-          <TabPane tab="Tab 3" key="3">Content of Tab Pane 3</TabPane>
-        </Tabs>
+        <div className="chart-view">
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="点击量" key="1">
+              <DataChart data={clickCount}/>
+            </TabPane>
 
-        <div className="grid shield-grid">
+            <TabPane tab="曝光量" key="2">
+              <DataChart data={exposeCount}/>
+            </TabPane>
 
+            <TabPane tab="点击率" key="3">
+              <DataChart data={clickPercent}/>
+            </TabPane>
+          </Tabs>
         </div>
 
         <div className="grid chart-grid">
           <AppChart dataSource={dataSource}/>
         </div>
       </div>
-    );
+    )
   }
 }
 AccountViewPage.contextTypes = {

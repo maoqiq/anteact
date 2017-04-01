@@ -23,9 +23,7 @@ export function fetchApp(params) {
             type: types.CHART_APP_FETCH_SUCCESS,
             payload: _data.data
           })
-
         }
-
       })
 }
 

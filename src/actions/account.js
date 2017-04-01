@@ -98,10 +98,11 @@ export function signUp(params) {
 
 
 export function sendCode(params) {
+  console.log(params)
   return dispatch =>
     axiosGet(url.sendCode, {data: params})
       .then(data => {
-        console.log(data.data)
+        console.log(data)
         dispatch({
           type: types.SEND_CODE_SUCCESS,
           payload: data.data
