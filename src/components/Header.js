@@ -1,15 +1,16 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {Link, browserHistory} from 'react-router';
+import {Link, browserHistory} from 'react-router'
 
-import {Layout, Menu, Breadcrumb, Modal} from 'antd';
+import {Layout, Menu, Breadcrumb, Modal, Button} from 'antd'
 const BreadcrumbItem = Breadcrumb.Item
-const {Header} = Layout;
-const confirm = Modal.confirm;
+const {Header} = Layout
+const confirm = Modal.confirm
 
 import LoadingBar from 'react-redux-loading-bar'
 
 import {fetchInfo} from '../actions/user'
+import {logout} from '../actions/account'
 
 class AppHeader extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class AppHeader extends Component {
 
     browserHistory.listen((ev) => {
       this.itemRender(this.context.router.routes)
-    });
+    })
   }
 
   handleLogout(e) {
@@ -38,21 +39,20 @@ class AppHeader extends Component {
       title: '确认退出么?',
       onOk() {
         console.log('logout')
-        self.context.router.push('/signin')
-
+        self.props.logout()
       },
       onCancel() {
       },
-    });
+    })
   }
 
 
   // 面包屑
   itemRender(routes) {
     // 配置每个item的path
-    const _paths = [];
+    const _paths = []
     routes.reduce((acc, current, index) => {
-      let _route = '';
+      let _route = ''
       if (index > 0) {
         _route = `${acc}/${current.path}`
       }
@@ -85,7 +85,7 @@ class AppHeader extends Component {
           style={{lineHeight: '64px'}}
         >
           <Menu.Item key="logout" className="logo">
-            <Link to="/page">来购</Link>
+            <Link to="/page">来推</Link>
           </Menu.Item>
           <Menu.Item key="breadcrumb">
             <Breadcrumb>
@@ -93,38 +93,41 @@ class AppHeader extends Component {
             </Breadcrumb>
           </Menu.Item>
 
-          <Menu.Item key="header-logout" style={{float: 'right'}} onClick={this.handleLogout}>
-            <span>退出</span>
+          <Menu.Item key="header-logout" style={{float: 'right'}}>
+            <Button onClick={this.handleLogout} ghost>退出</Button>
           </Menu.Item>
           <Menu.Item key="header-user-name" style={{float: 'right'}}>
             <span>{userInfo.entName}</span>
           </Menu.Item>
         </Menu>
       </Header>
-    );
+    )
   }
 }
 
 AppHeader.contextTypes = {
   router: PropTypes.object.isRequired
-};
+}
 
 
 AppHeader.propTypes = {
   userInfo: PropTypes.object.isRequired
-};
+}
 
 function mapStateToProps(state) {
-  const {userInfo} = state;
+  const {userInfo} = state
   return {
     userInfo,
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchInfo() {
-      dispatch(fetchInfo({}));
+      dispatch(fetchInfo({}))
+    },
+    logout(){
+      dispatch(logout())
     }
   }
 }
@@ -133,4 +136,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AppHeader);
+)(AppHeader)

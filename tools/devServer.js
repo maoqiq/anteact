@@ -55,7 +55,12 @@ var proxyTable = {
     target: _target,
     changeOrigin: true,
     logLevel: 'debug',
-  }
+  },
+  '/h5': {
+    target: _target,
+    changeOrigin: true,
+    logLevel: 'debug',
+  },
 }
 
 Object.keys(proxyTable)

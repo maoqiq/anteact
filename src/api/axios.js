@@ -8,8 +8,9 @@ export default function axiosGet(url, params, options) {
   })
     .then(response => {
       const data = response.data
-      if (data.code === 11) {
+      if (data.code === 206) {
         location.replace('/')
+        return
       }
       return data
     })

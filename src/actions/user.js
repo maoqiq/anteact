@@ -1,5 +1,7 @@
 import {message} from 'antd'
 import {push} from 'react-router-redux'
+import {Router, browserHistory} from 'react-router';
+
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
@@ -26,6 +28,10 @@ export function fetchInfo(params) {
             type: types.USER_FINANCE_FETCH_SUCCESS,
             payload: _data.data.finance
           })
+
+          if (browserHistory.getCurrentLocation().pathname.includes('signin')) {
+            dispatch(push('/page'))
+          }
         }
 
       })

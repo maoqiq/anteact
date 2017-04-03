@@ -1,11 +1,16 @@
 import React, {PropTypes} from 'react';
+import {connect} from 'react-redux'
 
-// This is a class-based component because the current
-// version of hot reloading won't hot reload a stateless
-// component at the top-level.
+import {fetchInfo} from '../actions/user'
+
+
 class App extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
+    this.props.fetchInfo()
   }
 
   render() {
@@ -17,8 +22,34 @@ class App extends React.Component {
   }
 }
 
-App.propTypes = {
-  children: PropTypes.element
-};
+App.contextTypes = {
+  router: PropTypes.object.isRequired
+}
 
-export default App;
+
+App.propTypes = {
+  children: PropTypes.element,
+  userInfo: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+  const {userInfo} = state
+  return {
+    userInfo,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchInfo() {
+      dispatch(fetchInfo({}))
+    },
+  }
+}
+
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
+

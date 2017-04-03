@@ -2,9 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Link, IndexLink} from 'react-router';
 
-import {bindActionCreators} from 'redux';
-import * as actions from '../actions/fuelSavingsActions';
-
 
 import {Form, Icon, Input, Button, Checkbox, Spin} from 'antd';
 const FormItem = Form.Item;
@@ -33,6 +30,7 @@ class LoginPage extends Component {
         rememberAccount: true
       })
     }
+
   }
 
   // 处理表单提交
@@ -121,9 +119,10 @@ LoginPage.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const {login} = state;
+  const {login, userInfo} = state;
   return {
     login,
+    userInfo
   }
 }
 

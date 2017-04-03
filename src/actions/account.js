@@ -12,7 +12,8 @@ const url = {
   signIn: apiUrl('/1.0/user/login.action'),
   signUp: apiUrl('/public/ssp/media/register'),
   forget: apiUrl('/user/mail/changePassword.action'),
-  sendCode: apiUrl('/user/mail/sendActivationCode.action')
+  sendCode: apiUrl('/user/mail/sendActivationCode.action'),
+  logout: apiUrl('/h5/logout.action')
 }
 
 
@@ -151,5 +152,21 @@ export function sendCode(params) {
           type: types.SEND_CODE_SUCCESS,
           payload: data.data
         })
+      })
+}
+
+// 退出
+export function logout(params) {
+  console.log(params)
+  return dispatch =>
+    axiosGet(url.logout, {data: params})
+      .then(data => {
+        const _data = JSON.parse(data)
+
+        console.log(_data)
+        if (_data.success) {
+          dispatch(push('/signin'))
+          cookie.remove('esid')
+        }
       })
 }
