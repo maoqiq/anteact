@@ -1,5 +1,4 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, {Component} from 'react';
 
 import {Button} from 'antd';
 
@@ -16,26 +15,16 @@ class CountDown extends Component {
   }
 
   onClick(e) {
-    console.log('click')
-
     let timer = null
-    let countTime = this.props.countTime
+    let countTime = this.props.countTime || 60
     this.count(timer, countTime)
+    this.props.sendCode.call(this, e)
   }
 
   count(timer, num) {
     timer = setTimeout(() => {
-      num -= 1
-      this.setState({
-        text: num
-      })
-      if (num > 0) {
-        this.count(timer, num)
-      } else {
-        this.setState({
-          text: '获取验证码'
-        })
-      }
+      this.setState({text: num -= 1})
+      num > 0 ? this.count(timer, num) : this.setState({text: '获取验证码'})
     }, 1000)
   }
 

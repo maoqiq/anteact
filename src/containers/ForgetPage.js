@@ -7,15 +7,15 @@ import {bindActionCreators} from 'redux';
 import {Form, Icon, Input, Button, Checkbox, Row, Col, Spin} from 'antd';
 const FormItem = Form.Item;
 
-import {signUp, sendCode}  from '../actions/account'
+import {findPassword, sendCode}  from '../actions/account'
 import CountDown from '../components/account/CountDown'
 
-class RegisterPage extends Component {
+class ForgetPage extends Component {
   constructor(props) {
     super(props)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleSendCode = this.handleSendCode.bind(this)
-    this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSendCode = this.handleSendCode.bind(this);
+    this.handleCancelSubmit = this.handleCancelSubmit.bind(this);
   }
 
   handleSubmit(e) {
@@ -23,10 +23,10 @@ class RegisterPage extends Component {
 
     this.props.form.validateFields((err, values) => {
       if (err) {
-        return
+        return;
       }
-      const formValues = this.props.form.getFieldsValue()
-      this.props.signUp(formValues)
+      console.log(values)
+      this.props.findPassword(values)
     })
 
   }
@@ -67,14 +67,14 @@ class RegisterPage extends Component {
       },
     };
     const {getFieldDecorator} = this.props.form;
-    const register = this.props.register
+    const {forget} = this.props
     return (
-      <div className="register account">
-        <Form onSubmit={this.handleSubmit} className="register-form account-form" noValidate>
+      <div className="forget account">
+        <Form onSubmit={this.handleSubmit} className="forget-form account-form" noValidate>
           <h3 className="form-title">
-            注册
+            找回密码
           </h3>
-          <Spin spinning={register.isFetching}>
+          <Spin spinning={forget.isFetching}>
             <FormItem
               label="用户名"
               {...formItemLayout}
@@ -82,23 +82,12 @@ class RegisterPage extends Component {
               {getFieldDecorator('mail', {
                 rules: [
                   {
-                    required: true, message: '请输入邮箱作为用户名'
+                    required: true, message: '请输入您的邮箱'
                   }, {
                     type: 'email', message: '请输入正确的邮箱格式'
                   }]
               })(
-                <Input type="email" placeholder="请输入可用的邮箱作为用户名"/>
-              )}
-            </FormItem>
-
-            <FormItem
-              label="密码"
-              {...formItemLayout}
-            >
-              {getFieldDecorator('password', {
-                rules: [{required: true, message: '请输入密码'}],
-              })(
-                <Input type="text" placeholder="请输入密码"/>
+                <Input type="email" placeholder="请输入您的邮箱"/>
               )}
             </FormItem>
 
@@ -121,44 +110,23 @@ class RegisterPage extends Component {
             </FormItem>
 
             <FormItem
-              label="公司名称"
+              label="密码"
               {...formItemLayout}
             >
-              {getFieldDecorator('companyName', {
-                rules: [{required: true, message: '请输入公司名称'}],
+              {getFieldDecorator('password', {
+                rules: [{required: true, message: '请输入密码'}],
               })(
-                <Input type="text" placeholder="请输入公司名称"/>
+                <Input type="text" placeholder="请输入密码"/>
               )}
             </FormItem>
 
-            <FormItem
-              label="联系人姓名"
-              {...formItemLayout}
-            >
-              {getFieldDecorator('name', {
-                rules: [{required: true, message: '请输入联系人姓名'}],
-              })(
-                <Input type="text" placeholder="请输入真实的联系人姓名"/>
-              )}
-            </FormItem>
-
-            <FormItem
-              label="联系电话"
-              {...formItemLayout}
-            >
-              {getFieldDecorator('contactTel', {
-                rules: [{required: true, message: '请输入联系电话'}],
-              })(
-                <Input type="tel" placeholder="请输入真实的联系电话"/>
-              )}
-            </FormItem>
 
             <FormItem
               className="form-actions"
               {...tailFormItemLayout}
             >
               <Button type="primary" htmlType="submit" className="login-form-button">
-                立即注册
+                立即重设
               </Button>
               <Button htmlType="button" className="login-form-button" onClick={this.handleCancelSubmit}>
                 返回
@@ -172,20 +140,20 @@ class RegisterPage extends Component {
   }
 }
 
-RegisterPage.contextTypes = {
+ForgetPage.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
-RegisterPage.propTypes = {
+ForgetPage.propTypes = {
   code: PropTypes.object.isRequired,
-  register: PropTypes.object.isRequired,
+  forget: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
-  const {code, register} = state;
+  const {code, forget} = state;
   return {
     code,
-    register
+    forget
   }
 }
 
@@ -194,15 +162,15 @@ function mapDispatchToProps(dispatch) {
     sendCode(mail) {
       dispatch(sendCode(mail));
     },
-    signUp(params){
-      dispatch(signUp(params));
+    findPassword(params){
+      dispatch(findPassword(params));
     }
   }
 }
 
-RegisterPage = Form.create()(RegisterPage)
+ForgetPage = Form.create()(ForgetPage)
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RegisterPage)
+)(ForgetPage)

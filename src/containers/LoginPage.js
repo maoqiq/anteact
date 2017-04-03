@@ -62,8 +62,7 @@ class LoginPage extends Component {
             </FormItem>
             <FormItem>
               <Checkbox>记住账号</Checkbox>
-              <a className="login-form-forgot">忘记密码</a>
-
+              <Link to="/forget">忘记密码</Link>
             </FormItem>
             <FormItem>
               <Button type="primary" htmlType="submit" className="block">

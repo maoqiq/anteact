@@ -11,6 +11,7 @@ import axiosGet from '../api/axios'
 const url = {
   signIn: apiUrl('/1.0/user/login.action'),
   signUp: apiUrl('/public/ssp/media/register'),
+  forget: apiUrl('/user/mail/changePassword.action'),
   sendCode: apiUrl('/user/mail/sendActivationCode.action')
 }
 
@@ -93,9 +94,52 @@ export function signUp(params) {
         })
       })
   }
-
 }
 
+export function findPassword(params) {
+  return dispatch => {
+    dispatch({
+      type: types.FORGET_REQUEST
+    })
+
+
+    axiosGet(url.forget, {data: params})
+      .then(data => {
+        if (typeof data === 'string') {
+          data = JSON.parse(data)
+        }
+        const _data = data
+        if (_data.success) {
+          dispatch({
+            type: types.FORGET_SUCCESS,
+            payload: _data
+          })
+        } else {
+          dispatch({
+            type: types.FORGET_FAILURE,
+            payload: _data
+          })
+        }
+
+        return _data;
+      })
+      .then(data => {
+        console.log(data)
+        if (data.success) {
+          dispatch(push('/signin'))
+          message.success('重置成功！')
+        } else if (data.success === false) {
+          message.error(data.msg)
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        dispatch({
+          type: types.FORGET_FAILURE,
+        })
+      })
+  }
+}
 
 export function sendCode(params) {
   console.log(params)

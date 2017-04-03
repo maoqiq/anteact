@@ -2,9 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux'
 import {Link, browserHistory} from 'react-router';
 
-import {Layout, Menu, Breadcrumb} from 'antd';
+import {Layout, Menu, Breadcrumb, Modal} from 'antd';
 const BreadcrumbItem = Breadcrumb.Item
 const {Header} = Layout;
+const confirm = Modal.confirm;
 
 import LoadingBar from 'react-redux-loading-bar'
 
@@ -15,6 +16,7 @@ class AppHeader extends Component {
     super(props)
 
     this.itemRender = this.itemRender.bind(this)
+    this.handleLogout = this.handleLogout.bind(this)
     this.state = {
       breadcrumbItems: []
     }
@@ -26,6 +28,21 @@ class AppHeader extends Component {
 
     browserHistory.listen((ev) => {
       this.itemRender(this.context.router.routes)
+    });
+  }
+
+  handleLogout(e) {
+    e.preventDefault()
+    const self = this
+    confirm({
+      title: '确认退出么?',
+      onOk() {
+        console.log('logout')
+        self.context.router.push('/signin')
+
+      },
+      onCancel() {
+      },
     });
   }
 
@@ -77,7 +94,7 @@ class AppHeader extends Component {
           </Menu.Item>
 
           <Menu.Item key="header-logout" style={{float: 'right'}}>
-            <Link to="/">退出</Link>
+            <span onClick={this.handleLogout}>退出</span>
           </Menu.Item>
           <Menu.Item key="header-user-name" style={{float: 'right'}}>
             <span>{userInfo.entName}</span>

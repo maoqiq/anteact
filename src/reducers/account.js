@@ -65,6 +65,37 @@ export function register(state = initialRegisterState, action) {
   }
 }
 
+// 忘记密码
+const initialForgetState = {
+  mail: '',
+  code: '',
+  password: '',
+  isFetching: false,
+  error: false
+}
+
+export function forget(state = initialForgetState, action) {
+  switch (action.type) {
+    case types.FORGET_REQUEST:
+      return Object.assign({}, state, {
+        isFetching: true,
+        error: false
+      });
+    case types.FORGET_SUCCESS:
+      return Object.assign({}, state, action.payload, {
+        isFetching: false,
+        error: false
+      });
+    case types.FORGET_FAILURE:
+      return Object.assign({}, state, action.payload, {
+        isFetching: false,
+        error: true
+      });
+    default:
+      return state;
+  }
+}
+
 // 发送验证码
 const initialCodeState = {
   code: ''

@@ -31,25 +31,28 @@ const devMiddleWare = require('webpack-dev-middleware')(compiler, {
   quiet: true,
 })
 
+const _target = 'http://192.168.10.234:8080'
+// const _target = 'http://pre.adbaitai.com'
+
 // proxy api requests
 var proxyTable = {
   '/ssp': {
-    target: 'http://192.168.10.234:8080',
+    target: _target,
     changeOrigin: true,
     logLevel: 'debug',
   },
   '/user': {
-    target: 'http://192.168.10.234:8080',
+    target: _target,
     changeOrigin: true,
     logLevel: 'debug',
   },
   '/1.0': {
-    target: 'http://192.168.10.234:8080',
+    target: _target,
     changeOrigin: true,
     logLevel: 'debug',
   },
   '/public': {
-    target: 'http://192.168.10.234:8080',
+    target: _target,
     changeOrigin: true,
     logLevel: 'debug',
   }

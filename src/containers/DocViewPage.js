@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link, IndexLink} from 'react-router';
 
-import {Icon, Tabs} from 'antd';
+import {Icon, Tabs, Card, Row, Col} from 'antd';
 const TabPane = Tabs.TabPane;
 
 class DocViewPage extends Component {
@@ -15,21 +15,32 @@ class DocViewPage extends Component {
   render() {
     return (
       <div className="overview doc-overview">
-        <Tabs defaultActiveKey="doc-tab-panel-2" className="tabs">
-          <TabPane tab={<span><Icon type="apple"/>IOS版本</span>} key="doc-tab-panel-1">
-            IOS开发
-            <Link to="/page/doc/release">查看更新日志</Link>
-          </TabPane>
-          <TabPane tab={<span><Icon type="android"/>Android版本</span>} key="doc-tab-panel-2">
-            Android开发
-          </TabPane>
-          <TabPane tab={<span><Icon type="chrome"/>JSSDK版本</span>} key="doc-tab-panel-3">
-            JavaScript开发
-          </TabPane>
-        </Tabs>
+        <div>
+          <Card title="JSSDK" bordered={false} style={{width: '60%'}}>
+            <Row>
+              <Col xs={24} sm={4}>Ver 2.0.1</Col>
+              <Col xs={24} sm={20}>
+                · 优化数据上报<br/>
+                · 缩小SDK包体积20%</Col>
+            </Row>
+            <Row>
+              <Col xs={24} sm={4}>Ver 1.0</Col>
+              <Col xs={24} sm={20}>
+                · 丰富标准样式选择：横幅、插屏、开屏、信息流、浮标、banner、应用墙、自定义<br/>
+                · 独创交互式广告体验，更高收益<br/>
+                · 支持用户行为数据记录，用于提升广告投放准确性和稳定性
+              </Col>
+            </Row>
+          </Card>
+
+          <Card title="IOS SDK" bordered={false} style={{width: '60%'}}>
+           即将上线
+          </Card>
+
+        </div>
       </div>
     );
   }
 }
 
-export default DocViewPage;
+export default DocViewPage
