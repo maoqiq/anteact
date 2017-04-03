@@ -30,7 +30,7 @@ export function fetchApp(params) {
 // 广告位数据
 export function fetchPit(params) {
   return dispatch =>
-    axiosGet(url.app, {data: params, mediaId: 1})
+    axiosGet(url.pit, {data: params, mediaId: 1})
       .then(data => {
         const _data = JSON.parse(data)
         console.log(_data)

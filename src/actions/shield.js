@@ -145,6 +145,7 @@ export function updateForm(params) {
 
 // 设置屏蔽策略表单
 export function setForm(value) {
+  console.log(value)
   return dispatch => {
     dispatch({
       type: types.SHIELD_FORM_SET,

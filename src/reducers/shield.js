@@ -39,6 +39,7 @@ export function shieldList(state = initialListState, action) {
       return state;
   }
 }
+
 const initialIndustryState = {
   data: []
 }

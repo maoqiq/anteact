@@ -1,21 +1,23 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router'
 
 import moment from 'moment'
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-import {Form, Input, Table, Button, Switch, DatePicker, Tabs} from 'antd';
+import {DatePicker, Tabs} from 'antd';
 const {MonthPicker, RangePicker} = DatePicker;
 const TabPane = Tabs.TabPane;
 
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
 
 import {fetchApp, fetchPit} from '../actions/chart'
-import AppChart from '../components/chart/AppChart'
-import PitChart from '../components/chart/PitChart'
+import AppTable from '../components/chart/AppTable'
+import PitTable from '../components/chart/PitTable'
+
 
 import DataChart from '../components/chart/DataChart'
+
 
 class AccountViewPage extends Component {
   constructor(props) {
@@ -24,21 +26,28 @@ class AccountViewPage extends Component {
     this.defaultStartDate = moment().subtract(7, 'days')
     this.defaultEndDate = moment()
 
-    this.defaultRange = [this.defaultStartDate, this.defaultEndDate]
+    this.path = ''
+    this.state = {
+      dateRange: [this.defaultStartDate, this.defaultEndDate]
+    }
 
     this.fetchData = this.fetchData.bind(this)
+    this.handleChangeDate = this.handleChangeDate.bind(this)
 
   }
 
   componentDidMount() {
-    this.fetchData(this.defaultRange)
+    this.fetchData(this.state.dateRange)
+    this.path = this.context.router.routes[2].path
+
+    browserHistory.listen((route) => {
+      this.path = this.context.router.routes[2].path
+
+      this.fetchData(this.state.dateRange)
+    })
   }
 
   fetchData(date) {
-    const path = this.context.router.routes[2].path
-
-    console.log(date)
-
     const params = {
       offset: 0,
       pageSize: 20,
@@ -46,13 +55,19 @@ class AccountViewPage extends Component {
       endDate: date[1].format('YYYY-MM-DD'),
     }
 
-    switch (path) {
+    switch (this.path) {
       case 'chart-pit':
         this.props.fetchPit(params)
-        break
       case 'chart-app':
         this.props.fetchApp(params)
     }
+  }
+
+  handleChangeDate(date) {
+    this.setState({
+      dateRange: [date[0], date[1]]
+    })
+    this.fetchData(this.state.dateRange)
   }
 
   render() {
@@ -76,7 +91,7 @@ class AccountViewPage extends Component {
     return (
       <div className="overview chart-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <RangePicker onChange={this.fetchData} defaultValue={this.defaultRange}/>
+          <RangePicker onChange={this.handleChangeDate} defaultValue={this.defaultRange}/>
         </div>
         <div className="chart-view">
           <Tabs defaultActiveKey="1">
@@ -95,7 +110,12 @@ class AccountViewPage extends Component {
         </div>
 
         <div className="grid chart-grid">
-          <AppChart dataSource={dataSource}/>
+          {this.path === 'chart-app' &&
+          <AppTable dataSource={dataSource}/>
+          }
+          {this.path === 'chart-pit' &&
+          <PitTable dataSource={dataSource}/>
+          }
         </div>
       </div>
     )
