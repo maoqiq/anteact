@@ -16,6 +16,15 @@ export function mediaList(state = initialListState, action) {
     case types.DELETE_MEDIA_ITEM:
       const _list = state.list.filter(item => item.id !== action.payload.id);
       return Object.assign({}, state, {list: _list});
+    case types.MEDIA_LIST_SET:
+      const setList = state.list.map((value, index) => {
+        if (value.id === action.payload.id) {
+          return Object.assign({}, value, {status: action.payload.status})
+        } else {
+          return value
+        }
+      })
+      return Object.assign({}, state, {list: setList})
     default:
       return state;
   }

@@ -139,6 +139,8 @@ export function updateForm(params) {
 
 
 export function enableStatus(params) {
+  console.log(params)
+
   return dispatch => {
     axiosGet(url.enable, {data: params})
       .then(data => {
@@ -147,8 +149,8 @@ export function enableStatus(params) {
         if (_data.success) {
           message.success('更新成功')
           dispatch({
-            type: types.AD_FORM_SET,
-            payload: {status: 1}
+            type: types.AD_LIST_SET,
+            payload: {status: 1, index: params.index, id: params.id}
           })
         }
       })
@@ -156,6 +158,7 @@ export function enableStatus(params) {
 }
 // 禁用
 export function disableStatus(params) {
+  console.log(params)
   return dispatch => {
     axiosGet(url.disable, {data: params})
       .then(data => {
@@ -164,8 +167,8 @@ export function disableStatus(params) {
         if (_data.success) {
           message.success('更新成功')
           dispatch({
-            type: types.AD_FORM_SET,
-            payload: {status: 0}
+            type: types.AD_LIST_SET,
+            payload: {status: 0, index: params.index, id: params.id}
           })
         }
       })

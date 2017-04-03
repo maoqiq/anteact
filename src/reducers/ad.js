@@ -34,7 +34,11 @@ export function adForm(state = initialFormState, action) {
   }
 }
 
-const initialListState = {}
+const initialListState = {
+  list: [],
+  isFetching: false,
+  error: false
+}
 
 export function adList(state = initialListState, action) {
   switch (action.type) {
@@ -56,6 +60,15 @@ export function adList(state = initialListState, action) {
     case types.DELETE_AD_ITEM:
       const _list = state.list.filter(item => item.id !== action.payload.id);
       return Object.assign({}, state, {list: _list});
+    case types.AD_LIST_SET:
+      const setList = state.list.map((value, index) => {
+        if (value.id === action.payload.id) {
+          return Object.assign({}, value, {status: action.payload.status})
+        } else {
+          return value
+        }
+      })
+      return Object.assign({}, state, {list: setList})
     default:
       return state;
   }

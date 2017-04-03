@@ -142,8 +142,8 @@ export function enableStatus(params) {
         if (_data.success) {
           message.success('更新成功')
           dispatch({
-            type: types.MEDIA_FORM_SET,
-            payload: {status: 1}
+            type: types.MEDIA_LIST_SET,
+            payload: {status: 1, index: params.index, id: params.id}
           })
         }
       })
@@ -158,8 +158,8 @@ export function disableStatus(params) {
         if (_data.success) {
           message.success('更新成功')
           dispatch({
-            type: types.MEDIA_FORM_SET,
-            payload: {status: 0}
+            type: types.MEDIA_LIST_SET,
+            payload: {status: 0, index: params.index, id: params.id}
           })
         }
       })

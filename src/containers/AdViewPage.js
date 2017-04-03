@@ -41,7 +41,7 @@ class AdViewPage extends Component {
       key: 'status',
       render: (text, record, index) => (
         <span>
-          <Switch defaultChecked={record.status === 1} onChange={this.handleSwitchChange.bind(this, record)}/>
+          <Switch defaultChecked={record.status === 1} onChange={this.handleSwitchChange.bind(this, record, index)}/>
         </span>
       )
     }, {
@@ -102,13 +102,14 @@ class AdViewPage extends Component {
   }
 
   // 切换状态
-  handleSwitchChange(record, status) {
-    console.log(record, status)
+  handleSwitchChange(record, index, status) {
+    console.log(record, index, status)
     if (status) {
-      this.props.enableStatus({id: record.id})
+      this.props.enableStatus({id: record.id, index: index})
     } else {
-      this.props.disableStatus({id: record.id})
+      this.props.disableStatus({id: record.id, index: index})
     }
+    this.forceUpdate()
   }
 
   // 分页
