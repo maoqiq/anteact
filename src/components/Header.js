@@ -81,11 +81,10 @@ class AppHeader extends Component {
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={['2']}
           style={{lineHeight: '64px'}}
         >
           <Menu.Item key="logout" className="logo">
-            <Link to="/page">来推</Link>
+            <Link to="/page" style={{fontSize: '26px'}}>来推</Link>
           </Menu.Item>
           <Menu.Item key="breadcrumb">
             <Breadcrumb>

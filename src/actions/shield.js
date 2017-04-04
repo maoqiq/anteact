@@ -1,6 +1,5 @@
 import {message} from 'antd'
 import {push} from 'react-router-redux'
-import axios from 'axios'
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
@@ -112,7 +111,6 @@ export function submitForm(params) {
 
 // 更新屏蔽策略
 export function updateForm(params) {
-  console.log(formValues)
   return dispatch =>
     axiosGet(url.update, {data: params})
       .then(data => {

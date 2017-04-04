@@ -14,11 +14,10 @@ export function shieldForm(state = initialFormState, action) {
       });
     case types.SHIELD_FORM_SUBMIT_SUCCESS:
       return {};
-      break
     case types.SHIELD_FORM_SET:
       return Object.assign({}, state, action.payload);
     case types.CLEAR_SHIELD_FORM:
-      return Object.assign({});
+      return {};
     default:
       return state;
   }

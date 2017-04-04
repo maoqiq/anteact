@@ -1,14 +1,14 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
 
 import moment from 'moment'
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
 
-import {DatePicker, Tabs} from 'antd';
-const {MonthPicker, RangePicker} = DatePicker;
-const TabPane = Tabs.TabPane;
+import {DatePicker, Tabs} from 'antd'
+const {MonthPicker, RangePicker} = DatePicker
+const TabPane = Tabs.TabPane
 
 
 import {fetchApp, fetchPit} from '../actions/chart'
@@ -37,8 +37,8 @@ class AccountViewPage extends Component {
   }
 
   componentDidMount() {
-    this.fetchData(this.state.dateRange)
     this.path = this.context.router.routes[2].path
+    this.fetchData(this.state.dateRange)
 
     browserHistory.listen((route) => {
       this.path = this.context.router.routes[2].path
@@ -87,11 +87,12 @@ class AccountViewPage extends Component {
       dataSource = chart.appData
     }
 
+    console.log(this.state.dateRange)
 
     return (
       <div className="overview chart-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <RangePicker onChange={this.handleChangeDate} defaultValue={this.defaultRange}/>
+          <RangePicker onChange={this.handleChangeDate} defaultValue={this.state.dateRange}/>
         </div>
         <div className="chart-view">
           <Tabs defaultActiveKey="1">
@@ -123,27 +124,27 @@ class AccountViewPage extends Component {
 }
 AccountViewPage.contextTypes = {
   router: PropTypes.object.isRequired
-};
+}
 
 
 AccountViewPage.propTypes = {
   chart: PropTypes.object.isRequired
-};
+}
 
 function mapStateToProps(state) {
-  const {chart} = state;
+  const {chart} = state
   return {
     chart
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchApp(params) {
-      dispatch(fetchApp(params));
+      dispatch(fetchApp(params))
     },
     fetchPit(params) {
-      dispatch(fetchPit(params));
+      dispatch(fetchPit(params))
     },
 
   }
@@ -153,4 +154,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountViewPage);
+)(AccountViewPage)
