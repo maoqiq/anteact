@@ -35,7 +35,6 @@ class UserViewPage extends Component {
 
   // 切换 编辑input 与 显示 的状态
   toggleInputShow(type, e) {
-    console.log(arguments)
     switch (type) {
       case 'basic':
         this.setState({isShowBasicInput: !this.state.isShowBasicInput})
@@ -60,7 +59,7 @@ class UserViewPage extends Component {
     console.log(e.target.name)
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (err) {
-        // return
+        return
       }
       console.log(values)
       values = Object.assign({}, values, {
@@ -68,6 +67,8 @@ class UserViewPage extends Component {
         idCardFrontUrl: this.props.financeInfo.idCardFrontUrl,
         idCardBackUrl: this.props.financeInfo.idCardBackUrl,
       })
+      this.setState({isShowFinancialInput: !this.state.isShowFinancialInput})
+
       this.props.modifyInfo(values)
     })
   }
@@ -266,7 +267,8 @@ class UserViewPage extends Component {
                       </RadioGroup>
                     )}
                   </span>)
-                : <span>{financeInfo.roleType === 2 && <span>个人</span>}{financeInfo.roleType === 1 && <span>公司</span>}</span>
+                : <span>{financeInfo.roleType === 2 && <span>个人</span>}{financeInfo.roleType === 1 &&
+                <span>公司</span>}</span>
               }
             </FormItem>
             {

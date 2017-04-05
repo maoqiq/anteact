@@ -22,7 +22,6 @@ class DataChart extends Component {
   render() {
     let chartData = [], chartLines = []
     const {data, isPercent} = this.props
-    console.log(data, data.detailVOMap)
     if (data && data.detailVOMap && Object.keys(data.detailVOMap).length > 0) {
       // 获取日期key
       const chart = data.detailVOMap

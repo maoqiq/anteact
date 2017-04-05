@@ -41,7 +41,6 @@ class ChartViewPage extends Component {
 
     browserHistory.listen((route) => {
       this.path = this.context.router.routes[2].path
-
       this.fetchData(this.state.dateRange)
     })
   }

@@ -55,6 +55,7 @@ export function modifyInfo(params) {
       .then(data => {
         if (data.success) {
           message.success('保存成功');
+          dispatch(fetchInfo())
         } else if (data.success === false) {
           message.error(data.msg);
         }
