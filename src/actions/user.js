@@ -17,16 +17,15 @@ export function fetchInfo(params) {
   return dispatch =>
     axiosGet(url.list)
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.USER_BASIC_INFO_FETCH_SUCCESS,
-            payload: _data.data
+            payload: data.data
           })
           dispatch({
             type: types.USER_FINANCE_FETCH_SUCCESS,
-            payload: _data.data.finance
+            payload: data.data.finance
           })
 
           if (browserHistory.getCurrentLocation().pathname.includes('signin')) {
@@ -41,9 +40,8 @@ export function modifyInfo(params) {
   return dispatch =>
     axiosGet(url.edit, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.SHIELD_FORM_UPDATE_SUCCESS,
           })
@@ -53,7 +51,7 @@ export function modifyInfo(params) {
           })
         }
 
-        return _data
+        return data
       })
       .then(data => {
         if (data.success) {

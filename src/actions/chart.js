@@ -16,12 +16,11 @@ export function fetchApp(params) {
   return dispatch =>
     axiosGet(url.app, {data: params, mediaId: 1})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.CHART_APP_FETCH_SUCCESS,
-            payload: _data.data
+            payload: data.data
           })
         }
       })
@@ -32,12 +31,11 @@ export function fetchPit(params) {
   return dispatch =>
     axiosGet(url.pit, {data: params, mediaId: 1})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.CHART_APP_FETCH_SUCCESS,
-            payload: _data.data
+            payload: data.data
           })
         }
       })

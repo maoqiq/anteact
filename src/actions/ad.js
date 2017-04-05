@@ -23,12 +23,11 @@ export function fetchList(params) {
   return dispatch =>
     axiosGet(url.list, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.AD_LIST_FETCH_SUCCESS,
-            payload: _data.data
+            payload: data.data
           })
         }
       })
@@ -38,15 +37,14 @@ export function deleteItem(params) {
   return dispatch => {
     axiosGet(url.delete, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.DELETE_AD_ITEM,
             payload: params
           })
         }
-        return _data
+        return data
       })
       .then(data => {
         if (data.success) {
@@ -63,11 +61,10 @@ export function fetchDetail(params) {
   return dispatch =>
     axiosGet(url.detail, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
+        console.log(data)
         dispatch({
           type: types.AD_FORM_FETCH_SUCCESS,
-          payload: _data.data
+          payload: data.data
         })
       })
 }
@@ -77,9 +74,8 @@ export function submitForm(params) {
   return dispatch =>
     axiosGet(url.add, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.AD_FORM_SUBMIT_SUCCESS,
           })
@@ -88,7 +84,7 @@ export function submitForm(params) {
             type: types.AD_FORM_SUBMIT_FAILURE,
           })
         }
-        return _data
+        return data
       })
       .then(data => {
         console.log(data)
@@ -109,19 +105,18 @@ export function updateForm(params) {
   return dispatch =>
     axiosGet(url.update, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.AD_FORM_UPDATE_SUCCESS,
-            payload: _data
+            payload: data
           })
         } else {
           dispatch({
             type: types.AD_FORM_UPDATE_FAILURE,
           })
         }
-        return _data
+        return data
       })
       .then(data => {
         if (data.success) {
@@ -144,9 +139,8 @@ export function enableStatus(params) {
   return dispatch => {
     axiosGet(url.enable, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           message.success('更新成功')
           dispatch({
             type: types.AD_LIST_SET,
@@ -162,9 +156,8 @@ export function disableStatus(params) {
   return dispatch => {
     axiosGet(url.disable, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           message.success('更新成功')
           dispatch({
             type: types.AD_LIST_SET,
@@ -180,11 +173,10 @@ export function fetchSpecList() {
   return dispatch =>
     axiosGet(url.specList)
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
+        console.log(data)
         dispatch({
           type: types.SPEC_LIST_FETCH_SUCCESS,
-          payload: _data
+          payload: data
         })
       })
       .catch(error => {

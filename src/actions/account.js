@@ -13,7 +13,7 @@ const url = {
   signUp: apiUrl('/public/ssp/media/register'),
   forget: apiUrl('/user/mail/changePassword.action'),
   sendCode: apiUrl('/user/mail/sendActivationCode.action'),
-  logout: apiUrl('/h5/logout.action')
+  logout: apiUrl('/logout.action')
 }
 
 
@@ -26,19 +26,18 @@ export function signIn(params) {
 
     axiosGet(url.signIn, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        if (_data.success) {
+        if (data.success) {
           dispatch({
             type: types.LOGIN_SUCCESS,
-            payload: _data
+            payload: data
           })
         } else {
           dispatch({
             type: types.LOGIN_FAILURE,
-            payload: _data
+            payload: data
           })
         }
-        return _data
+        return data
       })
       .then(data => {
         console.log(data)
@@ -46,7 +45,7 @@ export function signIn(params) {
           dispatch(push('/page'))
           cookie.save('esid', data.data.returnToken, {path: '/',})
         } else if (data.success === false) {
-          message.error(data.msg);
+          message.error(data.msg)
         }
       })
   }
@@ -61,23 +60,19 @@ export function signUp(params) {
 
     axiosGet(url.signUp, {data: params})
       .then(data => {
-        if (typeof data === 'string') {
-          data = JSON.parse(data)
-        }
-        const _data = data
-        if (_data.success) {
+        if (data.success) {
           dispatch({
             type: types.REGISTER_SUCCESS,
-            payload: _data
+            payload: data
           })
         } else {
           dispatch({
             type: types.REGISTER_FAILURE,
-            payload: _data
+            payload: data
           })
         }
 
-        return _data;
+        return data;
       })
       .then(data => {
         console.log(data)
@@ -106,23 +101,19 @@ export function findPassword(params) {
 
     axiosGet(url.forget, {data: params})
       .then(data => {
-        if (typeof data === 'string') {
-          data = JSON.parse(data)
-        }
-        const _data = data
-        if (_data.success) {
+        if (data.success) {
           dispatch({
             type: types.FORGET_SUCCESS,
-            payload: _data
+            payload: data
           })
         } else {
           dispatch({
             type: types.FORGET_FAILURE,
-            payload: _data
+            payload: data
           })
         }
 
-        return _data;
+        return data;
       })
       .then(data => {
         console.log(data)
@@ -161,10 +152,8 @@ export function logout(params) {
   return dispatch =>
     axiosGet(url.logout, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch(push('/signin'))
           cookie.remove('esid')
         }

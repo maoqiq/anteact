@@ -8,10 +8,19 @@ export default function axiosGet(url, params, options) {
   })
     .then(response => {
       const data = response.data
-      if (data.code === 206) {
-        location.replace('/')
-        return
+      let _data
+      if (typeof data === 'string') {
+        _data = JSON.parse(data)
+      } else {
+        _data = data
       }
-      return data
+
+      if (_data.code) {
+        if (_data.code === 206) {
+          // location.replace('/')
+          return
+        }
+      }
+      return _data
     })
 }

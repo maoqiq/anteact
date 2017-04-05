@@ -17,13 +17,12 @@ const url = {
 export function fetchList(params) {
   return dispatch =>
     axiosGet(url.list, {data: params})
-      .then(data => {
-        const _data = JSON.parse(data);
-        console.log(_data);
-        if (_data.success) {
+      .then(data => {;
+        console.log(data);
+        if (data.success) {
           dispatch({
             type: types.SHIELD_LIST_FETCH,
-            payload: _data.data
+            payload: data.data
           })
         }
       })
@@ -36,16 +35,15 @@ export function fetchList(params) {
 export function deleteItem(params) {
   return dispatch => {
     axiosGet(url.delete, {data: params})
-      .then(data => {
-        const _data = JSON.parse(data);
-        console.log(_data);
-        if (_data.success) {
+      .then(data => {;
+        console.log(data);
+        if (data.success) {
           dispatch({
             type: types.DELETE_SHIELD_ITEM,
             payload: params
           })
         }
-        return _data
+        return data
       })
       .then(data => {
         if (data.success) {
@@ -66,12 +64,11 @@ export function deleteItem(params) {
 export function fetchDetail(params) {
   return dispatch =>
     axiosGet(url.detail, {data: params})
-      .then(data => {
-        const _data = JSON.parse(data);
-        console.log(_data);
+      .then(data => {;
+        console.log(data);
         dispatch({
           type: types.SHIELD_FORM_FETCH_SUCCESS,
-          payload: _data.data
+          payload: data.data
         })
       })
 }
@@ -81,20 +78,19 @@ export function submitForm(params) {
   return dispatch =>
     axiosGet(url.add, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.SHIELD_FORM_SUBMIT_SUCCESS,
-            payload: _data
+            payload: data
           })
         } else {
           dispatch({
             type: types.SHIELD_FORM_SUBMIT_FAILURE,
-            payload: _data
+            payload: data
           })
         }
-        return _data
+        return data
       })
       .then(data => {
         if (data.success) {
@@ -114,9 +110,8 @@ export function updateForm(params) {
   return dispatch =>
     axiosGet(url.update, {data: params})
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
-        if (_data.success) {
+        console.log(data)
+        if (data.success) {
           dispatch({
             type: types.SHIELD_FORM_UPDATE_SUCCESS,
           })
@@ -126,7 +121,7 @@ export function updateForm(params) {
           })
         }
 
-        return _data
+        return data
       })
       .then(data => {
         if (data.success) {
@@ -156,11 +151,10 @@ export function fetchIndustryList() {
   return dispatch =>
     axiosGet(url.industryList)
       .then(data => {
-        const _data = JSON.parse(data)
-        console.log(_data)
+        console.log(data)
         dispatch({
           type: types.INDUSTRY_LIST_FETCH_SUCCESS,
-          payload: _data
+          payload: data
         })
       })
       .catch(error => {
