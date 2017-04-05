@@ -58,8 +58,12 @@ class AccountViewPage extends Component {
     switch (this.path) {
       case 'chart-pit':
         this.props.fetchPit(params)
+        break
       case 'chart-app':
         this.props.fetchApp(params)
+        break
+      default:
+        break
     }
   }
 
@@ -87,7 +91,6 @@ class AccountViewPage extends Component {
       dataSource = chart.appData
     }
 
-    console.log(this.state.dateRange)
 
     return (
       <div className="overview chart-overview">

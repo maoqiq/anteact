@@ -11,6 +11,7 @@ class AppHeader extends Component {
     super(props)
     this.navList = [{
       category: '媒体管理',
+      icon: 'mobile',
       items: [{
         name: '媒体列表',
         link: '/page/media/overview/1',
@@ -18,6 +19,7 @@ class AppHeader extends Component {
       }]
     }, {
       category: '广告位管理',
+      icon: 'schedule',
       items: [{
         name: '广告位列表',
         link: '/page/ad/overview/1',
@@ -30,6 +32,7 @@ class AppHeader extends Component {
       }]
     }, {
       category: '技术对接',
+      icon: 'code-o',
       items: [{
         name: 'SDK文档',
         link: '/page/doc/overview',
@@ -37,6 +40,7 @@ class AppHeader extends Component {
       }]
     }, {
       category: '账号管理',
+      icon: 'user',
       items: [{
         name: '账号信息',
         link: '/page/user/overview',
@@ -44,13 +48,14 @@ class AppHeader extends Component {
       }]
     }, {
       category: '数据分析',
+      icon: 'dot-chart',
       items: [{
         name: '媒体数据',
-        link: '/page/chart-app',
+        link: '/page/chart-app/overview',
         tag: 'chart-app'
       }, {
         name: '广告位数据',
-        link: '/page/chart-pit',
+        link: '/page/chart-pit/overview',
         tag: 'chart-pit'
       }]
     }]
@@ -73,7 +78,7 @@ class AppHeader extends Component {
   render() {
     const items = this.navList.map((value, index) => {
       return (
-        <SubMenu key={`nav-title-${index}`} title={<span><Icon type="user"/>{value.category}</span>}>
+        <SubMenu key={`nav-title-${index}`} title={<span><Icon type={value.icon}/>{value.category}</span>}>
           {
             value.items.map((v, i) => (
               <Menu.Item key={v.tag}>

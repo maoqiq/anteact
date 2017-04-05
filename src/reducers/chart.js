@@ -8,6 +8,10 @@ export function chart(state = initialAppState, action) {
       return Object.assign({}, state, action.payload, {
         isFetching: true,
       });
+    case types.CHART_PIT_FETCH_SUCCESS:
+      return Object.assign({}, state, action.payload, {
+        isFetching: true,
+      });
 
     default:
       return state;

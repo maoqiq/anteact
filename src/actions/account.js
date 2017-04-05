@@ -13,7 +13,7 @@ const url = {
   signUp: apiUrl('/public/ssp/media/register'),
   forget: apiUrl('/user/mail/changePassword.action'),
   sendCode: apiUrl('/user/mail/sendActivationCode.action'),
-  logout: apiUrl('/logout.action')
+  logout: apiUrl('/public/logout.action')
 }
 
 

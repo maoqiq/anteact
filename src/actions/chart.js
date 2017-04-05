@@ -34,7 +34,7 @@ export function fetchPit(params) {
         console.log(data)
         if (data.success) {
           dispatch({
-            type: types.CHART_APP_FETCH_SUCCESS,
+            type: types.CHART_PIT_FETCH_SUCCESS,
             payload: data.data
           })
         }

@@ -166,7 +166,7 @@ class MediaFormPage extends Component {
               initialValue: mediaForm.description
 
             })(
-              <Input type="textarea" rows={4} placeholder="正确地填写媒体简介能够提高广告的匹配度及收益，至少40个字"/>
+              <Input type="textarea" rows={4} placeholder="正确地填写媒体简介能够提高广告的匹配度及收益"/>
             )}
           </FormItem>
 

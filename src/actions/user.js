@@ -32,7 +32,6 @@ export function fetchInfo(params) {
             dispatch(push('/page'))
           }
         }
-
       })
 }
 
