@@ -17,7 +17,8 @@ const url = {
 export function fetchList(params) {
   return dispatch =>
     axiosGet(url.list, {data: params})
-      .then(data => {;
+      .then(data => {
+        ;
         console.log(data);
         if (data.success) {
           dispatch({
@@ -28,14 +29,14 @@ export function fetchList(params) {
       })
       .catch(error => {
         console.log(error);
-        message.error(error);
       });
 }
 
 export function deleteItem(params) {
   return dispatch => {
     axiosGet(url.delete, {data: params})
-      .then(data => {;
+      .then(data => {
+        ;
         console.log(data);
         if (data.success) {
           dispatch({
@@ -48,13 +49,10 @@ export function deleteItem(params) {
       .then(data => {
         if (data.success) {
           message.success('删除成功')
-        } else {
-          message.error(data.msg)
         }
       })
       .catch(error => {
         console.log(error);
-        message.error(error);
       })
   }
 
@@ -64,7 +62,8 @@ export function deleteItem(params) {
 export function fetchDetail(params) {
   return dispatch =>
     axiosGet(url.detail, {data: params})
-      .then(data => {;
+      .then(data => {
+        ;
         console.log(data);
         dispatch({
           type: types.SHIELD_FORM_FETCH_SUCCESS,
@@ -96,12 +95,10 @@ export function submitForm(params) {
         if (data.success) {
           dispatch(push('/page/shield'))
         } else if (data.success === false) {
-          message.error(data.msg);
         }
       })
       .catch(error => {
         console.log(error);
-        message.error(error);
       });
 }
 
@@ -127,12 +124,10 @@ export function updateForm(params) {
         if (data.success) {
           dispatch(push('/page/shield'))
         } else if (data.success === false) {
-          message.error(data.msg);
         }
       })
       .catch(error => {
         console.log(error);
-        message.error(error);
       });
 }
 
@@ -159,6 +154,5 @@ export function fetchIndustryList() {
       })
       .catch(error => {
         console.log(error);
-        message.error(error);
       });
 }

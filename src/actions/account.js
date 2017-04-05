@@ -44,8 +44,6 @@ export function signIn(params) {
         if (data.success) {
           dispatch(push('/page'))
           cookie.save('esid', data.data.returnToken, {path: '/',})
-        } else if (data.success === false) {
-          message.error(data.msg)
         }
       })
   }
@@ -79,8 +77,6 @@ export function signUp(params) {
         if (data.success) {
           dispatch(push('/signin'))
           message.success('注册成功！')
-        } else if (data.success === false) {
-          message.error(data.msg)
         }
       })
       .catch(error => {
@@ -120,8 +116,6 @@ export function findPassword(params) {
         if (data.success) {
           dispatch(push('/signin'))
           message.success('重置成功！')
-        } else if (data.success === false) {
-          message.error(data.msg)
         }
       })
       .catch(error => {

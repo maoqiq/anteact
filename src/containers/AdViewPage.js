@@ -21,6 +21,10 @@ class AdViewPage extends Component {
       dataIndex: 'id',
       key: 'id',
     }, {
+      title: 'pid',
+      dataIndex: 'pid',
+      key: 'pid',
+    }, {
       title: '广告位名称',
       dataIndex: 'name',
       key: 'name',

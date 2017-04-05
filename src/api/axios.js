@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {browserHistory} from 'react-router';
+import {message} from 'antd'
 
 
 export default function axiosGet(url, params, options) {
@@ -20,6 +21,9 @@ export default function axiosGet(url, params, options) {
         if (_data.code === 206 && browserHistory.getCurrentLocation().pathname.includes('page')) {
           browserHistory.push('/signin')
           return
+        }
+        if (_data.msg) {
+          message.error(_data.msg)
         }
       }
       return _data

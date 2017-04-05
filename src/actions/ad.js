@@ -49,8 +49,6 @@ export function deleteItem(params) {
       .then(data => {
         if (data.success) {
           message.success('删除成功')
-        } else {
-          message.error(data.msg)
         }
       })
   }
@@ -91,8 +89,6 @@ export function submitForm(params) {
         if (data.success) {
           message.success('新建成功')
           dispatch(push('/page/ad'))
-        } else {
-          message.error(data.msg)
         }
       })
       .catch(error => {
@@ -122,13 +118,10 @@ export function updateForm(params) {
         if (data.success) {
           message.success('更新成功')
           dispatch(push('/page/ad'))
-        } else {
-          message.error(data.msg)
         }
       })
       .catch(error => {
         console.log(error);
-        message.error(data.msg)
       });
 }
 
@@ -181,6 +174,5 @@ export function fetchSpecList() {
       })
       .catch(error => {
         console.log(error);
-        message.error(error);
       });
 }

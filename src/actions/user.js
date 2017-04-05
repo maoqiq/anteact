@@ -56,13 +56,10 @@ export function modifyInfo(params) {
         if (data.success) {
           message.success('保存成功');
           dispatch(fetchInfo())
-        } else if (data.success === false) {
-          message.error(data.msg);
         }
       })
       .catch(error => {
         console.log(error);
-        message.error(error);
       });
 }
 
