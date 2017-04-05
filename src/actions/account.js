@@ -16,7 +16,6 @@ const url = {
   logout: apiUrl('/public/logout.action')
 }
 
-
 export function signIn(params) {
   return dispatch => {
     dispatch({
@@ -54,7 +53,6 @@ export function signUp(params) {
     dispatch({
       type: types.REGISTER_REQUEST
     })
-
 
     axiosGet(url.signUp, {data: params})
       .then(data => {
