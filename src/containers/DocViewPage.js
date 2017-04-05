@@ -20,7 +20,7 @@ class DocViewPage extends Component {
             <Row>
               <Col xs={24} sm={2}>简介</Col>
               <Col xs={24} sm={22}>
-                · 拥有丰富标准样式选择：横幅、插屏、开屏、信息流、浮标、banner、应用墙、自定义等<br/>
+                · 拥有丰富标准样式选择：开屏、banner、自定义<br/>
                 · 独创交互式广告体验，高效高收益<br/>
                 · 支持用户行为数据记录，用于提升广告投放准确性和稳定性<br/>
                 · 更轻量的JSSDK，更方便的用户配置，更快捷的体验<br/>
