@@ -76,10 +76,10 @@ class LoginPage extends Component {
           <Spin spinning={login.isFetching}>
             <FormItem>
               {getFieldDecorator('mail', {
-                rules: [{required: true, message: '请输入用户名'}],
+                rules: [{required: true, message: '请输入登陆邮箱'}],
                 initialValue: this.state.initialAccount
               })(
-                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} placeholder="请输入用户名"/>
+                <Input prefix={<Icon type="user" style={{fontSize: 13}}/>} placeholder="请输入登陆邮箱"/>
               )}
             </FormItem>
 

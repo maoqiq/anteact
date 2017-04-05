@@ -114,9 +114,13 @@ class ForgetPage extends Component {
               {...formItemLayout}
             >
               {getFieldDecorator('password', {
-                rules: [{required: true, message: '请输入密码'}],
+                rules: [{
+                  required: true, message: '请输入密码'
+                }, {
+                  min: 8, message: '请输入不小于8位的密码'
+                }],
               })(
-                <Input type="text" placeholder="请输入密码"/>
+                <Input type="password" placeholder="请输入密码"/>
               )}
             </FormItem>
 

@@ -10,7 +10,7 @@ import axiosGet from '../api/axios'
 const url = {
   list: apiUrl('/ssp/media/account/info'),
   edit: apiUrl('/ssp/media/modify'),
-  upload: apiUrl('/ssp/image/upload')
+  upload: apiUrl('/public/image/upload')
 }
 
 export function fetchInfo(params) {

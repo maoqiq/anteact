@@ -5,7 +5,11 @@ import path from 'path';
 
 module.exports = {
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      root: path.join(__dirname, './src'),
+      components: path.join(__dirname, './src/components')
+    },
   },
   devtool: 'eval-source-map',
   entry: {
@@ -91,4 +95,5 @@ module.exports = {
       }
     })
   ],
+
 };

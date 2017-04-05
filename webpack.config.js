@@ -1,25 +1,23 @@
-// For info about this file refer to webpack and webpack-hot-middleware documentation
-// For info on how we're generating bundles with hashed filenames for cache busting: https://medium.com/@okonetchnikov/long-term-caching-of-static-assets-with-webpack-1ecb139adb95#.w99i89nsz
-import webpack from 'webpack';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import WebpackMd5Hash from 'webpack-md5-hash';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import autoprefixer from 'autoprefixer';
-import path from 'path';
+const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const WebpackMd5Hash = require('webpack-md5-hash')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const autoprefixer = require('autoprefixer')
+const path = require('path')
 
-import ProgressPlugin from 'webpack/lib/ProgressPlugin'
-import CompressionPlugin from 'compression-webpack-plugin'
+const ProgressPlugin = require('webpack/lib/ProgressPlugin')
 
-export default {
+
+module.exports = {
   resolve: {
     extensions: ['*', '.js', '.jsx', '.json']
   },
-  devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
+  devtool: 'source-map',
   entry: path.resolve(__dirname, 'src/index'),
   target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: './',
     filename: '[name].js'
   },
   plugins: [
@@ -48,6 +46,8 @@ export default {
         minifyURLs: true
       },
       inject: true,
+      // Note that you can add custom options here if you need to handle other custom logic in index.html
+      // To track JavaScript errors via TrackJS, sign up for a free trial at TrackJS.com and enter your token below.
       trackJSToken: ''
     }),
 
@@ -55,8 +55,25 @@ export default {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {
-        drop_console: true,
-        warnings: false
+        sequences: true,  // join consecutive statemets with the “comma operator”
+        properties: true,  // optimize property access: a["foo"] → a.foo
+        dead_code: true,  // discard unreachable code
+        drop_debugger: true,  // discard “debugger” statements
+        unsafe: false, // some unsafe optimizations (see below)
+        conditionals: true,  // optimize if-s and conditional expressions
+        comparisons: true,  // optimize comparisons
+        evaluate: true,  // evaluate constant expressions
+        booleans: true,  // optimize boolean expressions
+        loops: true,  // optimize loops
+        unused: true,  // drop unused variables/functions
+        hoist_funs: true,  // hoist function declarations
+        hoist_vars: false, // hoist variable declarations
+        if_return: true,  // optimize if-s followed by return/continue
+        join_vars: true,  // join var declarations
+        cascade: true,  // try to cascade `right` into `left` in sequences
+        side_effects: true,  // drop side-effect-free statements
+        warnings: false,  // warn about potentially dangerous optimizations/code
+        global_defs: {}     // global definitions
       },
       output: {
         comments: false
@@ -85,13 +102,6 @@ export default {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
-    // new CompressionPlugin({
-    //   asset: "[path].gz[query]",
-    //   algorithm: "gzip",
-    //   test: /\.(js|html)$/,
-    //   threshold: 10240,
-    //   minRatio: 0.8
-    // })
   ],
   module: {
     rules: [
@@ -120,12 +130,12 @@ export default {
   },
   stats: {
     // Add children information
-    children: false,
+    // children: false,
     // Add chunk information (setting this to `false` allows for a less verbose output)
-    chunks: false,
+    // chunks: false,
     // Add built modules information to chunk information
-    chunkModules: false,
-    chunkOrigins: false,
-    modules: false
+    // chunkModules: false,
+    // chunkOrigins: false,
+    // modules: false
   }
 };

@@ -115,7 +115,7 @@ class AdFormPage extends Component {
         <Form
           onSubmit={this.handleSubmit}
           className="form ad-form"
-          style={{width: '60%'}}>
+          style={{width: '70%'}}>
           <FormItem
             label="广告位名称:"
             hasFeedback
@@ -188,7 +188,7 @@ class AdFormPage extends Component {
               <Select disabled={!this.state.isCreate}>
                 {
                   specList.map((value, index) => (
-                    <Option key={value.id} value={value.id}>id:{value.id}-{value.title}</Option>
+                    <Option key={value.id} value={value.id}>{value.title}-{value.width}(宽度)*{value.height}(高度)</Option>
                   ))
                 }
               </Select>
