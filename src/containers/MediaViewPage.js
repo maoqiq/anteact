@@ -49,11 +49,11 @@ class MediaViewPage extends Component {
         title: '操作',
         key: 'actions',
         render: (text, record, index) => (
-          <span>
-          <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
-          <Button size="small" disabled={record.status === 1}
-                  onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
-        </span>
+          <div className="actions">
+            <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
+            <Button size="small" disabled={record.status === 1}
+                    onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
+          </div>
         )
       },]
 

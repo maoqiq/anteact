@@ -16,7 +16,7 @@ class DocViewPage extends Component {
     return (
       <div className="overview doc-overview">
         <div>
-          <Card title="JSSDK" bordered={false} style={{width: '60%'}}>
+          <Card className="platform" title="JSSDK" bordered={false}>
             <Row>
               <Col xs={24} sm={4}>Ver 2.0.1</Col>
               <Col xs={24} sm={20}>
@@ -33,8 +33,8 @@ class DocViewPage extends Component {
             </Row>
           </Card>
 
-          <Card title="IOS SDK" bordered={false} style={{width: '60%'}}>
-           即将上线
+          <Card className="platform" title="IOS/Android SDK" bordered={false}>
+            即将上线..
           </Card>
 
         </div>

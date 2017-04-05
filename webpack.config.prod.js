@@ -7,10 +7,8 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
-const GLOBALS = {
-  'process.env.NODE_ENV': JSON.stringify('production'),
-  __DEV__: false
-};
+const ProgressPlugin = require('webpack/lib/ProgressPlugin')
+
 
 export default {
   resolve: {
@@ -25,11 +23,11 @@ export default {
     filename: '[name].js'
   },
   plugins: [
-    // Hash the files using MD5 so that their names change when the content changes.
+    new ProgressPlugin(),
     new WebpackMd5Hash(),
-
-    // Tells React to build in prod mode. https://facebook.github.io/react/downloads.html
-    new webpack.DefinePlugin(GLOBALS),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production')
+    }),
 
     // Generate an external css file with a hash in the filename
     new ExtractTextPlugin('[name].css'),
@@ -114,5 +112,15 @@ export default {
         loader: ExtractTextPlugin.extract('css-loader?sourceMap!postcss-loader!less-loader?sourceMap')
       },
     ]
+  },
+  stats: {
+    // Add children information
+    children: false,
+    // Add chunk information (setting this to `false` allows for a less verbose output)
+    chunks: false,
+    // Add built modules information to chunk information
+    chunkModules: false,
+    chunkOrigins: false,
+    modules: false
   }
 };

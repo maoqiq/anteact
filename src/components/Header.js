@@ -92,8 +92,8 @@ class AppHeader extends Component {
             </Breadcrumb>
           </Menu.Item>
 
-          <Menu.Item key="header-logout" style={{float: 'right'}}>
-            <Button onClick={this.handleLogout} ghost>退出</Button>
+          <Menu.Item className="logout" key="header-logout" style={{float: 'right'}}>
+            <Button onClick={this.handleLogout} ghost className="button">退出</Button>
           </Menu.Item>
           <Menu.Item key="header-user-name" style={{float: 'right'}}>
             <span>{userInfo.entName}</span>
