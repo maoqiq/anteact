@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
-export default {
+module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {

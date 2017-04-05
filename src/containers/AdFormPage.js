@@ -147,7 +147,7 @@ class AdFormPage extends Component {
               <Select disabled={!this.state.isCreate}>
                 {
                   mediaList.map((value, index) => (
-                    <Option key={value.id} value={value.id}>id:{value.id}-{value.name}</Option>
+                    <Option key={value.id} value={value.id}>{value.name}</Option>
                   ))
                 }
               </Select>

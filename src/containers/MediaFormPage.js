@@ -117,7 +117,7 @@ class MediaFormPage extends Component {
               ],
               initialValue: mediaForm.platform
             })(
-              <RadioGroup>
+              <RadioGroup disabled={!this.state.isCreate}>
                 <Radio value={1}>H5</Radio>
                 <Radio value={2}>Android</Radio>
                 <Radio value={3}>IOS</Radio>
