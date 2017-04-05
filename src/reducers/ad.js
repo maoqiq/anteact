@@ -23,10 +23,8 @@ export function adForm(state = initialFormState, action) {
         isFetching: false,
         error: true
       });
-      break
     case types.AD_FORM_SET:
       return Object.assign({}, state, action.payload);
-      break
     case types.CLEAR_ALL:
       return {}
     default:
@@ -58,17 +56,19 @@ export function adList(state = initialListState, action) {
         error: true
       });
     case types.DELETE_AD_ITEM:
-      const _list = state.list.filter(item => item.id !== action.payload.id);
-      return Object.assign({}, state, {list: _list});
+      return Object.assign({}, state, {
+        list: state.list.filter(item => item.id !== action.payload.id)
+      });
     case types.AD_LIST_SET:
-      const setList = state.list.map((value, index) => {
-        if (value.id === action.payload.id) {
-          return Object.assign({}, value, {status: action.payload.status})
-        } else {
-          return value
-        }
+      return Object.assign({}, state, {
+        list: state.list.map((value) => {
+          if (value.id === action.payload.id) {
+            return Object.assign({}, value, {status: action.payload.status})
+          } else {
+            return value
+          }
+        })
       })
-      return Object.assign({}, state, {list: setList})
     default:
       return state;
   }
@@ -83,7 +83,6 @@ export function specList(state = initialSpecListState, action) {
         isFetching: true,
         error: false
       });
-      break
     default:
       return state;
   }

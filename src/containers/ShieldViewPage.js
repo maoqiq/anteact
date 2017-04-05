@@ -3,9 +3,8 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 
-import {Form, Input, Table, Button, Select, Modal, Switch} from 'antd';
+import {Form, Input, Table, Button, Modal} from 'antd';
 const FormItem = Form.Item;
-const Option = Select.Option;
 const confirm = Modal.confirm;
 
 import {fetchList, deleteItem}from '../actions/shield';
@@ -26,7 +25,7 @@ class ShieldViewPage extends Component {
     }, {
       title: '屏蔽内容',
       key: 'shieldIndustryIds',
-      render: (text, record, index) => (
+      render: (text, record) => (
         <ul>
           {record.isShieldIndustry && <li>行业</li>}
           {record.isShieldUrl && <li>广告主</li>}
@@ -39,7 +38,7 @@ class ShieldViewPage extends Component {
     }, {
       title: '操作',
       key: 'actions',
-      render: (text, record, index) => (
+      render: (text, record) => (
         <div className="actions">
           <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
           <Button size="small" onClick={this.handleDeleteItem.bind(this, record)}>删除</Button>
@@ -84,7 +83,7 @@ class ShieldViewPage extends Component {
   }
 
   // 删除单项
-  handleDeleteItem(record, status) {
+  handleDeleteItem(record) {
     const self = this
     confirm({
       title: '确认删除这个项目么?',
@@ -124,7 +123,7 @@ class ShieldViewPage extends Component {
             </FormItem>
             <FormItem className="new">
               <Button type="primary">
-                <Link to='/page/shield/new'>新建屏蔽策略</Link>
+                <Link to="/page/shield/new">新建屏蔽策略</Link>
               </Button>
             </FormItem>
           </Form>
@@ -146,7 +145,8 @@ ShieldViewPage.contextTypes = {
 };
 
 ShieldViewPage.propTypes = {
-  shieldList: PropTypes.object.isRequired
+  shieldList: PropTypes.object.isRequired,
+  fetchList: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

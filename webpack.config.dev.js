@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
-module.exports = {
+export default {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
@@ -94,6 +94,6 @@ module.exports = {
         postcss: () => [autoprefixer],
       }
     })
-  ],
+  ]
 
 };

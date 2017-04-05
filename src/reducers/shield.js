@@ -32,8 +32,9 @@ export function shieldList(state = initialListState, action) {
         isFetching: false,
       });
     case types.DELETE_SHIELD_ITEM:
-      const _list = state.list.filter(item => item.id !== action.payload.id);
-      return Object.assign({}, state, {list: _list});
+      return Object.assign({}, state, {
+        list: state.list.filter(item => item.id !== action.payload.id)
+      });
     default:
       return state;
   }

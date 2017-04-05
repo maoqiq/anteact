@@ -1,12 +1,9 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {Link, IndexLink} from 'react-router'
 
-import {Form, Input, Radio, Button, Upload, Icon, message} from 'antd';
+import {Form, Input, Radio, Button, message} from 'antd';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
-const Dragger = Upload.Dragger;
 
 import {fetchInfo, setFinanceForm, modifyInfo} from '../actions/user'
 import UploadImage from '../components/user/UploadImage'
@@ -30,11 +27,11 @@ class UserViewPage extends Component {
 
   // 组件加载完成后执行
   componentDidMount() {
-    this.props.fetchInfo();
+    this.props.fetchInfo()
   }
 
   // 切换 编辑input 与 显示 的状态
-  toggleInputShow(type, e) {
+  toggleInputShow(type) {
     switch (type) {
       case 'basic':
         this.setState({isShowBasicInput: !this.state.isShowBasicInput})
@@ -50,7 +47,6 @@ class UserViewPage extends Component {
   // 处理 basic info 表单提交
   handleBasicSubmit(e) {
     e.preventDefault();
-
   }
 
   // 处理 financial info 表单提交
@@ -333,7 +329,7 @@ class UserViewPage extends Component {
                                    imgUrl={financeInfo.licenseUrl}/>
                     )}
                   </span>)
-                  : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.licenseUrl})`}}></div>
+                  : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.licenseUrl})`}}/>
                 }
               </FormItem>
             }
@@ -398,8 +394,7 @@ class UserViewPage extends Component {
                                    imgUrl={financeInfo.idCardFrontUrl}/>
                     )}
                   </span>)
-                  : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.idCardFrontUrl})`}}>
-                    <p></p></div>
+                  : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.idCardFrontUrl})`}}/>
                 }
               </FormItem>
             } {
@@ -420,7 +415,7 @@ class UserViewPage extends Component {
                                    imgUrl={financeInfo.idCardBackUrl}/>
                     )}
                   </span>)
-                : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.idCardBackUrl})`}}></div>
+                : <div className="info-image-wrap" style={{backgroundImage: `url(${financeInfo.idCardBackUrl})`}}/>
               }
             </FormItem>
           }
@@ -516,7 +511,11 @@ class UserViewPage extends Component {
 }
 
 UserViewPage.propTypes = {
-  userInfo: PropTypes.object.isRequired
+  userInfo: PropTypes.object.isRequired,
+  financeInfo: PropTypes.object.isRequired,
+  fetchInfo: PropTypes.func.isRequired,
+  setFinanceForm: PropTypes.func.isRequired,
+  modifyInfo: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

@@ -15,8 +15,8 @@ import config from '../webpack.config.dev'
 const bundler = webpack(config)
 
 const proxyMiddleware = proxy(['/user', '/public', '/ssp', '/1.0'], {
-  target: 'http://192.168.10.234:8080',
-  changeOrigin: false, // for vhosted sites, changes host header to match to target's host
+  target: 'http://ssppre.adbaitai.com',
+  changeOrigin: true, // for vhosted sites, changes host header to match to target's host
   logLevel: 'debug',
 });
 

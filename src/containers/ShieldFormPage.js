@@ -1,12 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 
-import {Form, Input, Button, Radio, Transfer} from 'antd';
-const FormItem = Form.Item;
-const RadioGroup = Radio.Group;
+import {Form, Input, Button, Radio, Transfer} from 'antd'
+const FormItem = Form.Item
+const RadioGroup = Radio.Group
 
-import {submitForm, fetchDetail, setForm, updateForm, fetchIndustryList} from '../actions/shield';
+import {submitForm, fetchDetail, setForm, updateForm, fetchIndustryList} from '../actions/shield'
 
 class ShieldFormPage extends Component {
   constructor(props) {
@@ -51,36 +50,39 @@ class ShieldFormPage extends Component {
   }
 
   // 处理Transfer
-  handleChange(nextTargetKeys, direction, moveKeys) {
+  handleChange(nextTargetKeys) {
     this.props.setForm({shieldIndustryIds: nextTargetKeys})
   }
 
   // 处理提交屏蔽策略表单
   handleSubmit(e) {
-    e.preventDefault();
-    let formValue = this.props.form.getFieldsValue()
-    formValue = Object.assign({}, formValue, {
-      shieldIndustryIds: this.props.shieldForm.shieldIndustryIds
-    })
+    e.preventDefault()
 
     //TODO:如果选择不屏蔽 是否要传入ids值
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        if (this.state.isCreate) {
-          this.props.submitForm(formValue)
-        } else {// 如果是更新
-          formValue = Object.assign({}, formValue, {
-            id: this.props.shieldForm.id
-          })
-          this.props.updateForm(formValue)
-        }
+        return
       }
-    });
+
+      values = Object.assign({}, values, {
+        shieldIndustryIds: this.props.shieldForm.shieldIndustryIds
+      })
+
+      if (this.state.isCreate) {
+        this.props.submitForm(values)
+      } else {// 如果是更新
+        values = Object.assign({}, values, {
+          id: this.props.shieldForm.id
+        })
+        this.props.updateForm(values)
+      }
+
+    })
   }
 
   // 取消表单修改
   handleCancelSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     this.context.router.push('/page/shield/overview')
   }
 
@@ -95,7 +97,7 @@ class ShieldFormPage extends Component {
         xs: {span: 24},
         sm: {span: 16},
       },
-    };
+    }
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -107,16 +109,16 @@ class ShieldFormPage extends Component {
           offset: 4,
         },
       },
-    };
-    const {getFieldDecorator} = this.props.form;
-    let {shieldForm, industryList} = this.props;
+    }
+    const {getFieldDecorator} = this.props.form
+    let {shieldForm, industryList} = this.props
     const dataSource = []
 
 
     industryList.data.map((items) => {
       if (items.children && items.children.length) {
         items.children.map((item) => {
-          dataSource.push(item);
+          dataSource.push(item)
         })
       }
     })
@@ -224,31 +226,38 @@ class ShieldFormPage extends Component {
 
         </Form>
       </div>
-    );
+    )
   }
 }
 
 ShieldFormPage.contextTypes = {
   router: PropTypes.object.isRequired
-};
+}
 
 ShieldFormPage.propTypes = {
-  shieldForm: PropTypes.object.isRequired
-};
+  shieldForm: PropTypes.object.isRequired,
+  industryList: PropTypes.object.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  fetchDetail: PropTypes.func.isRequired,
+  setForm: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  fetchIndustryList: PropTypes.func.isRequired,
+  clearForm: PropTypes.func.isRequired,
+}
 
 function mapStateToProps(state) {
-  const {shieldForm, industryList} = state;
+  const {shieldForm, industryList} = state
 
   return {
     shieldForm,
     industryList
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     submitForm(formValues) {
-      dispatch(submitForm(formValues));
+      dispatch(submitForm(formValues))
     },
     fetchDetail(params){
       dispatch(fetchDetail(params))
@@ -262,7 +271,7 @@ function mapDispatchToProps(dispatch) {
     fetchIndustryList(){
       dispatch(fetchIndustryList())
     },
-    clearForm(params){
+    clearForm(){
       dispatch({
         type: 'CLEAR_SHIELD_FORM',
       })
@@ -275,4 +284,4 @@ ShieldFormPage = Form.create()(ShieldFormPage)
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ShieldFormPage);
+)(ShieldFormPage)
