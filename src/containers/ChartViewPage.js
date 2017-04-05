@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
 
 import moment from 'moment'
-// import 'moment/locale/zh-cn'
-// moment.locale('zh-cn')
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
 
 import {DatePicker, Tabs} from 'antd'
 const {MonthPicker, RangePicker} = DatePicker
@@ -19,7 +19,7 @@ import PitTable from '../components/chart/PitTable'
 import DataChart from '../components/chart/DataChart'
 
 
-class AccountViewPage extends Component {
+class ChartViewPage extends Component {
   constructor(props) {
     super(props)
 
@@ -28,12 +28,11 @@ class AccountViewPage extends Component {
 
     this.path = ''
     this.state = {
-      dateRange: [this.defaultStartDate, this.defaultEndDate]
+      dateRange: [moment().subtract(7, 'days'), moment()]
     }
 
     this.fetchData = this.fetchData.bind(this)
     this.handleChangeDate = this.handleChangeDate.bind(this)
-
   }
 
   componentDidMount() {
@@ -68,10 +67,12 @@ class AccountViewPage extends Component {
   }
 
   handleChangeDate(date) {
+    console.log(date)
     this.setState({
       dateRange: [date[0], date[1]]
+    }, () => {
+      this.fetchData(this.state.dateRange)
     })
-    this.fetchData(this.state.dateRange)
   }
 
   render() {
@@ -108,7 +109,7 @@ class AccountViewPage extends Component {
             </TabPane>
 
             <TabPane tab="点击率" key="3">
-              <DataChart data={clickPercent}/>
+              <DataChart data={clickPercent} isPercent={true}/>
             </TabPane>
           </Tabs>
         </div>
@@ -125,12 +126,12 @@ class AccountViewPage extends Component {
     )
   }
 }
-AccountViewPage.contextTypes = {
+ChartViewPage.contextTypes = {
   router: PropTypes.object.isRequired
 }
 
 
-AccountViewPage.propTypes = {
+ChartViewPage.propTypes = {
   chart: PropTypes.object.isRequired
 }
 
@@ -157,4 +158,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountViewPage)
+)(ChartViewPage)

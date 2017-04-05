@@ -256,7 +256,7 @@ class UserViewPage extends Component {
                       rules: [{
                         required: true, message: '请选择财务对象'
                       }],
-                      initialValue: financeInfo.roleType || 0
+                      initialValue: financeInfo.roleType
                     })(
                       <RadioGroup
                         onChange={this.handleRoleTypeChange}
@@ -266,7 +266,7 @@ class UserViewPage extends Component {
                       </RadioGroup>
                     )}
                   </span>)
-                : <span>{financeInfo.roleType === 2 ? '个人' : '公司'}</span>
+                : <span>{financeInfo.roleType === 2 && <span>个人</span>}{financeInfo.roleType === 1 && <span>公司</span>}</span>
               }
             </FormItem>
             {

@@ -21,11 +21,11 @@ class DataChart extends Component {
 
   render() {
     let chartData = [], chartLines = []
-    const {data} = this.props
+    const {data, isPercent} = this.props
+    console.log(data, data.detailVOMap)
     if (data && data.detailVOMap && Object.keys(data.detailVOMap).length > 0) {
       // 获取日期key
       const chart = data.detailVOMap
-
       Object.keys(chart).map((value, index) => {
         const _item = {date: value, ...chart[value].bizNameCountMap}
         chartData.push(_item)
@@ -58,9 +58,13 @@ class DataChart extends Component {
           <LineChart width={600} height={300} data={chartData}
                      margin={{top: 5, right: 40, left: 10, bottom: 5}}>
             <XAxis dataKey="date"/>
-            <YAxis/>
+
+            {isPercent && <YAxis tickFormatter={percent}/>}
+            {!isPercent && <YAxis/>}
+
             <CartesianGrid strokeDasharray="3 3"/>
-            <Tooltip/>
+            {isPercent && <Tooltip formatter={percent}/>}
+            {!isPercent && <Tooltip/>}
             <Legend />
             {chartLines}
           </LineChart>

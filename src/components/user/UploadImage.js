@@ -23,7 +23,7 @@ class UploadImage extends Component {
       name: 'file',
       multiple: true,
       showUploadList: false,
-      action: '/1.0/ssp/image/upload',
+      action: '/public/image/upload',
       onChange: this.handleChange
     };
 
