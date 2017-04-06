@@ -1,10 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Link, IndexLink} from 'react-router';
-import {bindActionCreators} from 'redux';
 
 
-import {Form, Icon, Input, Button, Checkbox, Row, Col, Spin} from 'antd';
+import {Form, Input, Button, Row, Col, Spin} from 'antd';
 const FormItem = Form.Item;
 
 import {findPassword, sendCode}  from '../actions/account'
@@ -37,7 +35,7 @@ class ForgetPage extends Component {
     this.context.router.push('/signin')
   }
 
-  handleSendCode(e) {
+  handleSendCode() {
     const _mail = this.props.form.getFieldValue('mail')
     this.props.sendCode({mail: _mail})
   }
@@ -151,6 +149,8 @@ ForgetPage.contextTypes = {
 ForgetPage.propTypes = {
   code: PropTypes.object.isRequired,
   forget: PropTypes.object.isRequired,
+  sendCode: PropTypes.func.isRequired,
+  findPassword: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

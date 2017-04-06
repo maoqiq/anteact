@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import * as actions from '../actions/fuelSavingsActions';
 
 
-import {Switch, Timeline} from 'antd';
+import {Timeline} from 'antd';
 
 class DocReleasePage extends Component {
   constructor(props) {

@@ -3,10 +3,9 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 
-import {Form, Input, Select, Button} from 'antd';
+import {Form, Input, Select, Button, Radio} from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
-import {Radio} from 'antd';
 const RadioGroup = Radio.Group;
 
 import {fetchList as fetchMediaList}  from '../actions/media'
@@ -146,7 +145,7 @@ class AdFormPage extends Component {
             })(
               <Select disabled={!this.state.isCreate}>
                 {
-                  mediaList.map((value, index) => (
+                  mediaList.map((value) => (
                     <Option key={value.id} value={value.id}>{value.name}</Option>
                   ))
                 }
@@ -187,7 +186,7 @@ class AdFormPage extends Component {
             })(
               <Select disabled={!this.state.isCreate}>
                 {
-                  specList.map((value, index) => (
+                  specList.map((value) => (
                     <Option key={value.id} value={value.id}>{value.title}-{value.width}(宽度)*{value.height}(高度)</Option>
                   ))
                 }
@@ -208,7 +207,7 @@ class AdFormPage extends Component {
             })(
               <Select>
                 {
-                  shieldList.map((value, index) => (
+                  shieldList.map((value) => (
                     <Option key={value.id} value={value.id}>id:{value.id}-名称:{value.title}</Option>
                   ))
                 }
@@ -242,6 +241,14 @@ AdFormPage.propTypes = {
   adForm: PropTypes.object.isRequired,
   mediaList: PropTypes.object.isRequired,
   shieldList: PropTypes.object.isRequired,
+
+  submitForm: PropTypes.func.isRequired,
+  fetchMediaList: PropTypes.func.isRequired,
+  fetchShieldList: PropTypes.func.isRequired,
+  fetchDetail: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  fetchSpecList: PropTypes.func.isRequired,
+  clearForm: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -274,7 +281,7 @@ function mapDispatchToProps(dispatch) {
     fetchSpecList(params){
       dispatch(fetchSpecList(params));
     },
-    clearForm(params){
+    clearForm(){
       dispatch({
         type: 'CLEAR_ALL',
       })

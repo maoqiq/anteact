@@ -1,10 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Link, IndexLink} from 'react-router';
-import {bindActionCreators} from 'redux';
 
-
-import {Form, Icon, Input, Button, Checkbox, Row, Col, Spin} from 'antd';
+import {Form, Input, Button, Row, Col, Spin} from 'antd';
 const FormItem = Form.Item;
 
 import {signUp, sendCode}  from '../actions/account'
@@ -25,8 +22,7 @@ class RegisterPage extends Component {
       if (err) {
         return
       }
-      const formValues = this.props.form.getFieldsValue()
-      this.props.signUp(formValues)
+      this.props.signUp(values)
     })
 
   }
@@ -37,7 +33,7 @@ class RegisterPage extends Component {
     this.context.router.push('/signin')
   }
 
-  handleSendCode(e) {
+  handleSendCode() {
     const _mail = this.props.form.getFieldValue('mail')
     this.props.sendCode({mail: _mail})
   }
@@ -66,8 +62,8 @@ class RegisterPage extends Component {
         },
       },
     };
-    const {getFieldDecorator} = this.props.form;
-    const register = this.props.register
+    const {getFieldDecorator} = this.props.form
+    const {register} = this.props
     return (
       <div className="register account">
         <Form onSubmit={this.handleSubmit} className="register-form account-form" noValidate>
@@ -177,12 +173,15 @@ class RegisterPage extends Component {
 }
 
 RegisterPage.contextTypes = {
-  router: PropTypes.object.isRequired
+  router: PropTypes.object.isRequired,
+
 }
 
 RegisterPage.propTypes = {
   code: PropTypes.object.isRequired,
   register: PropTypes.object.isRequired,
+  sendCode: PropTypes.func.isRequired,
+  signUp: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

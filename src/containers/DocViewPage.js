@@ -1,10 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Link, IndexLink} from 'react-router';
+import React, {Component} from 'react';
 
-import {Icon, Tabs, Card, Row, Col} from 'antd';
-const TabPane = Tabs.TabPane;
+import {Card, Row, Col} from 'antd';
 
 class DocViewPage extends Component {
   constructor(props) {

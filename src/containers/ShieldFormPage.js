@@ -59,8 +59,9 @@ class ShieldFormPage extends Component {
 
     //TODO:如果选择不屏蔽 是否要传入ids值
     this.props.form.validateFieldsAndScroll((err, values) => {
-      if (!err) {
-        // return
+      console.log(err)
+      if (err) {
+        return
       }
 
       values = Object.assign({}, values, {

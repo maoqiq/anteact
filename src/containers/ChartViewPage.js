@@ -7,7 +7,7 @@ import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
 import {DatePicker, Tabs} from 'antd'
-const {MonthPicker, RangePicker} = DatePicker
+const {RangePicker} = DatePicker
 const TabPane = Tabs.TabPane
 
 
@@ -39,7 +39,7 @@ class ChartViewPage extends Component {
     this.path = this.context.router.routes[2].path
     this.fetchData(this.state.dateRange)
 
-    browserHistory.listen((route) => {
+    browserHistory.listen(() => {
       this.path = this.context.router.routes[2].path
       this.fetchData(this.state.dateRange)
     })
@@ -131,7 +131,9 @@ ChartViewPage.contextTypes = {
 
 
 ChartViewPage.propTypes = {
-  chart: PropTypes.object.isRequired
+  chart: PropTypes.object.isRequired,
+  fetchApp: PropTypes.func.isRequired,
+  fetchPit: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

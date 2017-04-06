@@ -5,7 +5,7 @@ import {Form, Input, Button, Radio} from 'antd';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 
-import {submitForm, updateForm, fetchDetail, setForm} from '../actions/media';
+import {submitForm, updateForm, fetchDetail} from '../actions/media';
 
 class MediaFormPage extends Component {
   constructor(props) {
@@ -203,7 +203,12 @@ MediaFormPage.contextTypes = {
 };
 
 MediaFormPage.propTypes = {
-  mediaForm: PropTypes.object.isRequired
+  mediaForm: PropTypes.object.isRequired,
+
+  submitForm: PropTypes.func.isRequired,
+  fetchDetail: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  clearForm: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -225,7 +230,7 @@ function mapDispatchToProps(dispatch) {
     updateForm(params){
       dispatch(updateForm(params));
     },
-    clearForm(params){
+    clearForm(){
       dispatch({
         type: 'CLEAR_ALL',
       })

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {Link, IndexLink} from 'react-router';
+import {Link} from 'react-router';
 
 
 import {Form, Icon, Input, Button, Checkbox, Spin} from 'antd';
@@ -36,7 +36,6 @@ class LoginPage extends Component {
   // 处理表单提交
   handleSubmit(e) {
     e.preventDefault()
-
 
     this.props.form.validateFields((err, values) => {
       if (err) {
@@ -87,6 +86,7 @@ class LoginPage extends Component {
               {getFieldDecorator('password', {
                 rules: [{
                   required: true, message: '请输入密码',
+                }, {
                   min: 8, message: '请输入不小于8位的密码'
                 }],
               })(
@@ -119,6 +119,7 @@ LoginPage.contextTypes = {
 
 LoginPage.propTypes = {
   login: PropTypes.object.isRequired,
+  signIn: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

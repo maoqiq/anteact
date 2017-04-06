@@ -15,9 +15,13 @@ class UserViewPage extends Component {
     this.state = {
       isShowBasicInput: false,
       isShowFinancialInput: false,
+      currentFinancial: {}
     }
 
     this.toggleInputShow = this.toggleInputShow.bind(this)
+    this.handleShowFinancialInput = this.handleShowFinancialInput.bind(this)
+    this.handleHideFinancialInput = this.handleHideFinancialInput.bind(this)
+
     this.handleRoleTypeChange = this.handleRoleTypeChange.bind(this)
 
     this.handleBasicSubmit = this.handleBasicSubmit.bind(this)
@@ -44,6 +48,17 @@ class UserViewPage extends Component {
     }
   }
 
+  handleShowFinancialInput() {
+    this.setState({isShowFinancialInput: true})
+    this.setState({currentFinancial: Object.assign({}, this.props.financeInfo)})
+  }
+
+  handleHideFinancialInput() {
+    this.setState({isShowFinancialInput: false})
+    console.log(this.state.currentFinancial)
+    this.props.setFinanceForm(this.state.currentFinancial)
+  }
+
   // 处理 basic info 表单提交
   handleBasicSubmit(e) {
     e.preventDefault();
@@ -63,9 +78,8 @@ class UserViewPage extends Component {
         idCardFrontUrl: this.props.financeInfo.idCardFrontUrl,
         idCardBackUrl: this.props.financeInfo.idCardBackUrl,
       })
-      this.setState({isShowFinancialInput: !this.state.isShowFinancialInput})
-
       this.props.modifyInfo(values)
+      this.setState({isShowFinancialInput: false})
     })
   }
 
@@ -81,12 +95,10 @@ class UserViewPage extends Component {
       console.log(info.file, info.fileList);
     }
     if (status === 'done') {
-      console.log(info);
       const imgUrl = info.file.response.data;
       this.props.setFinanceForm({[obj]: imgUrl})
       message.success(`${info.file.name}上传成功`);
     } else if (status === 'error') {
-      console.log(info);
       message.error(`${info.file.name}上传失败`);
     }
   }
@@ -231,7 +243,7 @@ class UserViewPage extends Component {
 
             <Button className="button"
                     size="small"
-                    onClick={this.toggleInputShow.bind(this, 'financial')}
+                    onClick={this.handleShowFinancialInput}
             >
               修改
             </Button>
@@ -500,7 +512,7 @@ class UserViewPage extends Component {
             >
               <Button type="primary" htmlType="submit">保存</Button>
               <Button htmlType="button"
-                      onClick={this.toggleInputShow.bind(this, 'financial')}>取消</Button>
+                      onClick={this.handleHideFinancialInput}>取消</Button>
             </FormItem>
             }
           </Form>

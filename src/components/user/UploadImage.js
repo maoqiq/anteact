@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 
-import {Upload, Icon, message} from 'antd';
+import {Upload, Icon} from 'antd';
 const Dragger = Upload.Dragger;
 
 
@@ -51,6 +49,11 @@ class UploadImage extends Component {
       </div>
     )
   }
+}
+
+UploadImage.PropTypes = {
+  imgUrl: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
 

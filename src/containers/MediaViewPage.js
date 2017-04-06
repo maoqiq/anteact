@@ -40,7 +40,7 @@ class MediaViewPage extends Component {
       }, {
         title: '状态',
         key: 'status',
-        render: (text, record, index) => (
+        render: (text, record) => (
           <span>
           <Switch defaultChecked={record.status === 1} onChange={this.handleSwitchChange.bind(this, record)}/>
         </span>
@@ -48,7 +48,7 @@ class MediaViewPage extends Component {
       }, {
         title: '操作',
         key: 'actions',
-        render: (text, record, index) => (
+        render: (text, record) => (
           <div className="actions">
             <Button size="small" onClick={this.handleEditItem.bind(this, record)}>编辑</Button>
             <Button size="small" disabled={record.status === 1}
@@ -92,7 +92,7 @@ class MediaViewPage extends Component {
   }
 
   // 删除项目
-  handleDeleteItem(record, status) {
+  handleDeleteItem(record) {
     const self = this
     confirm({
       title: '确认删除这个项目么?',
@@ -145,7 +145,7 @@ class MediaViewPage extends Component {
             </FormItem>
             <FormItem className="new">
               <Button type="primary">
-                <Link to='/page/media/new'>新建媒体</Link>
+                <Link to="/page/media/new">新建媒体</Link>
               </Button>
             </FormItem>
           </Form>
@@ -168,7 +168,13 @@ MediaViewPage.contextTypes = {
 }
 
 MediaViewPage.propTypes = {
-  mediaList: PropTypes.object.isRequired
+  mediaList: PropTypes.object.isRequired,
+
+  fetchList: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  enableStatus: PropTypes.func.isRequired,
+  disableStatus: PropTypes.func.isRequired,
 }
 
 function mapStateToProps(state) {

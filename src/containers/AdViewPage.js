@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {Link} from 'react-router';
 
 import {Form, Input, Table, Button, Select, Modal, Switch} from 'antd';
@@ -8,7 +7,6 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const confirm = Modal.confirm;
 
-import * as actions from '../actions/fuelSavingsActions';
 import {fetchList, deleteItem, enableStatus, disableStatus}from '../actions/ad';
 
 
@@ -93,7 +91,7 @@ class AdViewPage extends Component {
   }
 
   // 删除单项
-  handleDeleteItem(record, status) {
+  handleDeleteItem(record) {
     const self = this
     confirm({
       title: '确认删除这个项目么?',
@@ -160,7 +158,7 @@ class AdViewPage extends Component {
             </FormItem>
             <FormItem className="new">
               <Button type="primary">
-                <Link to='/page/ad/new'>新建广告位</Link>
+                <Link to="/page/ad/new">新建广告位</Link>
               </Button>
             </FormItem>
 
@@ -182,7 +180,11 @@ AdViewPage.contextTypes = {
 };
 
 AdViewPage.propTypes = {
-  adList: PropTypes.object.isRequired
+  adList: PropTypes.object.isRequired,
+  fetchList: PropTypes.func.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  enableStatus: PropTypes.func.isRequired,
+  disableStatus: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
