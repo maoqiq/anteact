@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 
-import moment from 'moment/Moment'
+import moment from 'moment'
 import randomColor from 'randomcolor'
 
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts'

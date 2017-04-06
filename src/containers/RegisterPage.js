@@ -1,8 +1,9 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {Link} from 'react-router'
 
-import {Form, Input, Button, Row, Col, Spin} from 'antd';
-const FormItem = Form.Item;
+import {Form, Input, Button, Row, Col, Spin, Checkbox} from 'antd'
+const FormItem = Form.Item
 
 import {signUp, sendCode}  from '../actions/account'
 import CountDown from '../components/account/CountDown'
@@ -16,7 +17,7 @@ class RegisterPage extends Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     this.props.form.validateFields((err, values) => {
       if (err) {
@@ -29,7 +30,7 @@ class RegisterPage extends Component {
 
 
   handleCancelSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
     this.context.router.push('/signin')
   }
 
@@ -49,7 +50,7 @@ class RegisterPage extends Component {
         xs: {span: 24},
         sm: {span: 18},
       },
-    };
+    }
     const tailFormItemLayout = {
       wrapperCol: {
         xs: {
@@ -61,7 +62,7 @@ class RegisterPage extends Component {
           offset: 6,
         },
       },
-    };
+    }
     const {getFieldDecorator} = this.props.form
     const {register} = this.props
     return (
@@ -154,6 +155,18 @@ class RegisterPage extends Component {
             </FormItem>
 
             <FormItem
+              {...tailFormItemLayout}
+            >
+              {getFieldDecorator('isAgree', {
+                rules: [{
+                  required: true, message: '请同意该协议'
+                }],
+              })(
+                <Checkbox>我已阅读并同意<Link to="/agreement">《来推平台服务协议》</Link></Checkbox>
+              )}
+            </FormItem>
+
+            <FormItem
               className="form-actions"
               {...tailFormItemLayout}
             >
@@ -168,7 +181,7 @@ class RegisterPage extends Component {
         </Form>
       </div>
 
-    );
+    )
   }
 }
 
@@ -182,10 +195,10 @@ RegisterPage.propTypes = {
   register: PropTypes.object.isRequired,
   sendCode: PropTypes.func.isRequired,
   signUp: PropTypes.func.isRequired,
-};
+}
 
 function mapStateToProps(state) {
-  const {code, register} = state;
+  const {code, register} = state
   return {
     code,
     register
@@ -195,10 +208,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     sendCode(mail) {
-      dispatch(sendCode(mail));
+      dispatch(sendCode(mail))
     },
     signUp(params){
-      dispatch(signUp(params));
+      dispatch(signUp(params))
     }
   }
 }
