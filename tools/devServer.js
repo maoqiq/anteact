@@ -4,10 +4,11 @@ const express = require('express')
 const webpack = require('webpack')
 const proxyMiddleware = require('http-proxy-middleware')
 const webpackConfig = require('../webpack.config.dev')
+import config from '../build/config'
 
 const app = express()
 
-const port = 3000
+const port = config.port
 
 
 webpackConfig.entry.client = [
