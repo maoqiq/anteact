@@ -2,10 +2,9 @@ import {push} from 'react-router-redux'
 import {message} from 'antd'
 
 import types from '../constants/actionTypes';
-import fetch from 'isomorphic-fetch'
 
 import {apiUrl} from '../utils/apiHelper'
-import axiosGet from '../api/axios'
+import {axiosGet} from '../api/axios'
 
 const url = {
   list: apiUrl('/ssp/app/list'),

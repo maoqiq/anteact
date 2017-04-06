@@ -1,11 +1,7 @@
 import React, {Component, PropTypes} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 
-import moment from 'moment'
+import moment from 'moment/Moment'
 import randomColor from 'randomcolor'
-import {Upload, Icon, Table} from 'antd'
-const Dragger = Upload.Dragger
 
 import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts'
 

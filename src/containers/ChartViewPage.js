@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
 
 import moment from 'moment'
-import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
 import {DatePicker, Tabs} from 'antd'

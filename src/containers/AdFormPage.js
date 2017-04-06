@@ -180,7 +180,7 @@ class AdFormPage extends Component {
           >
             {getFieldDecorator('adSpecId', {
               rules: [{
-                required: true, message: '请输入广告规格',
+                required: true, message: '请选择广告规格',
               }],
               initialValue: adForm.adSpecId
             })(
@@ -201,7 +201,7 @@ class AdFormPage extends Component {
           >
             {getFieldDecorator('shieldId', {
               rules: [{
-                required: true, message: '请输入广告规格',
+                required: true, message: '请选择屏蔽策略',
               }],
               initialValue: adForm.shieldId
             })(

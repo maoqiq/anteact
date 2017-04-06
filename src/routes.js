@@ -9,6 +9,7 @@ import NotFoundPage from './components/NotFoundPage';
 import LoginPage from './containers/LoginPage';
 import RegisterPage from './containers/RegisterPage';
 import ForgetPage from './containers/ForgetPage';
+import AgreementPage from './containers/AgreementPage';
 
 import MediaViewPage from './containers/MediaViewPage';
 import MediaFormPage from './containers/MediaFormPage';
@@ -34,6 +35,7 @@ export default (
     <Route path="signin" breadcrumbName="登陆" component={LoginPage}/>
     <Route path="signup" breadcrumbName="注册" component={RegisterPage}/>
     <Route path="forget" breadcrumbName="忘记密码" component={ForgetPage}/>
+    <Route path="agreement" breadcrumbName="用户协议" component={AgreementPage}/>
     <Route path="page" breadcrumbName="SSP" component={Page}>
       <IndexRedirect to="media"/>
       <Route path="media" breadcrumbName="媒体管理">

@@ -85,6 +85,7 @@ export default {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/)
     // new CompressionPlugin({
     //   asset: "[path].gz[query]",
     //   algorithm: "gzip",

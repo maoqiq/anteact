@@ -1,10 +1,8 @@
-import {message} from 'antd'
 import {push} from 'react-router-redux'
-import axios from 'axios'
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
-import axiosGet from '../api/axios'
+import {axiosGet} from '../api/axios'
 
 const url = {
   app: apiUrl('/ssp/data/appAction'),

@@ -137,5 +137,14 @@ module.exports = {
     // chunkModules: false,
     // chunkOrigins: false,
     // modules: false
-  }
+  },
+  externals: {
+    "antd": "antd",
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    'redux': 'Redux',
+    'redux-thunk': 'ReduxThunk',
+    'react-redux': 'ReactRedux',
+  },
+
 };

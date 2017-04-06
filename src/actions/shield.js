@@ -3,7 +3,7 @@ import {push} from 'react-router-redux'
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
-import axiosGet from '../api/axios'
+import {axiosGet} from '../api/axios'
 
 const url = {
   list: apiUrl('/ssp/shield/strategy/list'),
@@ -133,7 +133,6 @@ export function updateForm(params) {
 
 // 设置屏蔽策略表单
 export function setForm(value) {
-  console.log(value)
   return dispatch => {
     dispatch({
       type: types.SHIELD_FORM_SET,

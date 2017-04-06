@@ -1,11 +1,11 @@
 import {message} from 'antd'
 import {push} from 'react-router-redux'
-import {Router, browserHistory} from 'react-router';
+import {browserHistory} from 'react-router';
 
 
 import types from '../constants/actionTypes';
 import {apiUrl} from '../utils/apiHelper'
-import axiosGet from '../api/axios'
+import {axiosGet} from '../api/axios'
 
 const url = {
   list: apiUrl('/ssp/media/account/info'),
@@ -13,7 +13,7 @@ const url = {
   upload: apiUrl('/public/image/upload')
 }
 
-export function fetchInfo(params) {
+export function fetchInfo() {
   return dispatch =>
     axiosGet(url.list)
       .then(data => {
