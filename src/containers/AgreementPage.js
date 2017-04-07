@@ -9,7 +9,7 @@ class AgreementPage extends Component {
 
   render() {
     return (
-      <div className="overview markdown-overview">
+      <div className="agreement-overview">
         <div id='write' className='is-mac'><Link to="/signup" className="back">返回</Link>
           <h1 className="title">来推SSP媒体服务系统使用协议</h1><p>
             在注册、使用来推SSP媒体服务系统前，请您认真阅读本协议条款及条件。参加来推SSP媒体服务系统即表明您接受了本协议条款及条件。如果您不接受本协议条款及条件，则暂时无法使用来推SSP媒体服务系统。</p><p>

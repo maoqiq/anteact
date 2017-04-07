@@ -160,6 +160,12 @@ class RegisterPage extends Component {
               {getFieldDecorator('isAgree', {
                 rules: [{
                   required: true, message: '请同意该协议'
+                }, {
+                  pattern: /true/, message: '请同意该协议'
+                }, {
+                  transform: (value = false) => {
+                    return value.toString()
+                  }
                 }],
               })(
                 <Checkbox>我已阅读并同意<Link to="/agreement">《来推平台服务协议》</Link></Checkbox>
