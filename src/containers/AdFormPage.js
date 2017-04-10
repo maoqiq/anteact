@@ -213,10 +213,7 @@ class AdFormPage extends Component {
                 }
               </Select>
             )}
-            <Button type="primary" htmlType="button">
-              <Link to="/page/shield/new">新建屏蔽策略+</Link>
-            </Button>
-
+            <Link to="/page/shield/new">新建屏蔽策略 ></Link>
           </FormItem>
 
           <FormItem
@@ -226,7 +223,6 @@ class AdFormPage extends Component {
             <Button type="primary" htmlType="submit">提交</Button>
             <Button htmlType="button" onClick={this.handleCancelSubmit}>取消</Button>
           </FormItem>
-
         </Form>
       </div>
     );

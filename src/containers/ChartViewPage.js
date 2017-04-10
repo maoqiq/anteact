@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {browserHistory} from 'react-router'
 
 import moment from 'moment'
+import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
 import {DatePicker, Tabs} from 'antd'
@@ -21,9 +22,6 @@ import DataChart from '../components/chart/DataChart'
 class ChartViewPage extends Component {
   constructor(props) {
     super(props)
-
-    this.defaultStartDate = moment().subtract(7, 'days')
-    this.defaultEndDate = moment()
 
     this.path = ''
     this.state = {

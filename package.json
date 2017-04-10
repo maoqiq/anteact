@@ -22,7 +22,7 @@
     "prebuild1": "npm run clean-dist && npm run lint && npm run test",
     "prebuild": "npm run clean-dist",
     "build": "babel-node tools/build.js && npm run open:dist",
-    "build:dll": "webpack --config webpack.dll.config.js",
+    "build:dll": "webpack --config build/webpack.dll.js",
     "test": "jest",
     "test:CI": "babel-node tools/testCi.js",
     "test:cover": "npm run test -- --coverage ",
@@ -37,7 +37,6 @@
   "dependencies": {
     "antd": "2.9.0",
     "axios": "0.16.0",
-    "marked": "0.3.6",
     "object-assign": "4.1.1",
     "randomcolor": "0.4.4",
     "react": "15.4.2",

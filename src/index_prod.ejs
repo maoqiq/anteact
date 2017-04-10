@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  **NOTE:** This is a template for index.html. It uses ejs and htmlWebpackPlugin to generate a different index.html for each environment. htmlWebpackPlugin will dynamically add references to the scripts and styles that it bundles to this file. The generated bundles have hash-based filenames, so it's necessary to add the references dynamically.
+  For more info on ejs, see http://www.embeddedjs.com/. For examples of using it with htmlWebpackPlugin, see https://github.com/jaketrent/html-webpack-template/blob/master/index.ejs
+  -->
+<head>
+  <!--
+    The htmlWebpackPlugin will parse the logic below so that trackJS is only added to the production version of index.html (since owebpack.config.jsd.js provides the trackJS token)
+    This is an example of how to add features to index.html for only one environment.
+    To track JavaScript errors via TrackJS, sign up for a free trial at TrackJS.com and enter your token webpack.config.jsd.js on line 55.
+   -->
+  <% if (htmlWebpackPlugin.options.trackJSToken) { %>
+  <script>window._trackJs = {token: '<%= htmlWebpackPlugin.options.trackJSToken %>'};</script>
+  <script src="https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"></script>
+  <% } %>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta charset="utf-8"/>
+
+  <title>来推媒体平台</title>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="//cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+<script src="//cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+<script src="//cdn.bootcss.com/redux/3.6.0/redux.min.js"></script>
+<script src="//cdn.bootcss.com/react-redux/5.0.3/react-redux.min.js"></script>
+<script src="//cdn.bootcss.com/redux-thunk/2.2.0/redux-thunk.min.js"></script>
+
+<script src="//cdn.bootcss.com/moment.js/2.18.0/moment.min.js"></script>
+<script src="//cdn.bootcss.com/moment.js/2.18.1/locale/zh-cn.js"></script>
+
+<script src="//cdn.bootcss.com/antd/2.8.3/antd.min.js"></script>
+<script src="//cdn.bootcss.com/axios/0.16.0/axios.min.js"></script>
+<script src="//cdn.bootcss.com/react-router-redux/4.0.8/ReactRouterRedux.min.js"></script>
+
+</body>
+</html>

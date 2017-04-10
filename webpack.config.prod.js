@@ -12,19 +12,30 @@ import CompressionPlugin from 'compression-webpack-plugin'
 
 export default {
   resolve: {
-    extensions: ['*', '.js', '.jsx', '.json']
+    extensions: ['*', '.js', '.jsx', '.json'],
+    alias: {},
   },
-  devtool: 'source-map', // more info:https://webpack.github.io/docs/build-performance.html#sourcemaps and https://webpack.github.io/docs/configuration.html#devtool
-  entry: path.resolve(__dirname, 'src/index'),
-  target: 'web', // necessary per https://webpack.github.io/docs/testing.html#compile-and-test
+  devtool: 'source-map',
+  entry: {
+    client: path.resolve(__dirname, 'src/index'),
+    vendor: ['react', 'antd', 'recharts']
+  },
+  target: 'web',
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].js'
+    filename: '[name].js',
+    chunkFilename: '[name].chunk.js'
   },
   plugins: [
     new ProgressPlugin(),
     new WebpackMd5Hash(),
+
+    // new webpack.DllReferencePlugin({
+    //   context: __dirname,
+    //   manifest: require('./manifest.json'),
+    // }),
+
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
@@ -32,9 +43,8 @@ export default {
     // Generate an external css file with a hash in the filename
     new ExtractTextPlugin('[name].css'),
 
-    // Generate HTML file that contains references to generated bundles. See here for how this works: https://github.com/ampedandwired/html-webpack-plugin#basic-usage
     new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
+      template: 'src/index_prod.ejs',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
@@ -55,8 +65,15 @@ export default {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {
-        drop_console: true,
-        warnings: false
+        unused: true,
+        dead_code: true, // big one--strip code that will never execute
+        warnings: false, // good for prod apps so users can't peek behind curtain
+        drop_debugger: true,
+        conditionals: true,
+        evaluate: true,
+        drop_console: true, // strips console statements
+        sequences: true,
+        booleans: true,
       },
       output: {
         comments: false
@@ -66,7 +83,7 @@ export default {
     new webpack.LoaderOptionsPlugin({
       minimize: true,
       debug: false,
-      noInfo: true, // set to false to see a list of every file being bundled.
+      noInfo: true,
       options: {
         sassLoader: {
           includePaths: [path.resolve(__dirname, 'src', 'scss')]
@@ -77,7 +94,7 @@ export default {
     }),
     // extract vendor chunks
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
+      names: ['vendor'],
       minChunks: module => {
         return module.resource && /\.(js|css|es6)$/.test(module.resource) && module.resource.indexOf('node_modules') !== -1
       }
@@ -85,7 +102,13 @@ export default {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/)
+
+    // deal with moment bundle
+    // new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /zh-cn/),
+    // new webpack.IgnorePlugin(/^\.\/locale$/, [/moment$/]),
+
+
+    // gzip
     // new CompressionPlugin({
     //   asset: "[path].gz[query]",
     //   algorithm: "gzip",
@@ -96,7 +119,11 @@ export default {
   ],
   module: {
     rules: [
-      {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'},
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
       {test: /\.eot(\?v=\d+.\d+.\d+)?$/, loader: 'url-loader?name=[name].[ext]'},
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -128,5 +155,16 @@ export default {
     chunkModules: false,
     chunkOrigins: false,
     modules: false
-  }
+  },
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    'redux': 'Redux',
+    'redux-thunk': 'ReduxThunk',
+    'react-redux': 'ReactRedux',
+    'moment': 'moment',
+    'antd': 'antd',
+    'axios': 'axios',
+    'react-router-redux': 'ReactRouterRedux'
+  },
 };
