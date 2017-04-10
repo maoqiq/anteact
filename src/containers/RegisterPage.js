@@ -168,7 +168,7 @@ class RegisterPage extends Component {
                   }
                 }],
               })(
-                <Checkbox>我已阅读并同意<Link to="/agreement">《来推平台服务协议》</Link></Checkbox>
+                <Checkbox>我已阅读并同意<Link to="/agreement" target="blank">《来推平台服务协议》</Link></Checkbox>
               )}
             </FormItem>
 

@@ -3,79 +3,172 @@ import {Route, Redirect, IndexRedirect} from 'react-router';
 
 import App from './components/App';
 import Page from './containers/Page';
-
 import NotFoundPage from './components/NotFoundPage';
-
-import LoginPage from './containers/LoginPage';
-import RegisterPage from './containers/RegisterPage';
-import ForgetPage from './containers/ForgetPage';
-import AgreementPage from './containers/AgreementPage';
-
-import MediaViewPage from './containers/MediaViewPage';
-import MediaFormPage from './containers/MediaFormPage';
-
-import AdViewPage from './containers/AdViewPage';
-import AdFormPage from './containers/AdFormPage';
-
-import ShieldViewPage from './containers/ShieldViewPage';
-import ShieldFormPage from './containers/ShieldFormPage';
-
-import DocViewPage from './containers/DocViewPage';
-import DocReleasePage from './containers/DocReleasePage';
-
-import UserViewPage from './containers/UserViewPage';
-import UserFormPage from './containers/UserFormPage';
-
-import ChartViewPage from './containers/ChartViewPage';
-
 
 export default (
   <Route path="/" component={App}>
     <IndexRedirect to="signin"/>
-    <Route path="signin" breadcrumbName="登陆" component={LoginPage}/>
-    <Route path="signup" breadcrumbName="注册" component={RegisterPage}/>
-    <Route path="forget" breadcrumbName="忘记密码" component={ForgetPage}/>
-    <Route path="agreement" breadcrumbName="用户协议" component={AgreementPage}/>
+    <Route path="signin"
+           breadcrumbName="登陆"
+           getComponent={(nextState, cb) => {
+             require.ensure([], require => {
+               cb(null, require('./containers/LoginPage').default)
+             }, 'signin')
+           }}
+    />
+    <Route path="signup"
+           breadcrumbName="注册"
+           getComponent={(nextState, cb) => {
+             require.ensure([], require => {
+               cb(null, require('./containers/RegisterPage').default)
+             }, 'signup')
+           }}
+    />
+    <Route path="forget"
+           breadcrumbName="忘记密码"
+           getComponent={(nextState, cb) => {
+             require.ensure([], require => {
+               cb(null, require('./containers/ForgetPage').default)
+             }, 'forget')
+           }}
+    />
+    <Route path="agreement"
+           breadcrumbName="用户协议"
+           getComponent={(nextState, cb) => {
+             require.ensure([], require => {
+               cb(null, require('./containers/AgreementPage').default)
+             }, 'agreement')
+           }}
+    />
     <Route path="page" breadcrumbName="SSP" component={Page}>
       <IndexRedirect to="media"/>
       <Route path="media" breadcrumbName="媒体管理">
         <IndexRedirect to="overview"/>
         <Redirect from="overview" to="overview/1"/>
-        <Route path="overview/:page" breadcrumbName="媒体列表" component={MediaViewPage}/>
-        <Route path="edit/:id" breadcrumbName="编辑媒体" component={MediaFormPage}/>Î
-        <Route path="new" breadcrumbName="新建媒体" component={MediaFormPage}/>Î
+        <Route path="overview/:page"
+               breadcrumbName="媒体列表"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/MediaViewPage').default)
+                 }, 'mediaOverview')
+               }}
+        />
+        <Route path="edit/:id"
+               breadcrumbName="编辑媒体"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/MediaFormPage').default)
+                 }, 'mediaEdit')
+               }}
+        />Î
+        <Route path="new"
+               breadcrumbName="新建媒体"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/MediaFormPage').default)
+                 }, 'mediaNew')
+               }}
+        />Î
       </Route>
       <Route path="ad" breadcrumbName="广告位管理">
         <IndexRedirect to="overview"/>
         <Redirect from="overview" to="overview/1"/>
-        <Route path="overview/:page" breadcrumbName="广告位列表" component={AdViewPage}/>
-        <Route path="edit/:id" breadcrumbName="编辑广告位" component={AdFormPage}/>
-        <Route path="new" breadcrumbName="新建广告位" component={AdFormPage}/>
+        <Route path="overview/:page"
+               breadcrumbName="广告位列表"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/AdViewPage').default)
+                 }, 'adOverview')
+               }}
+        />
+        <Route path="edit/:id"
+               breadcrumbName="编辑广告位"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/AdFormPage').default)
+                 }, 'adEdit')
+               }}
+        />
+        <Route path="new"
+               breadcrumbName="新建广告位"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/AdFormPage').default)
+                 }, 'adNew')
+               }}
+        />
       </Route>
       <Route path="shield" breadcrumbName="广告位管理">
         <IndexRedirect to="overview"/>
         <Redirect from="overview" to="overview/1"/>
-        <Route path="overview/:page" breadcrumbName="屏蔽策略管理" component={ShieldViewPage}/>
-        <Route path="edit/:id" breadcrumbName="编辑屏蔽策略" component={ShieldFormPage}/>
-        <Route path="new" breadcrumbName="新建屏蔽策略" component={ShieldFormPage}/>
+        <Route path="overview/:page"
+               breadcrumbName="屏蔽策略管理"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/ShieldViewPage').default)
+                 }, 'shieldOverview')
+               }}
+        />
+        <Route path="edit/:id"
+               breadcrumbName="编辑屏蔽策略"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/ShieldFormPage').default)
+                 }, 'shieldEdit')
+               }}
+        />
+        <Route path="new"
+               breadcrumbName="新建屏蔽策略"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/ShieldFormPage').default)
+                 }, 'shieldNew')
+               }}
+        />
       </Route>
       <Route path="doc" breadcrumbName="技术对接">
         <IndexRedirect to="overview"/>
-        <Route path="overview" breadcrumbName="SDK文档" component={DocViewPage}/>
-        <Route path="release" breadcrumbName="文档版本" component={DocReleasePage}/>
+        <Route path="overview"
+               breadcrumbName="SDK文档"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/DocViewPage').default)
+                 }, 'docOverview')
+               }}
+        />
       </Route>
       <Route path="user" breadcrumbName="账号管理">
         <IndexRedirect to="overview"/>
-        <Route path="overview" breadcrumbName="用户管理" component={UserViewPage}/>
-        <Route path="modify" breadcrumbName="媒体列表" component={UserFormPage}/>
+        <Route path="overview"
+               breadcrumbName="用户管理"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/UserViewPage').default)
+                 }, 'userOverview')
+               }}
+        />
       </Route>
       <Route path="chart-app" breadcrumbName="数据分析">
         <IndexRedirect to="overview"/>
-        <Route path="overview" breadcrumbName="媒体数据" component={ChartViewPage}/>
+        <Route path="overview"
+               breadcrumbName="媒体数据"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/ChartViewPage').default)
+                 }, 'chartAppOverview')
+               }}
+        />
       </Route>
       <Route path="chart-pit" breadcrumbName="数据分析">
         <IndexRedirect to="overview"/>
-        <Route path="overview" breadcrumbName="广告位数据" component={ChartViewPage}/>
+        <Route path="overview"
+               breadcrumbName="广告位数据"
+               getComponent={(nextState, cb) => {
+                 require.ensure([], require => {
+                   cb(null, require('./containers/ChartViewPage').default)
+                 }, 'chartPitOverview')
+               }}
+        />
       </Route>
     </Route>
     <Route path="*" component={NotFoundPage}/>

@@ -66,12 +66,12 @@ class AppHeader extends Component {
   }
 
   componentDidMount() {
-    this.selectedNav()
+    this.selectedNav({key: this.context.router.routes[2].path})
   }
 
-  selectedNav() {
+  selectedNav(item, key, keyPath) {
     this.setState({
-      selected: this.context.router.routes[2].path
+      selected: item.key
     })
   }
 
