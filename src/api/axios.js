@@ -17,13 +17,13 @@ export function axiosGet(url, params, options) {
         _data = data
       }
 
-      if (_data.code) {
+      if (!_data.success) {
         if (_data.code === 206 && browserHistory.getCurrentLocation().pathname.includes('page')) {
           browserHistory.push('/signin')
           return
         }
         if (_data.msg) {
-          message.error(_data.msg)
+          message.error(`错误信息:${_data.msg}`)
         }
       }
       return _data
