@@ -27,7 +27,7 @@ class AppHeader extends Component {
     this.itemRender(this.props.router.routes)
     this.props.fetchInfo()
 
-    browserHistory.listenBefore((ev) => {
+    browserHistory.listen((ev) => {
       this.itemRender(this.context.router.routes)
     })
   }
@@ -83,13 +83,14 @@ class AppHeader extends Component {
           style={{lineHeight: '64px'}}
         >
           <Menu.Item key="logo" className="logo">
-            <Link to="/page" style={{paddingTop: '14px'}}><img src="http://cowcdn.oss-cn-hangzhou.aliyuncs.com/ssp/logo.png" alt="" width="80%"/></Link>
+            <Link to="/page" style={{paddingTop: '12px'}}><img
+              src="http://cowcdn.oss-cn-hangzhou.aliyuncs.com/ssp/logo.png" alt="" width="70%"/></Link>
           </Menu.Item>
-          <Menu.Item key="breadcrumb">
-            <Breadcrumb>
-              {this.state.breadcrumbItems}
-            </Breadcrumb>
-          </Menu.Item>
+          {/*<Menu.Item key="breadcrumb">*/}
+            {/*<Breadcrumb>*/}
+              {/*{this.state.breadcrumbItems}*/}
+            {/*</Breadcrumb>*/}
+          {/*</Menu.Item>*/}
 
           <Menu.Item className="logout" key="header-logout" style={{float: 'right'}}>
             <span onClick={this.handleLogout}>退出</span>
