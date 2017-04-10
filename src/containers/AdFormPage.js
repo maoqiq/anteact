@@ -206,7 +206,6 @@ class AdFormPage extends Component {
               initialValue: adForm.shieldId || ''
             })(
               <Select>
-                <Option value="">不屏蔽</Option>
                 {
                   shieldList.map((value) => (
                     <Option key={value.id} value={value.id}>id:{value.id}-名称:{value.title}</Option>
