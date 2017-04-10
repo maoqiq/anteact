@@ -28,7 +28,6 @@ class RegisterPage extends Component {
 
   }
 
-
   handleCancelSubmit(e) {
     e.preventDefault()
     this.context.router.push('/signin')

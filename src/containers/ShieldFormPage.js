@@ -112,13 +112,13 @@ class ShieldFormPage extends Component {
     }
     const {getFieldDecorator} = this.props.form
     let {shieldForm, industryList} = this.props
-    const dataSource = []
+    let dataSource = []
 
 
-    industryList.data.map((items) => {
+    industryList.data.forEach((items) => {
       if (items.children && items.children.length) {
-        items.children.map((item) => {
-          dataSource.push(item)
+        items.children.forEach((item) => {
+          dataSource.push(Object.assign({}, item))
         })
       }
     })
