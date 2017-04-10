@@ -101,7 +101,7 @@ class LoginPage extends Component {
               <Button type="primary" htmlType="submit" className="block">
                 登陆
               </Button>
-              <Link to="/signup" style={{float: 'right'}}>立即注册→</Link>
+              <Link to="/signup" style={{float: 'right'}}>立即注册＞</Link>
             </FormItem>
           </Spin>
 

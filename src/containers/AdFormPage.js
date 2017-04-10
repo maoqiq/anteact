@@ -52,9 +52,12 @@ class AdFormPage extends Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
+
       if (err) {
         return
       }
+      console.log(values)
       let formValue = values;
       if (this.state.isCreate) {
         this.props.submitForm(formValue)
@@ -171,7 +174,6 @@ class AdFormPage extends Component {
             )}
           </FormItem>
 
-
           {this.state.isShowSpec &&
           <FormItem
             label="广告规格"
@@ -200,12 +202,11 @@ class AdFormPage extends Component {
             {...formItemLayout}
           >
             {getFieldDecorator('shieldId', {
-              rules: [{
-                required: true, message: '请选择屏蔽策略',
-              }],
-              initialValue: adForm.shieldId
+              rules: [],
+              initialValue: adForm.shieldId || ''
             })(
               <Select>
+                <Option value="">不屏蔽</Option>
                 {
                   shieldList.map((value) => (
                     <Option key={value.id} value={value.id}>id:{value.id}-名称:{value.title}</Option>
@@ -213,7 +214,7 @@ class AdFormPage extends Component {
                 }
               </Select>
             )}
-            <Link to="/page/shield/new">新建屏蔽策略 ></Link>
+            <Link to="/page/shield/new">新建屏蔽策略＞</Link>
           </FormItem>
 
           <FormItem

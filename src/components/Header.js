@@ -27,7 +27,7 @@ class AppHeader extends Component {
     this.itemRender(this.props.router.routes)
     this.props.fetchInfo()
 
-    browserHistory.listen((ev) => {
+    browserHistory.listenBefore((ev) => {
       this.itemRender(this.context.router.routes)
     })
   }
@@ -38,7 +38,6 @@ class AppHeader extends Component {
     confirm({
       title: '确认退出么?',
       onOk() {
-        console.log('logout')
         self.props.logout()
       },
       onCancel() {
@@ -83,8 +82,8 @@ class AppHeader extends Component {
           mode="horizontal"
           style={{lineHeight: '64px'}}
         >
-          <Menu.Item key="logout" className="logo">
-            <Link to="/page" style={{fontSize: '26px'}}>来推</Link>
+          <Menu.Item key="logo" className="logo">
+            <Link to="/page" style={{paddingTop: '14px'}}><img src="http://cowcdn.oss-cn-hangzhou.aliyuncs.com/ssp/logo.png" alt="" width="80%"/></Link>
           </Menu.Item>
           <Menu.Item key="breadcrumb">
             <Breadcrumb>
@@ -93,7 +92,7 @@ class AppHeader extends Component {
           </Menu.Item>
 
           <Menu.Item className="logout" key="header-logout" style={{float: 'right'}}>
-            <Button onClick={this.handleLogout} ghost className="button">退出</Button>
+            <span onClick={this.handleLogout}>退出</span>
           </Menu.Item>
           <Menu.Item key="header-user-name" style={{float: 'right'}}>
             <span>{userInfo.entName}</span>
