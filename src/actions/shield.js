@@ -93,6 +93,7 @@ export function submitForm(params) {
       })
       .then(data => {
         if (data.success) {
+          message.success('提交成功')
           dispatch(push('/page/shield'))
         } else if (data.success === false) {
         }
@@ -122,8 +123,8 @@ export function updateForm(params) {
       })
       .then(data => {
         if (data.success) {
+          message.success('更新成功')
           dispatch(push('/page/shield'))
-        } else if (data.success === false) {
         }
       })
       .catch(error => {

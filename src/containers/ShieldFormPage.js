@@ -6,6 +6,7 @@ const FormItem = Form.Item
 const RadioGroup = Radio.Group
 
 import {submitForm, fetchDetail, setForm, updateForm, fetchIndustryList} from '../actions/shield'
+import ShieldTransfer from 'components/shield/ShieldTransfer'
 
 class ShieldFormPage extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class ShieldFormPage extends Component {
     this.handleIndustryRadioChange = this.handleIndustryRadioChange.bind(this)
     this.handleUrlRadioChange = this.handleUrlRadioChange.bind(this)
 
-    this.handleChange = this.handleChange.bind(this)
+    this.handleTransferChange = this.handleTransferChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleCancelSubmit = this.handleCancelSubmit.bind(this)
   }
@@ -49,7 +50,7 @@ class ShieldFormPage extends Component {
   }
 
   // 处理Transfer
-  handleChange(nextTargetKeys) {
+  handleTransferChange(nextTargetKeys) {
     this.props.setForm({shieldIndustryIds: nextTargetKeys})
   }
 
@@ -112,16 +113,7 @@ class ShieldFormPage extends Component {
     }
     const {getFieldDecorator} = this.props.form
     let {shieldForm, industryList} = this.props
-    let dataSource = []
 
-
-    industryList.data.forEach((items) => {
-      if (items.children && items.children.length) {
-        items.children.forEach((item) => {
-          dataSource.push(Object.assign({}, item))
-        })
-      }
-    })
 
     return (
       <div className="form-page" style={{padding: '10px'}}>
@@ -166,21 +158,8 @@ class ShieldFormPage extends Component {
           <FormItem
             {...tailFormItemLayout}
           >
-            <Transfer
-              notFoundContent="列表为空"
-              dataSource={dataSource}
-              titles={['选择行业', '已选行业']}
-              showSearch
-              listStyle={{
-                width: 250,
-                height: 300,
-              }}
-              targetKeys={shieldForm.shieldIndustryIds}
-              render={item => `${item.name}`}
-              searchPlaceholder="搜索"
-              onChange={this.handleChange}
-              rowKey={record => record.code}
-            />
+            <ShieldTransfer dataSource={industryList} targetKeys={shieldForm.shieldIndustryIds}
+                            onChange={this.handleTransferChange}/>
           </FormItem>
           }
 
