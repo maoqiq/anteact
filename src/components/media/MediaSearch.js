@@ -1,7 +1,11 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component, PropTypes} from 'react'
 
 import {Form, Input, Button} from 'antd'
 const FormItem = Form.Item
+
+/**
+ * 媒体列表搜索
+ */
 
 class MediaSearch extends Component {
   constructor(props) {

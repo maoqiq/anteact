@@ -1,14 +1,12 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
+import {Link} from 'react-router'
 
-import {Form, Input, Table, Button, Select, Modal, Switch} from 'antd';
-const FormItem = Form.Item;
-const Option = Select.Option;
-const confirm = Modal.confirm;
+import {Table, Button, Modal, Switch} from 'antd'
+const confirm = Modal.confirm
 
-import {fetchList, deleteItem, enableStatus, disableStatus}from '../actions/ad';
-
+import {fetchList, deleteItem, enableStatus, disableStatus}from '../actions/ad'
+import AdSearch from 'components/ad/AdSearch'
 
 class AdViewPage extends Component {
   constructor(props) {
@@ -56,11 +54,10 @@ class AdViewPage extends Component {
                   onClick={this.handleDeleteItem.bind(this, record, index)}>删除</Button>
         </div>
       )
-    }];
+    }]
 
-    this.fetchList = this.fetchList.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleTableChange = this.handleTableChange.bind(this);
+    this.fetchList = this.fetchList.bind(this)
+    this.handleTableChange = this.handleTableChange.bind(this)
   }
 
   componentWillMount() {
@@ -75,13 +72,6 @@ class AdViewPage extends Component {
       page: 1
     }, params)
     this.props.fetchList(params)
-  }
-
-  // 搜索
-  handleSearch(e) {
-    e.preventDefault();
-    const formValue = this.props.form.getFieldsValue()
-    this.fetchList(formValue)
   }
 
   // 进入编辑页
@@ -100,7 +90,7 @@ class AdViewPage extends Component {
       },
       onCancel() {
       },
-    });
+    })
   }
 
   // 切换状态
@@ -125,44 +115,16 @@ class AdViewPage extends Component {
   }
 
   render() {
-    const {adList} = this.props;
-    const {getFieldDecorator} = this.props.form;
+    const {adList} = this.props
 
     return (
       <div className="overview ad-overview-page">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <Form className="list-search" layout="inline" onSubmit={this.handleSearch}>
-            <FormItem label="名称" key="ad-search-name">
-              {getFieldDecorator('name', {})(
-                <Input type="text" placeholder="请输入广告位名称"/>
-              )}
-            </FormItem>
-            <FormItem label="ID" key="ad-search-id">
-              {getFieldDecorator('id', {})(
-                <Input type="text" placeholder="请输入广告位ID"/>
-              )}
-            </FormItem>
-            <FormItem label="状态" key="ad-search-status">
-              {getFieldDecorator('status', {
-                initialValue: ''
-              })(
-                <Select style={{width: 120}}>
-                  <Option value="">全部广告</Option>
-                  <Option value="1">开启</Option>
-                  <Option value="0">关闭</Option>
-                </Select>
-              )}
-            </FormItem>
-            <FormItem>
-              <Button type="primary" htmlType="submit">搜索</Button>
-            </FormItem>
-            <FormItem className="new">
-              <Button type="primary">
-                <Link to="/page/ad/new">新建广告位</Link>
-              </Button>
-            </FormItem>
+          <AdSearch onSearch={this.fetchList}/>
 
-          </Form>
+          <Button type="primary">
+            <Link to="/page/ad/new">新建广告位</Link>
+          </Button>
         </div>
         <div className="grid ad-grid" style={{padding: '10px 20px'}}>
           <Table rowKey="id"
@@ -172,12 +134,12 @@ class AdViewPage extends Component {
                  onChange={this.handleTableChange}/>
         </div>
       </div>
-    );
+    )
   }
 }
 AdViewPage.contextTypes = {
   router: PropTypes.object.isRequired
-};
+}
 
 AdViewPage.propTypes = {
   adList: PropTypes.object.isRequired,
@@ -185,22 +147,22 @@ AdViewPage.propTypes = {
   deleteItem: PropTypes.func.isRequired,
   enableStatus: PropTypes.func.isRequired,
   disableStatus: PropTypes.func.isRequired,
-};
+}
 
 function mapStateToProps(state) {
-  const {adList} = state;
+  const {adList} = state
   return {
     adList
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     fetchList(params) {
-      dispatch(fetchList(params));
+      dispatch(fetchList(params))
     },
     deleteItem(params) {
-      dispatch(deleteItem(params));
+      dispatch(deleteItem(params))
     },
     enableStatus(params){
       dispatch(enableStatus(params))
@@ -211,9 +173,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-AdViewPage = Form.create()(AdViewPage)
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AdViewPage);
+)(AdViewPage)

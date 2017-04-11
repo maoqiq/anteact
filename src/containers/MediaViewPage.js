@@ -5,8 +5,12 @@ import {Link} from 'react-router'
 import {Table, Button, Switch, Modal} from 'antd'
 const confirm = Modal.confirm
 
+// import actions
 import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media'
+
+//import components
 import MediaSearch from 'components/media/MediaSearch'
+
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -154,6 +158,7 @@ MediaViewPage.propTypes = {
 
 function mapStateToProps(state) {
   const {mediaList} = state
+  
   return {
     mediaList
   }

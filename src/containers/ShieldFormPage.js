@@ -202,7 +202,6 @@ class ShieldFormPage extends Component {
             <Button type="primary" htmlType="submit">提交</Button>
             <Button htmlType="button" onClick={this.handleCancelSubmit}>取消</Button>
           </FormItem>
-
         </Form>
       </div>
     )
