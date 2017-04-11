@@ -6,7 +6,7 @@ import {Table, Button, Switch, Modal} from 'antd'
 const confirm = Modal.confirm
 
 import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media'
-import MediaSearch from '../components/media/MediaSearch'
+import MediaSearch from 'components/media/MediaSearch'
 
 class MediaViewPage extends Component {
   constructor(props) {

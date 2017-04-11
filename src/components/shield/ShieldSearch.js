@@ -3,7 +3,7 @@ import React, {Component, PropTypes} from 'react';
 import {Form, Input, Button} from 'antd'
 const FormItem = Form.Item
 
-class MediaSearch extends Component {
+class ShieldSearch extends Component {
   constructor(props) {
     super(props)
     this.search = this.search.bind(this)
@@ -20,27 +20,24 @@ class MediaSearch extends Component {
 
     return (
       <Form className="list-search" layout="inline" onSubmit={this.search}>
-        <FormItem label="媒体名称" key="media-search-name">
-          {getFieldDecorator('name', {})(
-            <Input type="text" placeholder="请输入媒体名称"/>
-          )}
-        </FormItem>
-        <FormItem label="媒体ID" key="media-search-id">
-          {getFieldDecorator('id', {})(
-            <Input type="text" placeholder="请输入媒体ID"/>
+        <FormItem label="名称" key="shield-search-name">
+          {getFieldDecorator('title', {})(
+            <Input type="text" placeholder="请输入屏蔽策略名称"/>
           )}
         </FormItem>
         <FormItem>
           <Button type="primary" htmlType="submit">搜索</Button>
         </FormItem>
+
       </Form>
     )
   }
 }
-MediaSearch.propTypes = {
+ShieldSearch.propTypes = {
   onSearch: PropTypes.func.isRequired,
 }
 
-MediaSearch = Form.create()(MediaSearch)
+ShieldSearch = Form.create()(ShieldSearch)
 
-export default MediaSearch
+
+export default ShieldSearch

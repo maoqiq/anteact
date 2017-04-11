@@ -3,12 +3,11 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 
 
-import {Form, Input, Table, Button, Modal} from 'antd';
-const FormItem = Form.Item;
+import {Table, Button, Modal} from 'antd';
 const confirm = Modal.confirm;
 
 import {fetchList, deleteItem}from '../actions/shield';
-
+import ShieldSearch from 'components/shield/ShieldSearch'
 
 class ShieldViewPage extends Component {
   constructor(props) {
@@ -47,7 +46,6 @@ class ShieldViewPage extends Component {
     }];
 
     this.fetchList = this.fetchList.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
     this.handleTableChange = this.handleTableChange.bind(this);
   }
 
@@ -64,16 +62,8 @@ class ShieldViewPage extends Component {
       pageSize: this.pageSize,
       page: 1
     }, params)
-
+    console.log(params)
     this.props.fetchList(params)
-  }
-
-  // 搜索屏蔽策略
-  handleSearch(e) {
-    e.preventDefault();
-    const formValue = this.props.form.getFieldsValue()
-    console.log(formValue)
-    this.fetchList(formValue)
   }
 
   // 进入编辑也
@@ -106,27 +96,15 @@ class ShieldViewPage extends Component {
   }
 
   render() {
-    const {getFieldDecorator} = this.props.form;
     const {shieldList} = this.props;
 
     return (
       <div className="overview shield-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <Form className="list-search" layout="inline" onSubmit={this.handleSearch}>
-            <FormItem label="名称" key="shield-search-name">
-              {getFieldDecorator('title', {})(
-                <Input type="text" placeholder="请输入屏蔽策略名称"/>
-              )}
-            </FormItem>
-            <FormItem>
-              <Button type="primary" htmlType="submit">搜索</Button>
-            </FormItem>
-            <FormItem className="new">
-              <Button type="primary">
-                <Link to="/page/shield/new">新建屏蔽策略</Link>
-              </Button>
-            </FormItem>
-          </Form>
+          <ShieldSearch onSearch={this.fetchList}/>
+          <Button type="primary">
+            <Link to="/page/shield/new">新建屏蔽策略</Link>
+          </Button>
         </div>
         <div className="grid shield-grid" style={{padding: '10px 20px'}}>
           <Table rowKey="id"
@@ -166,8 +144,6 @@ function mapDispatchToProps(dispatch) {
     },
   }
 }
-
-ShieldViewPage = Form.create()(ShieldViewPage)
 
 export default connect(
   mapStateToProps,
