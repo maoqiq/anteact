@@ -2,11 +2,11 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
 
-import {Form, Input, Table, Button, Switch, Modal} from 'antd'
-const FormItem = Form.Item
+import {Table, Button, Switch, Modal} from 'antd'
 const confirm = Modal.confirm
 
 import {fetchList, updateForm, deleteItem, enableStatus, disableStatus}from '../actions/media'
+import MediaSearch from '../components/media/MediaSearch'
 
 class MediaViewPage extends Component {
   constructor(props) {
@@ -58,7 +58,6 @@ class MediaViewPage extends Component {
       },]
 
     this.fetchList = this.fetchList.bind(this)
-    this.handleSearch = this.handleSearch.bind(this)
     this.handleEditItem = this.handleEditItem.bind(this)
     this.handleTableChange = this.handleTableChange.bind(this)
   }
@@ -76,13 +75,6 @@ class MediaViewPage extends Component {
       page: 1
     }, params)
     this.props.fetchList(params)
-  }
-
-  // 搜索
-  handleSearch(e) {
-    e.preventDefault()
-    const formValue = this.props.form.getFieldsValue()
-    this.fetchList(formValue)
   }
 
   // 编辑媒体项目
@@ -124,31 +116,14 @@ class MediaViewPage extends Component {
 
   render() {
     const {mediaList} = this.props
-    const {getFieldDecorator} = this.props.form
 
     return (
       <div className="overview media-overview">
         <div className="list-actions" style={{padding: '10px 20px'}}>
-          <Form className="list-search" layout="inline" onSubmit={this.handleSearch}>
-            <FormItem label="媒体名称" key="media-search-name">
-              {getFieldDecorator('name', {})(
-                <Input type="text" placeholder="请输入媒体名称"/>
-              )}
-            </FormItem>
-            <FormItem label="媒体ID" key="media-search-id">
-              {getFieldDecorator('id', {})(
-                <Input type="text" placeholder="请输入媒体ID"/>
-              )}
-            </FormItem>
-            <FormItem>
-              <Button type="primary" htmlType="submit">搜索</Button>
-            </FormItem>
-            <FormItem className="new">
-              <Button type="primary">
-                <Link to="/page/media/new">新建媒体</Link>
-              </Button>
-            </FormItem>
-          </Form>
+          <MediaSearch onSearch={this.fetchList}/>
+          <Button type="primary" className="new">
+            <Link to="/page/media/new">新建媒体</Link>
+          </Button>
         </div>
         <div className="grid media-grid" style={{padding: '10px 20px'}}>
           <div>
@@ -203,8 +178,6 @@ function mapDispatchToProps(dispatch) {
     },
   }
 }
-
-MediaViewPage = Form.create()(MediaViewPage)
 
 export default connect(
   mapStateToProps,
