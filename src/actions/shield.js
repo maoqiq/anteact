@@ -18,7 +18,6 @@ export function fetchList(params) {
   return dispatch =>
     axiosGet(url.list, {data: params})
       .then(data => {
-        ;
         console.log(data);
         if (data.success) {
           dispatch({
@@ -36,7 +35,6 @@ export function deleteItem(params) {
   return dispatch => {
     axiosGet(url.delete, {data: params})
       .then(data => {
-        ;
         console.log(data);
         if (data.success) {
           dispatch({
