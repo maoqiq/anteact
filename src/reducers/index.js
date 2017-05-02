@@ -3,7 +3,6 @@ import {routerReducer}from 'react-router-redux';
 
 import {loadingBarReducer} from 'react-redux-loading-bar'
 
-import fuelSavings from './fuelSavingsReducer';
 import {login, register, forget, code} from './account';
 import {mediaForm, mediaList} from './media';
 import {adForm, adList, specList} from './ad';
@@ -12,8 +11,6 @@ import {userInfo, financeInfo} from './user';
 import {chart} from './chart';
 
 const rootReducer = combineReducers({
-  fuelSavings,
-
   login,
   register,
   forget,
