@@ -4,7 +4,6 @@ import {message} from 'antd'
 
 
 export function axiosGet(url, params, options) {
-
   return axios.get(url, {
     params: params
   })
@@ -31,7 +30,6 @@ export function axiosGet(url, params, options) {
 }
 
 export function axiosPost(url, params, options) {
-
   return axios.post(url, {
     params: params
   })
