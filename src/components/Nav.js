@@ -1,9 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {Link, IndexLink} from 'react-router';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 
-import {Layout, Menu, Icon} from 'antd';
-const {SubMenu} = Menu;
+import {connect} from 'react-redux'
+import {Link, IndexLink} from 'react-router'
+
+import {Layout, Menu, Icon} from 'antd'
+const {SubMenu} = Menu
 
 
 class AppHeader extends Component {
@@ -87,8 +89,8 @@ class AppHeader extends Component {
             ))
           }
         </SubMenu>
-      );
-    });
+      )
+    })
     const openKeys = ['nav-title-0', 'nav-title-1', 'nav-title-2', 'nav-title-3', 'nav-title-4']
     return (
       <nav className="nav">
@@ -102,7 +104,7 @@ class AppHeader extends Component {
           {items}
         </Menu>
       </nav>
-    );
+    )
   }
 }
 AppHeader.contextTypes = {
@@ -114,14 +116,14 @@ AppHeader.propTypes = {
 }
 
 function mapStateToProps(state) {
-  const {routing} = state;
+  const {routing} = state
   return {
     routing
-  };
+  }
 }
 
-// AppHeader.propTypes = propTypes;
+// AppHeader.propTypes = propTypes
 
 export default connect(
   mapStateToProps
-)(AppHeader);
+)(AppHeader)

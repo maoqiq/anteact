@@ -1,10 +1,11 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
+import {Link} from 'react-router'
 
 
-import {Form, Icon, Input, Button, Checkbox, Spin} from 'antd';
-const FormItem = Form.Item;
+import {Form, Icon, Input, Button, Checkbox, Spin} from 'antd'
+const FormItem = Form.Item
 
 import {signIn}  from '../actions/account'
 
@@ -39,7 +40,7 @@ class LoginPage extends Component {
 
     this.props.form.validateFields((err, values) => {
       if (err) {
-        return;
+        return
       }
       if (this.state.rememberAccount) {
         window.localStorage.setItem('loginAccount', values.mail)
@@ -108,7 +109,7 @@ class LoginPage extends Component {
         </Form>
       </div>
 
-    );
+    )
   }
 }
 
@@ -120,10 +121,10 @@ LoginPage.contextTypes = {
 LoginPage.propTypes = {
   login: PropTypes.object.isRequired,
   signIn: PropTypes.func.isRequired,
-};
+}
 
 function mapStateToProps(state) {
-  const {login, userInfo} = state;
+  const {login, userInfo} = state
   return {
     login,
     userInfo
@@ -133,7 +134,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     signIn(params){
-      dispatch(signIn(params));
+      dispatch(signIn(params))
     }
   }
 }

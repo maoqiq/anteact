@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types'
 
 import {Form, Input, Button} from 'antd'
 const FormItem = Form.Item
